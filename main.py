@@ -3,7 +3,7 @@
 #########################
 
 from PySide6 import QtWidgets
-from main_screen_window import mainScreenWindow
+from ui.main_screen.main_screen_window import mainScreenWindow
 
 import sys
 
