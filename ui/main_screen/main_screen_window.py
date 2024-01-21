@@ -1,6 +1,8 @@
 
 from PySide6.QtWidgets import QWidget
 from ui.main_screen.main_screen import Ui_mainScreenWindow
+from ui.main_screen.serial_port import SerialPort
+from functools import partial
 
 class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -8,7 +10,7 @@ class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.setupUi(self)
 
         self.setWindowTitle("System Controller")
-        self.showFullScreen()
+        self.show()
 
         self.stackedWidget.setCurrentWidget(self.mainScreenPage)
 
@@ -22,6 +24,8 @@ class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
 
     def getLogButtonClicked(self):
         self.stackedWidget.setCurrentWidget(self.logScreenPage)
+        self.serialPort = SerialPort(self)
+
     def button2Clicked(self):
         print("button2 clicked")
     def button3Clicked(self):
