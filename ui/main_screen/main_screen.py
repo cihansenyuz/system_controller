@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLayout, QPushButton,
-    QSizePolicy, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLayout,
+    QPushButton, QSizePolicy, QStackedWidget, QVBoxLayout,
+    QWidget)
 
 class Ui_mainScreenWindow(object):
     def setupUi(self, mainScreenWindow):
@@ -31,9 +32,16 @@ class Ui_mainScreenWindow(object):
         mainScreenWindow.setSizePolicy(sizePolicy)
         mainScreenWindow.setMinimumSize(QSize(0, 0))
         mainScreenWindow.setAutoFillBackground(False)
-        self.layoutWidget = QWidget(mainScreenWindow)
+        self.stackedWidget = QStackedWidget(mainScreenWindow)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setGeometry(QRect(0, -50, 871, 691))
+        self.mainScreenPage = QWidget()
+        self.mainScreenPage.setObjectName(u"mainScreenPage")
+        self.mainScreenPage.setMinimumSize(QSize(800, 600))
+        self.mainScreenPage.setMaximumSize(QSize(1080, 720))
+        self.layoutWidget = QWidget(self.mainScreenPage)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(0, 0, 1081, 721))
+        self.layoutWidget.setGeometry(QRect(0, 50, 871, 641))
         self.horizontalLayout = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -97,6 +105,19 @@ class Ui_mainScreenWindow(object):
 
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
+        self.stackedWidget.addWidget(self.mainScreenPage)
+        self.logScreenPage = QWidget()
+        self.logScreenPage.setObjectName(u"logScreenPage")
+        self.label = QLabel(self.logScreenPage)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(210, 310, 261, 61))
+        font = QFont()
+        font.setPointSize(14)
+        self.label.setFont(font)
+        self.logScreenBackButton = QPushButton(self.logScreenPage)
+        self.logScreenBackButton.setObjectName(u"logScreenBackButton")
+        self.logScreenBackButton.setGeometry(QRect(370, 400, 75, 23))
+        self.stackedWidget.addWidget(self.logScreenPage)
 
         self.retranslateUi(mainScreenWindow)
 
@@ -111,5 +132,7 @@ class Ui_mainScreenWindow(object):
         self.pushButton_4.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
         self.pushButton_5.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
         self.pushButton_6.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
+        self.label.setText(QCoreApplication.translate("mainScreenWindow", u"BU SAYFA LOG EKRANI", None))
+        self.logScreenBackButton.setText(QCoreApplication.translate("mainScreenWindow", u"Back", None))
     # retranslateUi
 

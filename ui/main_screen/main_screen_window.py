@@ -10,15 +10,18 @@ class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.setWindowTitle("System Controller")
         self.showFullScreen()
 
+        self.stackedWidget.setCurrentWidget(self.mainScreenPage)
+
         self.getLogButton.clicked.connect(self.getLogButtonClicked)
         self.pushButton_2.clicked.connect(self.button2Clicked)
         self.pushButton_3.clicked.connect(self.button3Clicked)
         self.pushButton_4.clicked.connect(self.button4Clicked)
         self.pushButton_5.clicked.connect(self.button5Clicked)
         self.pushButton_6.clicked.connect(self.button6Clicked)
+        self.logScreenBackButton.clicked.connect(self.logScreenBackButtonClicked)
 
     def getLogButtonClicked(self):
-        print("getLogButton is clicked")
+        self.stackedWidget.setCurrentWidget(self.logScreenPage)
     def button2Clicked(self):
         print("button2 clicked")
     def button3Clicked(self):
@@ -29,5 +32,6 @@ class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
         pass
     def button6Clicked(self):
         pass
-
+    def logScreenBackButtonClicked(self):
+        self.stackedWidget.setCurrentWidget(self.mainScreenPage)
 
