@@ -6,5 +6,5 @@ import sys
 app = QApplication(sys.argv)
 ui = MainWindow()
 
-ui.showFullScreen()
+ui.show()
 app.exec()
