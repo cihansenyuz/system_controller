@@ -1,8 +1,7 @@
 
 from PySide6.QtWidgets import QWidget
 from ui.main_screen.main_screen import Ui_mainScreenWindow
-from ui.main_screen.serial_port import SerialPort
-from functools import partial
+from ui.log_alma_screen.serial_port import SerialPort
 
 class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
