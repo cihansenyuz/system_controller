@@ -1,3 +1,9 @@
 ui/main_screen/__pycache__/main_screen_window.cpython-312.pyc
 ui/main_screen/__pycache__/main_screen.cpython-312.pyc
 ui/main_screen/__pycache__/serial_port.cpython-312.pyc
+__pycache__/main_window.cpython-312.pyc
+ui/log_alma_screen/__pycache__/log_alma_screen.cpython-312.pyc
+ui/log_alma_screen/__pycache__/serial_port.cpython-312.pyc
+ui/log_alma_screen/__pycache__/ui_log_alma_screen.cpython-312.pyc
+ui/main_screen/__pycache__/ui_main_screen.cpython-312.pyc
+ui/log_alma_screen/__pycache__/serial_port.cpython-312.pyc
