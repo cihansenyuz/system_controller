@@ -8,11 +8,11 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.setupUi(self)
 
         self.createComboBoxes() # create lists and add them into comboboxes
-        self.setDefaultSerialParameters()
         self.serialPort = QSerialPort()
+        self.setDefaultSerialParameters() # set defaults
 
+        # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
-
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
@@ -20,26 +20,33 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
 
     def createComboBoxes(self):
+        # create lists
         self.baudRateList = ["1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"]
         self.dataBitList = ["5 bits", "6 bits", "7 bits", "8 bits"]
         self.stopBitList = ["1 bit", "1.5 bits", "2 bits"]
         self.parityList = ["no parity", "even", "odd", "space", "mark"]
         self.flowControlList = ["no flow control", "hardware", "software"]
-        
+        # add lists to relative combo boxes
         self.baudRateBox.addItems(self.baudRateList)
         self.dataBitBox.addItems(self.dataBitList)
         self.stopBitBox.addItems(self.stopBitList)
         self.parityBox.addItems(self.parityList)
         self.flowControlBox.addItems(self.flowControlList)
-
-    def setDefaultSerialParameters(self):
-        self.baudRateBox.setCurrentIndex(3)
+        # set current selected items # to change default parameters, set indexes here
+        self.baudRateBox.setCurrentIndex(7)
         self.dataBitBox.setCurrentIndex(3)
         self.stopBitBox.setCurrentIndex(0)
         self.parityBox.setCurrentIndex(0)
         self.flowControlBox.setCurrentIndex(0)
 
+    def setDefaultSerialParameters(self):
+        self.onBaudRateBoxCurrentIndexChanged(self.baudRateBox.currentIndex())
+        self.onDataBitBoxCurrentIndexChanged(self.dataBitBox.currentIndex())
+        self.onStopBitBoxCurrentIndexChanged(self.stopBitBox.currentIndex())
+        self.onParityBoxCurrentIndexChanged(self.parityBox.currentIndex())
+        self.onFlowControlBoxCurrentIndexChanged(self.flowControlBox.currentIndex())
 
+    # slot function definitions
     def onBaudRateBoxCurrentIndexChanged(self, index):
         if index == 0:
             self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud1200)
