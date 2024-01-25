@@ -24,6 +24,8 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.send_button.clicked.connect(self.onSendButtonClicked)
+        self.comPortButton.clicked.connect(self.onComPortButtonClicked)
+        
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -161,3 +163,6 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8") # get bytes from serial, convert to str
             self.chat_box.appendPlainText(text)                     # print them on UI
+
+    def onComPortButtonClicked(self):
+        self.getComPorts()
