@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QIODevice
+from PySide6.QtCore import QByteArray, SIGNAL, SLOT
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 
 class logScreenWindow(QWidget, Ui_logScreenWindow):
@@ -12,11 +12,18 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort = QSerialPort()
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
+        
+        self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
+
+        #### missing possible implementations ####
+        # timing for read/write might need to be managed
+        # errorOccured signal must be connected
+        # disconnect button and closing the serial port may be considered
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
-
+        self.send_button.clicked.connect(self.onSendButtonClicked)
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -137,8 +144,20 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             return
         
         # open the port in read/write mode
-        portOpenFlag = self.serialPort.open(QIODevice.ReadWrite)
+        portOpenFlag = self.serialPort.open(QSerialPort.ReadWrite)
         if portOpenFlag:
             self.chat_box.appendPlainText("Info: Selected port is now open")
         else:
             self.chat_box.appendPlainText("Error: cannot open selected port")
+
+    def onSendButtonClicked(self):
+        text = self.message_line.text()             # get the string
+        self.chat_box.appendPlainText(">> "+ text)  # print it on UI
+        self.message_line.clear()                   # clear the message line
+
+        bytes = QByteArray(text.encode())           # convert str to byte
+        self.serialPort.write(bytes)                # write it to serial port
+
+    def readFromSerialPort(self):
+            text = str(self.serialPort.readAll(), encoding="utf-8") # get bytes from serial, convert to str
+            self.chat_box.appendPlainText(text)                     # print them on UI
