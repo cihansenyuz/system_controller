@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtSerialPort import QSerialPort
+from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
+from PySide6.QtCore import QIODevice
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 
 class logScreenWindow(QWidget, Ui_logScreenWindow):
@@ -10,14 +11,18 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.createComboBoxes() # create lists and add them into comboboxes
         self.serialPort = QSerialPort()
         self.setDefaultSerialParameters() # set defaults
+        self.getComPorts() # find available com ports and add them into combobox
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
+        self.connectButton.clicked.connect(self.onConnectButtonClicked)
+
+        # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
-        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
+        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged) 
 
     def createComboBoxes(self):
         # create lists
@@ -45,6 +50,14 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.onStopBitBoxCurrentIndexChanged(self.stopBitBox.currentIndex())
         self.onParityBoxCurrentIndexChanged(self.parityBox.currentIndex())
         self.onFlowControlBoxCurrentIndexChanged(self.flowControlBox.currentIndex())
+
+    def getComPorts(self):
+        self.comPortList = QSerialPortInfo.availablePorts()
+        if not self.comPortList:  # Check if the list is empty
+            self.comPortBox.addItem("No Port Detected")
+        else:
+            for portInfo in self.comPortList:
+                self.comPortBox.addItem(portInfo.portName())
 
     # slot function definitions
     def onBaudRateBoxCurrentIndexChanged(self, index):
@@ -110,3 +123,22 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
+
+    def onConnectButtonClicked(self):
+        # match selected combobox item and comPortList item
+        connectedFlag = 0
+        for portInfo in self.comPortList:
+            if portInfo.portName() == self.comPortBox.currentText():    # text vs text
+                self.serialPort.setPort(portInfo)   # set port once matched item found
+                connectedFlag = 1
+                break
+        if not connectedFlag:
+            self.chat_box.appendPlainText("Error: Selected port cannot be found! Please refresh port list")
+            return
+        
+        # open the port in read/write mode
+        portOpenFlag = self.serialPort.open(QIODevice.ReadWrite)
+        if portOpenFlag:
+            self.chat_box.appendPlainText("Info: Selected port is now open")
+        else:
+            self.chat_box.appendPlainText("Error: cannot open selected port")
