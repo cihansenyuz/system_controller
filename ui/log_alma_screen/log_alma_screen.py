@@ -174,3 +174,6 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8") # get bytes from serial, convert to str
             self.chat_box.appendPlainText(text)                     # print them on UI
+
+    def onComPortButtonClicked(self):
+        self.getComPorts()
