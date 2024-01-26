@@ -1,15 +1,10 @@
-#########################
-# this is the main file #
-#########################
-
-from PySide6 import QtWidgets
-from ui.main_screen.main_screen_window import mainScreenWindow
+from PySide6.QtWidgets import QApplication
+from main_window import MainWindow
 
 import sys
 
-app = QtWidgets.QApplication(sys.argv)
-
-ui = mainScreenWindow()
+app = QApplication(sys.argv)
+ui = MainWindow()
 
 ui.show()
 app.exec()
