@@ -3,6 +3,8 @@ from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import QByteArray, SIGNAL, SLOT
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 
+import platform
+
 class logScreenWindow(QWidget, Ui_logScreenWindow):
     def __init__(self):
         super().__init__()
@@ -24,6 +26,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.send_button.clicked.connect(self.onSendButtonClicked)
+        self.comPortButton.clicked.connect(self.onResetButtonClicked)
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -59,7 +62,16 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.onFlowControlBoxCurrentIndexChanged(self.flowControlBox.currentIndex())
 
     def getComPorts(self):
-        self.comPortList = QSerialPortInfo.availablePorts()
+        if platform.system() == 'Windows':
+            self.comPortList = QSerialPortInfo.availablePorts()
+        else:
+            self.comPortListAll = QSerialPortInfo.availablePorts()
+            self.comPortList = list()
+            for port in self.comPortListAll:
+                if port.portName().find("USB") != -1:
+                    self.comPortList.append(port)
+        
+        self.comPortBox.clear()
         if not self.comPortList:  # Check if the list is empty
             self.comPortBox.addItem("No Port Detected")
         else:
@@ -130,7 +142,8 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
-
+    def onResetButtonClicked(self):
+        self.getComPorts()
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
         connectedFlag = 0
