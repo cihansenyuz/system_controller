@@ -24,7 +24,7 @@ class Ui_mainScreenWindow(object):
             mainScreenWindow.setObjectName(u"mainScreenWindow")
         mainScreenWindow.setEnabled(True)
         mainScreenWindow.resize(1080, 720)
-        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(mainScreenWindow.sizePolicy().hasHeightForWidth())
@@ -37,7 +37,7 @@ class Ui_mainScreenWindow(object):
         self.horizontalLayout = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.horizontalLayout.setSizeConstraint(QLayout.SetMaximumSize)
         self.horizontalLayout.setContentsMargins(20, 0, 20, 0)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setSpacing(20)
@@ -46,22 +46,25 @@ class Ui_mainScreenWindow(object):
         self.verticalLayout.setContentsMargins(-1, 20, -1, 20)
         self.getLogButton = QPushButton(self.layoutWidget)
         self.getLogButton.setObjectName(u"getLogButton")
-        sizePolicy.setHeightForWidth(self.getLogButton.sizePolicy().hasHeightForWidth())
-        self.getLogButton.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.getLogButton.sizePolicy().hasHeightForWidth())
+        self.getLogButton.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.getLogButton)
 
         self.pushButton_2 = QPushButton(self.layoutWidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
-        self.pushButton_2.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
+        self.pushButton_2.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.pushButton_2)
 
         self.pushButton_3 = QPushButton(self.layoutWidget)
         self.pushButton_3.setObjectName(u"pushButton_3")
-        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
-        self.pushButton_3.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.pushButton_3)
 
@@ -75,22 +78,22 @@ class Ui_mainScreenWindow(object):
         self.verticalLayout_2.setContentsMargins(-1, 20, -1, 20)
         self.pushButton_4 = QPushButton(self.layoutWidget)
         self.pushButton_4.setObjectName(u"pushButton_4")
-        sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
-        self.pushButton_4.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
+        self.pushButton_4.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_2.addWidget(self.pushButton_4)
 
         self.pushButton_5 = QPushButton(self.layoutWidget)
         self.pushButton_5.setObjectName(u"pushButton_5")
-        sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
-        self.pushButton_5.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
+        self.pushButton_5.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_2.addWidget(self.pushButton_5)
 
         self.pushButton_6 = QPushButton(self.layoutWidget)
         self.pushButton_6.setObjectName(u"pushButton_6")
-        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
-        self.pushButton_6.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
+        self.pushButton_6.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_2.addWidget(self.pushButton_6)
 

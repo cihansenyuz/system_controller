@@ -6,12 +6,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.resize(1080, 720)
         # create a widget and make it central on the window
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
         # create stacked widget object
-        self.stacked_widget = QStackedWidget(self)
+        self.stacked_widget = QStackedWidget(self.central_widget)
 
         # create pages
         self.mainScreenPage = mainScreenWindow()
@@ -24,8 +25,4 @@ class MainWindow(QMainWindow):
         # place stacked widget on the window
         layout = QVBoxLayout(self.central_widget)
         layout.addWidget(self.stacked_widget)
-
-    def showEvent(self, event): # overwritten function to resize window
-        width = 1080
-        height = 720
-        self.resize(width, height)
+        
