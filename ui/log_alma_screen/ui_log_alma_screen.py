@@ -16,26 +16,47 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QHBoxLayout,
-    QLabel, QLineEdit, QPlainTextEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+    QLabel, QLayout, QLineEdit, QPlainTextEdit,
+    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
+    QWidget)
 
 class Ui_logScreenWindow(object):
     def setupUi(self, logScreenWindow):
         if not logScreenWindow.objectName():
             logScreenWindow.setObjectName(u"logScreenWindow")
-        logScreenWindow.resize(894, 607)
+        logScreenWindow.resize(1080, 720)
         self.layoutWidget = QWidget(logScreenWindow)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(260, 80, 571, 400))
+        self.layoutWidget.setGeometry(QRect(20, 20, 1041, 681))
         self.horizontalLayout_17 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalLayout_17.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.chat_box = QPlainTextEdit(self.layoutWidget)
-        self.chat_box.setObjectName(u"chat_box")
+        self.groupBox_4 = QGroupBox(self.layoutWidget)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.verticalLayout_2 = QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.serialMessages = QPlainTextEdit(self.groupBox_4)
+        self.serialMessages.setObjectName(u"serialMessages")
 
-        self.verticalLayout_6.addWidget(self.chat_box)
+        self.verticalLayout_2.addWidget(self.serialMessages)
+
+
+        self.verticalLayout_6.addWidget(self.groupBox_4)
+
+        self.groupBox_3 = QGroupBox(self.layoutWidget)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        self.verticalLayout = QVBoxLayout(self.groupBox_3)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.infoMessages = QPlainTextEdit(self.groupBox_3)
+        self.infoMessages.setObjectName(u"infoMessages")
+
+        self.verticalLayout.addWidget(self.infoMessages)
+
+
+        self.verticalLayout_6.addWidget(self.groupBox_3)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -59,12 +80,23 @@ class Ui_logScreenWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.groupBox = QGroupBox(self.layoutWidget)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setMinimumSize(QSize(158, 223))
+        self.groupBox.setEnabled(True)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
+        self.groupBox.setSizePolicy(sizePolicy)
+        self.groupBox.setMinimumSize(QSize(0, 0))
         self.groupBox.setCheckable(False)
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.comPortBox = QComboBox(self.groupBox)
         self.comPortBox.setObjectName(u"comPortBox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.comPortBox.sizePolicy().hasHeightForWidth())
+        self.comPortBox.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_4.addWidget(self.comPortBox)
 
@@ -82,10 +114,6 @@ class Ui_logScreenWindow(object):
 
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_4.addItem(self.verticalSpacer)
 
 
         self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignTop)
@@ -143,9 +171,6 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
 
@@ -181,18 +206,23 @@ class Ui_logScreenWindow(object):
 
         self.verticalLayout_3.addWidget(self.groupBox_2)
 
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_3.addItem(self.verticalSpacer_2)
+
+        self.clearPanelsButton = QPushButton(self.layoutWidget)
+        self.clearPanelsButton.setObjectName(u"clearPanelsButton")
+
+        self.verticalLayout_3.addWidget(self.clearPanelsButton)
+
+        self.logScreenBackButton = QPushButton(self.layoutWidget)
+        self.logScreenBackButton.setObjectName(u"logScreenBackButton")
+
+        self.verticalLayout_3.addWidget(self.logScreenBackButton)
+
 
         self.horizontalLayout_17.addLayout(self.verticalLayout_3)
 
-        self.label = QLabel(logScreenWindow)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(90, 10, 261, 61))
-        font = QFont()
-        font.setPointSize(14)
-        self.label.setFont(font)
-        self.logScreenBackButton = QPushButton(logScreenWindow)
-        self.logScreenBackButton.setObjectName(u"logScreenBackButton")
-        self.logScreenBackButton.setGeometry(QRect(360, 30, 75, 23))
 
         self.retranslateUi(logScreenWindow)
 
@@ -201,6 +231,8 @@ class Ui_logScreenWindow(object):
 
     def retranslateUi(self, logScreenWindow):
         logScreenWindow.setWindowTitle(QCoreApplication.translate("logScreenWindow", u"Form", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("logScreenWindow", u"Serial Port Message Panel", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("logScreenWindow", u"Information Panel", None))
         self.send_button.setText(QCoreApplication.translate("logScreenWindow", u"SEND", None))
         self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Selection", None))
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Refresh", None))
@@ -211,7 +243,7 @@ class Ui_logScreenWindow(object):
         self.label_4.setText(QCoreApplication.translate("logScreenWindow", u"Stop Bit", None))
         self.label_3.setText(QCoreApplication.translate("logScreenWindow", u"Parity", None))
         self.label_6.setText(QCoreApplication.translate("logScreenWindow", u"Flow Control", None))
-        self.label.setText(QCoreApplication.translate("logScreenWindow", u"BU SAYFA LOG EKRANI", None))
-        self.logScreenBackButton.setText(QCoreApplication.translate("logScreenWindow", u"Back", None))
+        self.clearPanelsButton.setText(QCoreApplication.translate("logScreenWindow", u"Clear Panels", None))
+        self.logScreenBackButton.setText(QCoreApplication.translate("logScreenWindow", u"Back to Main Screen", None))
     # retranslateUi
 

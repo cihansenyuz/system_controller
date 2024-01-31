@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
-    <height>607</height>
+    <width>1080</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,17 +16,44 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>80</y>
-     <width>571</width>
-     <height>400</height>
+     <x>20</x>
+     <y>20</y>
+     <width>1041</width>
+     <height>681</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_17">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="QPlainTextEdit" name="chat_box"/>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Serial Port Message Panel</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QPlainTextEdit" name="serialMessages"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Information Panel</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPlainTextEdit" name="infoMessages"/>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -48,10 +75,19 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item alignment="Qt::AlignTop">
        <widget class="QGroupBox" name="groupBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>158</width>
-          <height>223</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="title">
@@ -62,7 +98,14 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="QComboBox" name="comPortBox"/>
+          <widget class="QComboBox" name="comPortBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -81,19 +124,6 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>
@@ -195,40 +225,36 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clearPanelsButton">
+        <property name="text">
+         <string>Clear Panels</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="logScreenBackButton">
+        <property name="text">
+         <string>Back to Main Screen</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>261</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>BU SAYFA LOG EKRANI</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="logScreenBackButton">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>30</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Back</string>
-   </property>
   </widget>
  </widget>
  <resources/>

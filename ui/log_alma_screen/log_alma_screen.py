@@ -27,6 +27,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.send_button.clicked.connect(self.onSendButtonClicked)
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
+        self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -142,8 +143,10 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
+
     def onResetButtonClicked(self):
         self.getComPorts()
+
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
         connectedFlag = 0
@@ -153,27 +156,31 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
                 connectedFlag = 1
                 break
         if not connectedFlag:
-            self.chat_box.appendPlainText("Error: Selected port cannot be found! Please refresh port list")
+            self.infoMessages.appendPlainText("Error: Selected port cannot be found! Please refresh port list")
             return
         
         # open the port in read/write mode
         portOpenFlag = self.serialPort.open(QSerialPort.ReadWrite)
         if portOpenFlag:
-            self.chat_box.appendPlainText("Info: Selected port is now open")
+            self.infoMessages.appendPlainText("Info: Selected port is now open")
         else:
-            self.chat_box.appendPlainText("Error: cannot open selected port")
+            self.infoMessages.appendPlainText("Error: cannot open selected port")
 
     def onSendButtonClicked(self):
-        text = self.message_line.text()             # get the string
-        self.chat_box.appendPlainText(">> "+ text)  # print it on UI
-        self.message_line.clear()                   # clear the message line
+        text = self.message_line.text()                     # get the string
+        self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
+        self.message_line.clear()                           # clear the message line
 
-        bytes = QByteArray(text.encode())           # convert str to byte
-        self.serialPort.write(bytes)                # write it to serial port
+        bytes = QByteArray(text.encode())                   # convert str to byte
+        self.serialPort.write(bytes)                        # write it to serial port
 
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
-            self.chat_box.appendPlainText(text)                     # print them on UI
+            self.serialMessages.appendPlainText(text)                     # print them on UI
 
     def onComPortButtonClicked(self):
         self.getComPorts()
+
+    def onClearPanelsButtonClicked(self):
+        self.serialMessages.clear()
+        self.infoMessages.clear()
