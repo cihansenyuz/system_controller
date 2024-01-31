@@ -1,11 +1,11 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QByteArray, SIGNAL, SLOT
+from PySide6.QtCore import QByteArray
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 
 import platform
 
-class logScreenWindow(QWidget, Ui_logScreenWindow):
+class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -21,11 +21,12 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         # timing for read/write might need to be managed
         # errorOccured signal must be connected
         # disconnect button and closing the serial port may be considered
+        # automaticly finding the com and selected
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
-        self.send_button.clicked.connect(self.onSendButtonClicked)
+        self.sendButton.clicked.connect(self.onSendButtonClicked)
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
         self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
         # combobox connections on log screen page
@@ -61,6 +62,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
         self.onStopBitBoxCurrentIndexChanged(self.stopBitBox.currentIndex())
         self.onParityBoxCurrentIndexChanged(self.parityBox.currentIndex())
         self.onFlowControlBoxCurrentIndexChanged(self.flowControlBox.currentIndex())
+        self.infoMessages.clear()
 
     def getComPorts(self):
         if platform.system() == 'Windows':
@@ -97,7 +99,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud57600)
         elif index == 7:
             self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud115200)
-        print("Baud rate is set: ", self.serialPort.baudRate())
+        self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
 
     def onDataBitBoxCurrentIndexChanged(self, index):
         if index == 0:
@@ -108,7 +110,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.serialPort.setDataBits(QSerialPort.DataBits.Data7)
         elif index == 3:
             self.serialPort.setDataBits(QSerialPort.DataBits.Data8)
-        print("Data bits are set: ", self.serialPort.dataBits())
+        self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
 
     def onStopBitBoxCurrentIndexChanged(self, index):
         if index == 0:
@@ -117,7 +119,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.serialPort.setStopBits(QSerialPort.StopBits.OneAndHalfStop)
         elif index == 2:
             self.serialPort.setStopBits(QSerialPort.StopBits.TwoStop)
-        print("Stop bit is set: ", self.serialPort.stopBits())
+        self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
 
     def onParityBoxCurrentIndexChanged(self, index):
         if index == 0:
@@ -130,7 +132,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.serialPort.setParity(QSerialPort.Parity.SpaceParity)
         elif index == 4:
             self.serialPort.setParity(QSerialPort.Parity.MarkParity)
-        print("Parity is set: ", self.serialPort.parity())
+        self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
 
     def onFlowControlBoxCurrentIndexChanged(self, index):
         if index == 0:
@@ -139,7 +141,7 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.serialPort.setFlowControl(QSerialPort.FlowControl.HardwareControl)
         elif index == 2:
             self.serialPort.setFlowControl(QSerialPort.FlowControl.SoftwareControl)
-        print("Flow control is set: ", self.serialPort.flowControl())
+        self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))
 
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
@@ -167,9 +169,9 @@ class logScreenWindow(QWidget, Ui_logScreenWindow):
             self.infoMessages.appendPlainText("Error: cannot open selected port")
 
     def onSendButtonClicked(self):
-        text = self.message_line.text()                     # get the string
+        text = self.messageLine.text()                     # get the string
         self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
-        self.message_line.clear()                           # clear the message line
+        self.messageLine.clear()                           # clear the message line
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port

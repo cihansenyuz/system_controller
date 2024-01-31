@@ -30,7 +30,7 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <layout class="QVBoxLayout" name="verticalLayout_6" stretch="3,1,0">
       <item>
        <widget class="QGroupBox" name="groupBox_4">
         <property name="title">
@@ -58,12 +58,18 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLineEdit" name="message_line"/>
+         <widget class="QLineEdit" name="messageLine"/>
         </item>
         <item>
-         <widget class="QPushButton" name="send_button">
+         <widget class="QPushButton" name="sendButton">
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="text">
-           <string>SEND</string>
+           <string>Send</string>
           </property>
          </widget>
         </item>

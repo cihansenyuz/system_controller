@@ -60,19 +60,22 @@ class Ui_logScreenWindow(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.message_line = QLineEdit(self.layoutWidget)
-        self.message_line.setObjectName(u"message_line")
+        self.messageLine = QLineEdit(self.layoutWidget)
+        self.messageLine.setObjectName(u"messageLine")
 
-        self.horizontalLayout_3.addWidget(self.message_line)
+        self.horizontalLayout_3.addWidget(self.messageLine)
 
-        self.send_button = QPushButton(self.layoutWidget)
-        self.send_button.setObjectName(u"send_button")
+        self.sendButton = QPushButton(self.layoutWidget)
+        self.sendButton.setObjectName(u"sendButton")
+        self.sendButton.setMinimumSize(QSize(125, 0))
 
-        self.horizontalLayout_3.addWidget(self.send_button)
+        self.horizontalLayout_3.addWidget(self.sendButton)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_3)
 
+        self.verticalLayout_6.setStretch(0, 3)
+        self.verticalLayout_6.setStretch(1, 1)
 
         self.horizontalLayout_17.addLayout(self.verticalLayout_6)
 
@@ -233,7 +236,7 @@ class Ui_logScreenWindow(object):
         logScreenWindow.setWindowTitle(QCoreApplication.translate("logScreenWindow", u"Form", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("logScreenWindow", u"Serial Port Message Panel", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("logScreenWindow", u"Information Panel", None))
-        self.send_button.setText(QCoreApplication.translate("logScreenWindow", u"SEND", None))
+        self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"Send", None))
         self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Selection", None))
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Refresh", None))
         self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Connect", None))

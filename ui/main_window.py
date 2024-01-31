@@ -1,0 +1,28 @@
+from PySide6.QtWidgets import QMainWindow, QWidget, QStackedWidget, QVBoxLayout
+from ui.main_screen.main_screen import MainScreenWindow
+from ui.log_alma_screen.log_alma_screen import LogScreenWindow
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.resize(1080, 720)
+        # create a widget and make it central on the window
+        self.mainCentralWidget = QWidget()
+        self.setCentralWidget(self.mainCentralWidget)
+
+        # create stacked widget object
+        self.stackedWidget = QStackedWidget(self.mainCentralWidget)
+
+        # create pages
+        self.mainScreenPage = MainScreenWindow()
+        self.logScreenPage = LogScreenWindow()
+        
+        # add all pages to the stacked widget object
+        self.stackedWidget.addWidget(self.mainScreenPage)
+        self.stackedWidget.addWidget(self.logScreenPage)
+
+        # place stacked widget on the window
+        self.mainLayout = QVBoxLayout(self.mainCentralWidget)
+        self.mainLayout.addWidget(self.stackedWidget)
+        

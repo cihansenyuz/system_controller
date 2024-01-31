@@ -1,0 +1,28 @@
+## page foldering & filing
+\example_screen
+example_screen.py
+example_screen.ui
+ui_example_screen.py
+
+## py file and ui py file
+example_file.py
+ui_example_file.py
+
+## ui file
+example_file.ui
+
+## variable/object
+exampleVariable
+exampleObject
+
+## class
+ExampleClass
+
+## slot
+onExampleObjectClicked
+
+## function
+exampleFunction
+
+## macro
+EXAMPLE_MACRO

@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 
-class  mainScreenWindow(QWidget, Ui_mainScreenWindow):
+class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
