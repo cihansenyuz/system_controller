@@ -15,6 +15,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
         
+        self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
         #### missing possible implementations ####
@@ -151,22 +152,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
-        connectedFlag = 0
         for portInfo in self.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-                connectedFlag = 1
-                break
-        if not connectedFlag:
-            self.infoMessages.appendPlainText("Error: Selected port cannot be found! Please refresh port list")
-            return
-        
-        # open the port in read/write mode
-        portOpenFlag = self.serialPort.open(QSerialPort.ReadWrite)
-        if portOpenFlag:
-            self.infoMessages.appendPlainText("Info: Selected port is now open")
-        else:
-            self.infoMessages.appendPlainText("Error: cannot open selected port")
+        self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
 
     def onSendButtonClicked(self):
         text = self.messageLine.text()                     # get the string
@@ -186,3 +175,17 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onClearPanelsButtonClicked(self):
         self.serialMessages.clear()
         self.infoMessages.clear()
+
+    def onErrorOccurred(self, error):
+        if error == QSerialPort.SerialPortError.OpenError:
+            self.infoMessages.appendPlainText("Info: You have already opened the serial port.")
+        elif error == QSerialPort.SerialPortError.DeviceNotFoundError:
+            self.infoMessages.appendPlainText("Error: Attempting to open an non-existing device. Refresh port list.")
+        elif error == QSerialPort.SerialPortError.PermissionError:
+            self.infoMessages.appendPlainText("Error: Attempting to open an already opened device by another process or you don't have permissions")
+        elif error == QSerialPort.SerialPortError.TimeoutError:
+            self.infoMessages.appendPlainText("Error: A timeout error occurred, try again.")
+        elif error == QSerialPort.SerialPortError.UnknownError:
+            self.infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
+        elif error == QSerialPort.SerialPortError.NoError:
+            self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
