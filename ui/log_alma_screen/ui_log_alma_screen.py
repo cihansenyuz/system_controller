@@ -110,13 +110,18 @@ class Ui_logScreenWindow(object):
 
         self.horizontalLayout_2.addWidget(self.comPortButton)
 
-        self.connectButton = QPushButton(self.groupBox)
-        self.connectButton.setObjectName(u"connectButton")
+        self.disconnectButton = QPushButton(self.groupBox)
+        self.disconnectButton.setObjectName(u"disconnectButton")
 
-        self.horizontalLayout_2.addWidget(self.connectButton)
+        self.horizontalLayout_2.addWidget(self.disconnectButton)
 
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
+
+        self.connectButton = QPushButton(self.groupBox)
+        self.connectButton.setObjectName(u"connectButton")
+
+        self.verticalLayout_4.addWidget(self.connectButton)
 
 
         self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignTop)
@@ -239,6 +244,7 @@ class Ui_logScreenWindow(object):
         self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"Send", None))
         self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Selection", None))
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Refresh", None))
+        self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Disconnect", None))
         self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Connect", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Settings", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))

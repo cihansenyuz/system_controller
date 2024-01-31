@@ -30,6 +30,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.sendButton.clicked.connect(self.onSendButtonClicked)
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
         self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
+        self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
+
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -164,6 +166,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
+
+    def onDisconnectButtonClicked(self):
+        self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
+        self.serialPort.close()
 
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
