@@ -1,4 +1,6 @@
+from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import QRect
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
@@ -27,3 +29,7 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         pass
     def onButton6Clicked(self):
         pass
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
+        return super().resizeEvent(event)

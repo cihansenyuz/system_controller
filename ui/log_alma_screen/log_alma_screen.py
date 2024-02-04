@@ -1,6 +1,7 @@
+from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QByteArray
+from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 
 import platform
@@ -9,6 +10,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        #Resize operations
+        #self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
 
         self.createComboBoxes() # create lists and add them into comboboxes
         self.serialPort = QSerialPort()
@@ -37,7 +41,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
-        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged) 
+        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
+
 
     def createComboBoxes(self):
         # create lists
@@ -195,3 +200,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             self.infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
         elif error == QSerialPort.SerialPortError.NoError:
             self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
+        return super().resizeEvent(event)
