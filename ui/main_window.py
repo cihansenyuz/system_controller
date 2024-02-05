@@ -1,6 +1,10 @@
+# This window is to have a QMainWindow that consists of QStackedWidget
+
 from PySide6.QtWidgets import QMainWindow, QWidget, QStackedWidget, QVBoxLayout
 from ui.main_screen.main_screen import MainScreenWindow
 from ui.log_alma_screen.log_alma_screen import LogScreenWindow
+
+# this class is to have a QMainWindow that consists QStackedWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
