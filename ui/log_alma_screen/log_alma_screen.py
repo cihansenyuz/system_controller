@@ -159,6 +159,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
+        if len(self.comPortList) == 0:
+            return
         for portInfo in self.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
