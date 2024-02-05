@@ -2,6 +2,7 @@ from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
+from ui.log_alma_screen.log_alma_screen import LogScreenWindow
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -19,7 +20,10 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     # slot function definitions
     def onGetLogButtonClicked(self):
         #self.parent().stackedWidget.setCurrentIndex(1)
-        self.parent().setCurrentIndex(1)
+        self.logScreenPage = LogScreenWindow()
+        self.parent().addWidget(self.logScreenPage)
+        self.parent().setCurrentWidget(self.logScreenPage)
+
         
     def onButton2Clicked(self):
         

@@ -18,11 +18,11 @@ class MainWindow(QMainWindow):
 
         # create pages
         self.mainScreenPage = MainScreenWindow()
-        self.logScreenPage = LogScreenWindow()
+        #self.logScreenPage = LogScreenWindow()
         
         # add all pages to the stacked widget object
         self.stackedWidget.addWidget(self.mainScreenPage)
-        self.stackedWidget.addWidget(self.logScreenPage)
+        #self.stackedWidget.addWidget(self.logScreenPage)
 
         # place stacked widget on the window
         self.mainLayout = QVBoxLayout(self.mainCentralWidget)
