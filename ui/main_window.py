@@ -6,6 +6,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        
         self.resize(1080, 720)
         self.setMinimumSize(800,600)
         # create a widget and make it central on the window
