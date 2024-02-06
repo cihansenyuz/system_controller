@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
+import ui.log_alma_screen.log_screen_dialogs as dialogs
 
 import platform
 
@@ -42,6 +43,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
+        
+        self.tempStr = "variable deneme"
+        dialogs.begin(self)
+
+        
 
 
     def createComboBoxes(self):
@@ -156,6 +162,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onResetButtonClicked(self):
         self.getComPorts()
+        print(self.tempStr)
 
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
