@@ -3,7 +3,10 @@ from ui.components.ui_input_dialog import Ui_InputDialog
 from ui.components.ui_info_dialog import Ui_InfoDialogs
 
 def begin(logScreenUi):
-    
+
+    #################
+    ## input dialog
+    #################
     class InputDialogWindow(QDialog, Ui_InputDialog):
         def __init__(self, photo = None):
             super().__init__()
@@ -15,7 +18,7 @@ def begin(logScreenUi):
             self.skipButton.clicked.connect(self.onSkipButtonClicked)
         
         def onNextButtonClicked(self):
-            firstDialog = InfoDialogWindow("1st dialog")
+            firstDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[0])
             logScreenUi.infoDialogs.append(firstDialog)
             logScreenUi.infoDialogCurrentIndex = 0
             logScreenUi.inputDialog.hide()
@@ -26,6 +29,9 @@ def begin(logScreenUi):
             logScreenUi.skipDialog = InfoDialogWindow("Tüm Bağlantılar Tamam mı?")
             self.hide()
 
+    #################
+    ## info dialogs
+    #################
     class InfoDialogWindow(QDialog, Ui_InfoDialogs):
         def __init__(self, message = None):
             super().__init__()
@@ -38,19 +44,21 @@ def begin(logScreenUi):
             self.backButton.clicked.connect(self.onBackButtonClicked)
 
         def onNextButtonClicked(self):
-            if logScreenUi.infoDialogCurrentIndex == 0:
-                secondDialog = InfoDialogWindow("2nd dialog")
-                logScreenUi.infoDialogs.append(secondDialog)
-                logScreenUi.infoDialogs[0].hide()
-            elif logScreenUi.infoDialogCurrentIndex == 1:
-                thirdDialog = InfoDialogWindow("3rd dialog")
-                logScreenUi.infoDialogs.append(thirdDialog)
-                logScreenUi.infoDialogs[1].hide()
-            elif logScreenUi.infoDialogCurrentIndex == 2:
+            if logScreenUi.skipDialog is not None:      # if skip button clicked
+                logScreenUi.inputDialog.destroy()       # destroy input dialog
+                self.destroy()                          # destroy skip dialog
+                return                                  # return
+            # if info dialogs are not skipped #
+            logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
+            if logScreenUi.infoDialogCurrentIndex == len(logScreenUi.infoDialogPaths):
                 for infoDialog in logScreenUi.infoDialogs:
                     infoDialog.destroy()
-            logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
-        
+                logScreenUi.inputDialog.destroy()
+            else:
+                newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.infoDialogCurrentIndex])
+                logScreenUi.infoDialogs.append(newDialog)
+                logScreenUi.infoDialogs[logScreenUi.infoDialogCurrentIndex-1].hide()
+   
         def onBackButtonClicked(self):
             if logScreenUi.infoDialogCurrentIndex == 0:
                 logScreenUi.inputDialog.show()
@@ -63,26 +71,6 @@ def begin(logScreenUi):
                 logScreenUi.infoDialogs[2].destroy()
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex - 1
 
-    '''
-    class Dialog3Window(QDialog, Ui_dialog2Window):
-        def __init__(self):
-            super().__init__()
-            self.setupUi(self)
-
-            self.label.setText("Dialog #3")
-            self.show()
-
-            self.pushButton.clicked.connect(self.onButtonClicked)
-            self.pushButton_2.clicked.connect(self.onButton2Clicked)
-
-        def onButtonClicked(self):
-            logScreenUi.serialMessages.appendPlainText("dialoglar tamamlandı")
-            logScreenUi.dialog3.destroy()
-            logScreenUi.dialog2.destroy()
-            logScreenUi.dialog1.destroy()
-        def onButton2Clicked(self):
-            self.destroy()
-            logScreenUi.dialog2.show()
-    '''
     logScreenUi.infoDialogs = []
+    logScreenUi.infoDialogPaths = ["1st dialog", "2nd dialog", "3rd dialog"]
     logScreenUi.inputDialog = InputDialogWindow()
