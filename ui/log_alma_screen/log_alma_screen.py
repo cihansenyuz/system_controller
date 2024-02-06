@@ -47,8 +47,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.tempStr = "variable deneme"
         dialogs.begin(self)
 
-        
-
 
     def createComboBoxes(self):
         # create lists
