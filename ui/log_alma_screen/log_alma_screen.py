@@ -44,9 +44,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
         
-        self.tempStr = "variable deneme"
         dialogs.begin(self)
-
 
     def createComboBoxes(self):
         # create lists

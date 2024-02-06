@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'dialog2.ui'
+## Form generated from reading UI file 'info_dialog.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -19,24 +19,26 @@ from PySide6.QtWidgets import (QApplication, QDialog, QHBoxLayout, QLabel,
     QLayout, QPushButton, QSizePolicy, QSpacerItem,
     QVBoxLayout, QWidget)
 
-class Ui_dialog2Window(object):
-    def setupUi(self, dialog2Window):
-        if not dialog2Window.objectName():
-            dialog2Window.setObjectName(u"dialog2Window")
-        dialog2Window.resize(400, 300)
-        self.verticalLayout = QVBoxLayout(dialog2Window)
+class Ui_InfoDialogs(object):
+    def setupUi(self, InfoDialogs):
+        if not InfoDialogs.objectName():
+            InfoDialogs.setObjectName(u"InfoDialogs")
+        InfoDialogs.resize(400, 300)
+        self.verticalLayout = QVBoxLayout(InfoDialogs)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(dialog2Window)
+        self.label = QLabel(InfoDialogs)
         self.label.setObjectName(u"label")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
         font = QFont()
         font.setPointSize(16)
         self.label.setFont(font)
+        self.label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label)
-
-        self.verticalSpacer = QSpacerItem(20, 217, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -45,29 +47,29 @@ class Ui_dialog2Window(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.pushButton_2 = QPushButton(dialog2Window)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.backButton = QPushButton(InfoDialogs)
+        self.backButton.setObjectName(u"backButton")
 
-        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.horizontalLayout.addWidget(self.backButton)
 
-        self.pushButton = QPushButton(dialog2Window)
-        self.pushButton.setObjectName(u"pushButton")
+        self.nextButton = QPushButton(InfoDialogs)
+        self.nextButton.setObjectName(u"nextButton")
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.nextButton)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
 
-        self.retranslateUi(dialog2Window)
+        self.retranslateUi(InfoDialogs)
 
-        QMetaObject.connectSlotsByName(dialog2Window)
+        QMetaObject.connectSlotsByName(InfoDialogs)
     # setupUi
 
-    def retranslateUi(self, dialog2Window):
-        dialog2Window.setWindowTitle(QCoreApplication.translate("dialog2Window", u"Dialog", None))
-        self.label.setText(QCoreApplication.translate("dialog2Window", u"Dialog #2", None))
-        self.pushButton_2.setText(QCoreApplication.translate("dialog2Window", u"Geri", None))
-        self.pushButton.setText(QCoreApplication.translate("dialog2Window", u"\u0130leri", None))
+    def retranslateUi(self, InfoDialogs):
+        InfoDialogs.setWindowTitle(QCoreApplication.translate("InfoDialogs", u"Dialog", None))
+        self.label.setText(QCoreApplication.translate("InfoDialogs", u"Info Photo", None))
+        self.backButton.setText(QCoreApplication.translate("InfoDialogs", u"Geri", None))
+        self.nextButton.setText(QCoreApplication.translate("InfoDialogs", u"\u0130leri", None))
     # retranslateUi
 
