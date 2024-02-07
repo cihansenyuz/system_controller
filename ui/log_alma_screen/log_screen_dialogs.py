@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QDialog
+from PySide6.QtGui import QPixmap
 from ui.components.ui_input_dialog import Ui_InputDialog
 from ui.components.ui_info_dialog import Ui_InfoDialogs
 
@@ -8,7 +9,7 @@ def begin(logScreenUi):
     ## input dialog
     #################
     class InputDialogWindow(QDialog, Ui_InputDialog):
-        def __init__(self, photo = None):
+        def __init__(self):
             super().__init__()
             self.setupUi(self)
             self.show()
@@ -33,21 +34,26 @@ def begin(logScreenUi):
     ## info dialogs
     #################
     class InfoDialogWindow(QDialog, Ui_InfoDialogs):
-        def __init__(self, message = None):
+        def __init__(self, imagePath = None):
             super().__init__()
             self.setupUi(self)
 
-            self.label.setText(message)
+            # Load image from file
+            self.pixmap = QPixmap(imagePath)
+            # Set the pixmap to the QLabel
+            self.label.setPixmap(self.pixmap)
+            # Resize the QLabel to fit the image
+            self.label.setScaledContents(True)
             self.show()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
 
         def onNextButtonClicked(self):
-            if logScreenUi.skipDialog is not None:      # if skip button clicked
-                logScreenUi.inputDialog.destroy()       # destroy input dialog
-                self.destroy()                          # destroy skip dialog
-                return                                  # return
+            if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
+                logScreenUi.inputDialog.destroy()                                                           # destroy input dialog
+                self.destroy()                                                                              # destroy skip dialog
+                return
             # if info dialogs are not skipped #
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
             if logScreenUi.infoDialogCurrentIndex == len(logScreenUi.infoDialogPaths):
@@ -60,17 +66,20 @@ def begin(logScreenUi):
                 logScreenUi.infoDialogs[logScreenUi.infoDialogCurrentIndex-1].hide()
    
         def onBackButtonClicked(self):
-            if logScreenUi.infoDialogCurrentIndex == 0:
+            if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
+                logScreenUi.skipDialog.destroy()
+                logScreenUi.skipDialog = None   # set it to None otherwise once it is created, even though destroyed, stil enters this if loop
                 logScreenUi.inputDialog.show()
-                logScreenUi.infoDialogs[0].destroy()
-            elif logScreenUi.infoDialogCurrentIndex == 1:
-                logScreenUi.infoDialogs[0].show()
-                logScreenUi.infoDialogs[1].destroy()
-            elif logScreenUi.infoDialogCurrentIndex == 2:
-                logScreenUi.infoDialogs[1].show()
-                logScreenUi.infoDialogs[2].destroy()
+                return
+            # if info dialogs are not skipped #
+            logScreenUi.infoDialogs[logScreenUi.infoDialogCurrentIndex].destroy()
+            logScreenUi.infoDialogs.pop(logScreenUi.infoDialogCurrentIndex) # remove also from the list otherwise doubles the list items in spesific conditions
+            if logScreenUi.infoDialogCurrentIndex > 0:
+                logScreenUi.infoDialogs[logScreenUi.infoDialogCurrentIndex-1].show()
+            else:
+                logScreenUi.inputDialog.show()
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex - 1
-
+            
     logScreenUi.infoDialogs = []
-    logScreenUi.infoDialogPaths = ["1st dialog", "2nd dialog", "3rd dialog"]
+    logScreenUi.infoDialogPaths = ["ui\\components\\dialog1.jpg", "ui\\components\\dialog2.jpg", "ui\\components\\dialog3.jpg"]
     logScreenUi.inputDialog = InputDialogWindow()
