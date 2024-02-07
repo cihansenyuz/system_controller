@@ -8,7 +8,7 @@ import ui.log_alma_screen.log_screen_dialogs as dialogs
 import platform
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    def __init__(self):
+    def __init__(self,page):
         super().__init__()
         self.setupUi(self)
 
@@ -44,7 +44,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
         
-        dialogs.begin(self)
+        if page == 1:
+            dialogs.begin(self)
+        else:
+            pass
 
     def createComboBoxes(self):
         # create lists

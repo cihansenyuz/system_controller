@@ -9,6 +9,7 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         super().__init__()
         self.setupUi(self)
         
+        
         # button conecctions on the main screen page
         self.getLogButton.clicked.connect(self.onGetLogButtonClicked)
         self.pushButton_2.clicked.connect(self.onButton2Clicked)
@@ -20,13 +21,19 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     # slot function definitions
     def onGetLogButtonClicked(self):
         #self.parent().stackedWidget.setCurrentIndex(1)
-        self.logScreenPage = LogScreenWindow()
-        self.parent().addWidget(self.logScreenPage)
+        if not hasattr(self.parent(),"logScreenPage"):
+            self.logScreenPage = LogScreenWindow(1)
+            self.parent().addWidget(self.logScreenPage)
+        
         self.parent().setCurrentWidget(self.logScreenPage)
 
         
     def onButton2Clicked(self):
+        if not hasattr(self.parent(),"autoOfflinePage"):
+            self.autoOfflinePage = LogScreenWindow(2)
+            self.parent().addWidget(self.autoOfflinePage)
         
+        self.parent().setCurrentWidget(self.autoOfflinePage)
         print("button2 clicked")
     def onButton3Clicked(self):
         print("button3 clicked")
