@@ -5,6 +5,14 @@ from ui.components.ui_info_dialog import Ui_InfoDialogs
 
 def begin(logScreenUi):
 
+    logScreenUi.infoDialogs = []
+    ## mainboard project guides
+    logScreenUi.infoDialogPaths = [
+                ["ui\\components\\project1dialog1.jpg", "ui\\components\\project1dialog2.jpg", "ui\\components\\project1dialog3.jpg"],
+                ["ui\\components\\project2dialog1.jpg", "ui\\components\\project2dialog2.jpg", "ui\\components\\project2dialog3.jpg"],
+    ]
+
+
     #################
     ## input dialog
     #################
@@ -12,14 +20,19 @@ def begin(logScreenUi):
         def __init__(self):
             super().__init__()
             self.setupUi(self)
+            self.projectBox.addItems(["NX,GX,AN,GO","GB"])
+            self.projectBox.setCurrentIndex(-1) # by default, show no items
+            self.nextButton.setEnabled(False)
+            self.skipButton.setEnabled(False)
             self.show()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
             self.skipButton.clicked.connect(self.onSkipButtonClicked)
+            self.projectBox.currentIndexChanged.connect(self.onProjectBoxItemChanged)
         
         def onNextButtonClicked(self):
-            firstDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[0])
+            firstDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[self.projectBox.currentIndex()][0])
             logScreenUi.infoDialogs.append(firstDialog)
             logScreenUi.infoDialogCurrentIndex = 0
             logScreenUi.inputDialog.hide()
@@ -29,6 +42,9 @@ def begin(logScreenUi):
         def onSkipButtonClicked(self):
             logScreenUi.skipDialog = InfoDialogWindow("Tüm Bağlantılar Tamam mı?")
             self.hide()
+        def onProjectBoxItemChanged(self):
+            self.nextButton.setEnabled(True)
+            self.skipButton.setEnabled(True)
 
     #################
     ## info dialogs
@@ -56,12 +72,12 @@ def begin(logScreenUi):
                 return
             # if info dialogs are not skipped #
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
-            if logScreenUi.infoDialogCurrentIndex == len(logScreenUi.infoDialogPaths):
+            if logScreenUi.infoDialogCurrentIndex == len(logScreenUi.infoDialogPaths[logScreenUi.inputDialog.projectBox.currentIndex()]):
                 for infoDialog in logScreenUi.infoDialogs:
                     infoDialog.destroy()
                 logScreenUi.inputDialog.destroy()
             else:
-                newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.infoDialogCurrentIndex])
+                newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.inputDialog.projectBox.currentIndex()][logScreenUi.infoDialogCurrentIndex])
                 logScreenUi.infoDialogs.append(newDialog)
                 logScreenUi.infoDialogs[logScreenUi.infoDialogCurrentIndex-1].hide()
    
@@ -79,7 +95,5 @@ def begin(logScreenUi):
             else:
                 logScreenUi.inputDialog.show()
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex - 1
-            
-    logScreenUi.infoDialogs = []
-    logScreenUi.infoDialogPaths = ["ui\\components\\dialog1.jpg", "ui\\components\\dialog2.jpg", "ui\\components\\dialog3.jpg"]
+        
     logScreenUi.inputDialog = InputDialogWindow()

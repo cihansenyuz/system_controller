@@ -158,7 +158,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onResetButtonClicked(self):
         self.getComPorts()
-        print(self.tempStr)
 
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
