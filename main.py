@@ -7,4 +7,4 @@ app = QApplication(sys.argv)
 ui = MainWindow()
 
 ui.show()
-app.exec()
+sys.exit(app.exec())
