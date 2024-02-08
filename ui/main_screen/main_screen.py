@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 from ui.log_alma_screen.log_alma_screen import LogScreenWindow
+from ui.auto_offline.auto_offline_screen import AutoOfflineWindow
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -21,7 +22,7 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     # slot function definitions
     def onGetLogButtonClicked(self):
         #self.parent().stackedWidget.setCurrentIndex(1)
-        if not hasattr(self.parent(),"logScreenPage"):
+        if not hasattr(self,"logScreenPage"):
             self.logScreenPage = LogScreenWindow(1)
             self.parent().addWidget(self.logScreenPage)
         
@@ -29,11 +30,14 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
 
         
     def onButton2Clicked(self):
-        if not hasattr(self.parent(),"autoOfflinePage"):
-            self.autoOfflinePage = LogScreenWindow(2)
+        
+        if not hasattr(self,"autoOfflinePage"):
+            print("asdf")
+            self.autoOfflinePage = AutoOfflineWindow()
             self.parent().addWidget(self.autoOfflinePage)
         
-        self.parent().setCurrentWidget(self.autoOfflinePage)
+        self.parent().setCurrentWidget(self.autoOfflinePage)    
+        print(self.parent().count())
         print("button2 clicked")
     def onButton3Clicked(self):
         print("button3 clicked")

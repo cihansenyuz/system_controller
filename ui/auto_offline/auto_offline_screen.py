@@ -1,11 +1,24 @@
 
-
-from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
-
-
+from PySide6.QtWidgets import QWidget, QDialog
+from ui.log_alma_screen.log_alma_screen import LogScreenWindow
 
 
-class AutoOfflineWindow(QWidget, Ui_logScreenWindow)
+
+
+
+
+class AutoOfflineWindow(LogScreenWindow):
+    def __init__(self):
+        super().__init__(2)
+
+        self.mydialog = QDialog()
+
+
+    def runDialog(self):
+        self.mydialog.exec()
+        
+
+    
 
 
 
