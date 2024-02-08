@@ -3,12 +3,15 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
-import ui.log_alma_screen.log_screen_dialogs as dialogs
-
+import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
 
+#################################################################################
+########## MODIFY onSetDefaultsButtonClicked() if you inheret this class ########
+#################################################################################
+
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    def __init__(self,page):
+    def __init__(self, page):
         super().__init__()
         self.setupUi(self)
 
@@ -19,7 +22,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort = QSerialPort()
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
-        
+        self.page = page
+
         self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
@@ -36,6 +40,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
         self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
+        self.setDefaultsButton.clicked.connect(self.onSetDefaultsButtonClicked)
 
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
@@ -43,11 +48,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
-        
-        if page == 1:
-            dialogs.begin(self)
-        else:
-            pass
+
+        self.onSetDefaultsButtonClicked() # call it once the page is created
 
     def createComboBoxes(self):
         # create lists
@@ -193,6 +195,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onClearPanelsButtonClicked(self):
         self.serialMessages.clear()
         self.infoMessages.clear()
+    
+    def onSetDefaultsButtonClicked(self):
+        if self.page == 1:
+            logScreendialogs.begin(self)
+        else:
+            pass # other pages
 
     def onErrorOccurred(self, error):
         if error == QSerialPort.SerialPortError.OpenError:

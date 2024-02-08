@@ -37,7 +37,8 @@ def begin(logScreenUi):
             self.backButton.clicked.connect(self.onBackButtonClicked)
             self.skipButton.clicked.connect(self.onSkipButtonClicked)
             self.projectBox.currentIndexChanged.connect(self.onProjectBoxItemChanged)
-        
+            self.rejected.connect(self.onRejected)
+            
         def onNextButtonClicked(self):
             firstDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[self.projectBox.currentIndex()][0])
             logScreenUi.infoDialogs.append(firstDialog)
@@ -52,6 +53,9 @@ def begin(logScreenUi):
         def onProjectBoxItemChanged(self):
             self.nextButton.setEnabled(True)
             self.skipButton.setEnabled(True)
+        
+        def onRejected(self):
+            logScreenUi.parent().setCurrentIndex(0)
 
     #################
     ## info dialogs
@@ -71,6 +75,7 @@ def begin(logScreenUi):
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
+            self.rejected.connect(self.onRejected)
 
         def onNextButtonClicked(self):
             if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
@@ -102,5 +107,8 @@ def begin(logScreenUi):
             else:
                 logScreenUi.inputDialog.show()
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex - 1
+
+        def onRejected(self):
+            logScreenUi.parent().setCurrentIndex(0)
         
     logScreenUi.inputDialog = InputDialogWindow()
