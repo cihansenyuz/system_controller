@@ -165,7 +165,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onResetButtonClicked(self):
         self.getComPorts()
-
+        self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
+                                          
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
         if len(self.comPortList) == 0:
@@ -184,9 +185,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort.write(bytes)                        # write it to serial port
 
     def onDisconnectButtonClicked(self):
-        self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
-        self.serialPort.close()
-
+        if self.serialPort.isOpen():
+            self.serialPort.close()
+            self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
+        else:
+            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
             self.serialMessages.appendPlainText(text)                     # print them on UI
@@ -237,8 +240,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         # compare if newPort is in the old list or not
         for newPort in self.comPortList:
             if oldComPortList.count(newPort.portName()):
-                print(oldComPortList.count(newPort.portName()))
+                pass
             else:
                 self.comPortBox.setCurrentText(newPort.portName())
+                self.infoMessages.appendPlainText("Info: Port " + (newPort.portName()) + " is found.")
         if self.comPortBox.currentIndex() == -1:
-            self.infoMessages.appendPlainText("Error: No new device is found\nClick 'Show Dialogs' button and follow instructions again.")
+            self.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
