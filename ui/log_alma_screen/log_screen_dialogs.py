@@ -30,14 +30,14 @@ def begin(logScreenUi):
             self.projectBox.addItems(["NX,GX,AN,GO","GB"])
             self.projectBox.setCurrentIndex(-1) # by default, show no items
             self.nextButton.setEnabled(False)
-            self.skipButton.setEnabled(False)
             self.show()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
             self.skipButton.clicked.connect(self.onSkipButtonClicked)
             self.projectBox.currentIndexChanged.connect(self.onProjectBoxItemChanged)
-        
+            self.rejected.connect(self.onRejected)
+            
         def onNextButtonClicked(self):
             firstDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[self.projectBox.currentIndex()][0])
             logScreenUi.infoDialogs.append(firstDialog)
@@ -47,11 +47,13 @@ def begin(logScreenUi):
             logScreenUi.inputDialog.destroy()
             logScreenUi.onLogScreenBackButtonClicked()
         def onSkipButtonClicked(self):
-            logScreenUi.skipDialog = InfoDialogWindow("Tüm Bağlantılar Tamam mı?")
+            logScreenUi.skipDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[0][1]) # give the dialog path that asks to plug USB port
             self.hide()
         def onProjectBoxItemChanged(self):
             self.nextButton.setEnabled(True)
-            self.skipButton.setEnabled(True)
+        
+        def onRejected(self):
+            logScreenUi.parent().setCurrentIndex(0)
 
     #################
     ## info dialogs
@@ -71,11 +73,14 @@ def begin(logScreenUi):
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
+            self.rejected.connect(self.onRejected)
 
         def onNextButtonClicked(self):
             if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
                 logScreenUi.inputDialog.destroy()                                                           # destroy input dialog
-                self.destroy()                                                                              # destroy skip dialog
+                self.destroy()
+                logScreenUi.findNewComPort()
+                logScreenUi.onConnectButtonClicked()                                                                              # destroy skip dialog
                 return
             # if info dialogs are not skipped #
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
@@ -83,6 +88,8 @@ def begin(logScreenUi):
                 for infoDialog in logScreenUi.infoDialogs:
                     infoDialog.destroy()
                 logScreenUi.inputDialog.destroy()
+                logScreenUi.findNewComPort()
+                logScreenUi.onConnectButtonClicked()
             else:
                 newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.inputDialog.projectBox.currentIndex()][logScreenUi.infoDialogCurrentIndex])
                 logScreenUi.infoDialogs.append(newDialog)
@@ -102,5 +109,8 @@ def begin(logScreenUi):
             else:
                 logScreenUi.inputDialog.show()
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex - 1
+
+        def onRejected(self):
+            logScreenUi.parent().setCurrentIndex(0)
         
     logScreenUi.inputDialog = InputDialogWindow()

@@ -218,10 +218,20 @@ class Ui_logScreenWindow(object):
 
         self.verticalLayout_3.addItem(self.verticalSpacer_2)
 
-        self.clearPanelsButton = QPushButton(self.layoutWidget)
-        self.clearPanelsButton.setObjectName(u"clearPanelsButton")
+        self.showDialogsButton = QPushButton(self.layoutWidget)
+        self.showDialogsButton.setObjectName(u"showDialogsButton")
 
-        self.verticalLayout_3.addWidget(self.clearPanelsButton)
+        self.verticalLayout_3.addWidget(self.showDialogsButton)
+
+        self.clearMessagePanelButton = QPushButton(self.layoutWidget)
+        self.clearMessagePanelButton.setObjectName(u"clearMessagePanelButton")
+
+        self.verticalLayout_3.addWidget(self.clearMessagePanelButton)
+
+        self.clearInfoPanelButton = QPushButton(self.layoutWidget)
+        self.clearInfoPanelButton.setObjectName(u"clearInfoPanelButton")
+
+        self.verticalLayout_3.addWidget(self.clearInfoPanelButton)
 
         self.logScreenBackButton = QPushButton(self.layoutWidget)
         self.logScreenBackButton.setObjectName(u"logScreenBackButton")
@@ -239,20 +249,22 @@ class Ui_logScreenWindow(object):
 
     def retranslateUi(self, logScreenWindow):
         logScreenWindow.setWindowTitle(QCoreApplication.translate("logScreenWindow", u"Form", None))
-        self.groupBox_4.setTitle(QCoreApplication.translate("logScreenWindow", u"Serial Port Message Panel", None))
-        self.groupBox_3.setTitle(QCoreApplication.translate("logScreenWindow", u"Information Panel", None))
-        self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"Send", None))
-        self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Selection", None))
-        self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Refresh", None))
-        self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Disconnect", None))
-        self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Connect", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Settings", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("logScreenWindow", u"Seri Port Mesajlar\u0131 Paneli", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("logScreenWindow", u"Bilgi Paneli", None))
+        self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"G\u00f6nder", None))
+        self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Se\u00e7imi", None))
+        self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
+        self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Kapat", None))
+        self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Ba\u011flan", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Ayarlar", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))
         self.label_5.setText(QCoreApplication.translate("logScreenWindow", u"Data Bit", None))
         self.label_4.setText(QCoreApplication.translate("logScreenWindow", u"Stop Bit", None))
         self.label_3.setText(QCoreApplication.translate("logScreenWindow", u"Parity", None))
         self.label_6.setText(QCoreApplication.translate("logScreenWindow", u"Flow Control", None))
-        self.clearPanelsButton.setText(QCoreApplication.translate("logScreenWindow", u"Clear Panels", None))
-        self.logScreenBackButton.setText(QCoreApplication.translate("logScreenWindow", u"Back to Main Screen", None))
+        self.showDialogsButton.setText(QCoreApplication.translate("logScreenWindow", u"D\u00f6k\u00fcmantasyonu G\u00f6ster", None))
+        self.clearMessagePanelButton.setText(QCoreApplication.translate("logScreenWindow", u"Seri Port Mesaj Panelini Temizle", None))
+        self.clearInfoPanelButton.setText(QCoreApplication.translate("logScreenWindow", u"Bilgi Panelini Temizle", None))
+        self.logScreenBackButton.setText(QCoreApplication.translate("logScreenWindow", u"Ana Ekrana D\u00f6n", None))
     # retranslateUi
 

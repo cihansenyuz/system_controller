@@ -34,7 +34,7 @@
       <item>
        <widget class="QGroupBox" name="groupBox_4">
         <property name="title">
-         <string>Serial Port Message Panel</string>
+         <string>Seri Port Mesajları Paneli</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -46,7 +46,7 @@
       <item>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="title">
-         <string>Information Panel</string>
+         <string>Bilgi Paneli</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -69,7 +69,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Send</string>
+           <string>Gönder</string>
           </property>
          </widget>
         </item>
@@ -97,7 +97,7 @@
          </size>
         </property>
         <property name="title">
-         <string>Port Selection</string>
+         <string>Port Seçimi</string>
         </property>
         <property name="checkable">
          <bool>false</bool>
@@ -118,14 +118,14 @@
            <item>
             <widget class="QPushButton" name="comPortButton">
              <property name="text">
-              <string>Refresh</string>
+              <string>Yenile</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="disconnectButton">
              <property name="text">
-              <string>Disconnect</string>
+              <string>Kapat</string>
              </property>
             </widget>
            </item>
@@ -134,7 +134,7 @@
          <item>
           <widget class="QPushButton" name="connectButton">
            <property name="text">
-            <string>Connect</string>
+            <string>Bağlan</string>
            </property>
           </widget>
          </item>
@@ -144,7 +144,7 @@
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
-         <string>Settings</string>
+         <string>Ayarlar</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
@@ -252,16 +252,30 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="clearPanelsButton">
+       <widget class="QPushButton" name="showDialogsButton">
         <property name="text">
-         <string>Clear Panels</string>
+         <string>Dökümantasyonu Göster</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clearMessagePanelButton">
+        <property name="text">
+         <string>Seri Port Mesaj Panelini Temizle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clearInfoPanelButton">
+        <property name="text">
+         <string>Bilgi Panelini Temizle</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="logScreenBackButton">
         <property name="text">
-         <string>Back to Main Screen</string>
+         <string>Ana Ekrana Dön</string>
         </property>
        </widget>
       </item>

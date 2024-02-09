@@ -3,12 +3,15 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
-import ui.log_alma_screen.log_screen_dialogs as dialogs
-
+import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
 
+#################################################################################
+########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
+#################################################################################
+
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    def __init__(self,page):
+    def __init__(self, page):
         super().__init__()
         self.setupUi(self)
 
@@ -19,7 +22,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort = QSerialPort()
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
-        
+        self.page = page
+
         self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
@@ -34,8 +38,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.sendButton.clicked.connect(self.onSendButtonClicked)
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
-        self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
+        self.clearInfoPanelButton.clicked.connect(self.onClearInfoPanelButtonClicked)
+        self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
+        self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
 
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
@@ -43,11 +49,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
-        
-        if page == 1:
-            dialogs.begin(self)
-        else:
-            pass
+
+        self.onShowDialogsButtonClicked() # call it once the page is created
 
     def createComboBoxes(self):
         # create lists
@@ -93,6 +96,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         else:
             for portInfo in self.comPortList:
                 self.comPortBox.addItem(portInfo.portName())
+        self.comPortBox.setCurrentIndex(-1)
 
     # slot function definitions
     def onBaudRateBoxCurrentIndexChanged(self, index):
@@ -161,7 +165,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onResetButtonClicked(self):
         self.getComPorts()
-
+        self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
+                                          
     def onConnectButtonClicked(self):
         # match selected combobox item and comPortList item
         if len(self.comPortList) == 0:
@@ -169,7 +174,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         for portInfo in self.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-        self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
 
     def onSendButtonClicked(self):
         text = self.messageLine.text()                     # get the string
@@ -180,9 +185,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort.write(bytes)                        # write it to serial port
 
     def onDisconnectButtonClicked(self):
-        self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
-        self.serialPort.close()
-
+        if self.serialPort.isOpen():
+            self.serialPort.close()
+            self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
+        else:
+            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
     def readFromSerialPort(self):
             text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
             self.serialMessages.appendPlainText(text)                     # print them on UI
@@ -190,9 +197,17 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onComPortButtonClicked(self):
         self.getComPorts()
 
-    def onClearPanelsButtonClicked(self):
-        self.serialMessages.clear()
+    def onClearInfoPanelButtonClicked(self):
         self.infoMessages.clear()
+    def onClearMessagePanelButtonClicked(self):
+        self.serialMessages.clear()
+
+    def onShowDialogsButtonClicked(self):
+        self.getComPorts()
+        if self.page == 1:
+            logScreendialogs.begin(self)
+        else:
+            pass # other pages
 
     def onErrorOccurred(self, error):
         if error == QSerialPort.SerialPortError.OpenError:
@@ -206,8 +221,28 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         elif error == QSerialPort.SerialPortError.UnknownError:
             self.infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
         elif error == QSerialPort.SerialPortError.NoError:
-            self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
+            if self.serialPort.portName() == '':
+                return
+            else:
+                self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
+    
+    def findNewComPort(self):
+        # get a list of port names
+        oldComPortList = []
+        for port in self.comPortList:
+            oldComPortList.append(port.portName())
+        # refresh the port list
+        self.getComPorts()
+        # compare if newPort is in the old list or not
+        for newPort in self.comPortList:
+            if oldComPortList.count(newPort.portName()):
+                pass
+            else:
+                self.comPortBox.setCurrentText(newPort.portName())
+                self.infoMessages.appendPlainText("Info: Port " + (newPort.portName()) + " is found.")
+        if self.comPortBox.currentIndex() == -1:
+            self.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
