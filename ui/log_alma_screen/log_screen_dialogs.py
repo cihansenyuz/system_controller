@@ -47,7 +47,7 @@ def begin(logScreenUi):
             logScreenUi.inputDialog.destroy()
             logScreenUi.onLogScreenBackButtonClicked()
         def onSkipButtonClicked(self):
-            logScreenUi.skipDialog = InfoDialogWindow("Tüm Bağlantılar Tamam mı?")
+            logScreenUi.skipDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[0][1]) # give the dialog path that asks to plug USB port
             self.hide()
         def onProjectBoxItemChanged(self):
             self.nextButton.setEnabled(True)
