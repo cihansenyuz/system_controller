@@ -173,7 +173,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         for portInfo in self.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-        self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
 
     def onSendButtonClicked(self):
         text = self.messageLine.text()                     # get the string
@@ -218,7 +218,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         elif error == QSerialPort.SerialPortError.UnknownError:
             self.infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
         elif error == QSerialPort.SerialPortError.NoError:
-            self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
+            if self.serialPort.portName() == '':
+                return
+            else:
+                self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
@@ -237,3 +240,5 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 print(oldComPortList.count(newPort.portName()))
             else:
                 self.comPortBox.setCurrentText(newPort.portName())
+        if self.comPortBox.currentIndex() == -1:
+            self.infoMessages.appendPlainText("Error: No new device is found\nClick 'Show Dialogs' button and follow instructions again.")
