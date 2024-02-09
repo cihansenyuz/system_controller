@@ -88,6 +88,8 @@ def begin(logScreenUi):
                 for infoDialog in logScreenUi.infoDialogs:
                     infoDialog.destroy()
                 logScreenUi.inputDialog.destroy()
+                logScreenUi.findNewComPort()
+                logScreenUi.onConnectButtonClicked()
             else:
                 newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.inputDialog.projectBox.currentIndex()][logScreenUi.infoDialogCurrentIndex])
                 logScreenUi.infoDialogs.append(newDialog)

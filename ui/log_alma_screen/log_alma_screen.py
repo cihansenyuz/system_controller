@@ -95,6 +95,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         else:
             for portInfo in self.comPortList:
                 self.comPortBox.addItem(portInfo.portName())
+        self.comPortBox.setCurrentIndex(-1)
 
     # slot function definitions
     def onBaudRateBoxCurrentIndexChanged(self, index):
@@ -197,6 +198,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.clear()
     
     def onSetDefaultsButtonClicked(self):
+        self.getComPorts()
         if self.page == 1:
             logScreendialogs.begin(self)
         else:
@@ -219,3 +221,17 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
+    
+    def findNewComPort(self):
+        # get a list of port names
+        oldComPortList = []
+        for port in self.comPortList:
+            oldComPortList.append(port.portName())
+        # refresh the port list
+        self.getComPorts()
+        # compare if newPort is in the old list or not
+        for newPort in self.comPortList:
+            if oldComPortList.count(newPort.portName()):
+                print(oldComPortList.count(newPort.portName()))
+            else:
+                self.comPortBox.setCurrentText(newPort.portName())
