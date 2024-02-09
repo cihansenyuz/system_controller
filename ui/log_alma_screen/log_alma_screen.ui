@@ -252,16 +252,23 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="clearPanelsButton">
+       <widget class="QPushButton" name="showDialogsButton">
         <property name="text">
-         <string>Panelleri Temizle</string>
+         <string>Dökümantasyonu Göster</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="setDefaultsButton">
+       <widget class="QPushButton" name="clearMessagePanelButton">
         <property name="text">
-         <string>Sıfırla</string>
+         <string>Seri Port Mesaj Panelini Temizle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clearInfoPanelButton">
+        <property name="text">
+         <string>Bilgi Panelini Temizle</string>
         </property>
        </widget>
       </item>

@@ -7,7 +7,7 @@ import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
 
 #################################################################################
-########## MODIFY onSetDefaultsButtonClicked() if you inheret this class ########
+########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
 #################################################################################
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
@@ -38,9 +38,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.sendButton.clicked.connect(self.onSendButtonClicked)
         self.comPortButton.clicked.connect(self.onResetButtonClicked)
-        self.clearPanelsButton.clicked.connect(self.onClearPanelsButtonClicked)
+        self.clearInfoPanelButton.clicked.connect(self.onClearInfoPanelButtonClicked)
+        self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
-        self.setDefaultsButton.clicked.connect(self.onSetDefaultsButtonClicked)
+        self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
 
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
@@ -49,7 +50,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
 
-        self.onSetDefaultsButtonClicked() # call it once the page is created
+        self.onShowDialogsButtonClicked() # call it once the page is created
 
     def createComboBoxes(self):
         # create lists
@@ -193,11 +194,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onComPortButtonClicked(self):
         self.getComPorts()
 
-    def onClearPanelsButtonClicked(self):
-        self.serialMessages.clear()
+    def onClearInfoPanelButtonClicked(self):
         self.infoMessages.clear()
-    
-    def onSetDefaultsButtonClicked(self):
+    def onClearMessagePanelButtonClicked(self):
+        self.serialMessages.clear()
+
+    def onShowDialogsButtonClicked(self):
         self.getComPorts()
         if self.page == 1:
             logScreendialogs.begin(self)

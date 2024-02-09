@@ -30,7 +30,6 @@ def begin(logScreenUi):
             self.projectBox.addItems(["NX,GX,AN,GO","GB"])
             self.projectBox.setCurrentIndex(-1) # by default, show no items
             self.nextButton.setEnabled(False)
-            self.skipButton.setEnabled(False)
             self.show()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
@@ -52,7 +51,6 @@ def begin(logScreenUi):
             self.hide()
         def onProjectBoxItemChanged(self):
             self.nextButton.setEnabled(True)
-            self.skipButton.setEnabled(True)
         
         def onRejected(self):
             logScreenUi.parent().setCurrentIndex(0)
@@ -80,7 +78,9 @@ def begin(logScreenUi):
         def onNextButtonClicked(self):
             if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
                 logScreenUi.inputDialog.destroy()                                                           # destroy input dialog
-                self.destroy()                                                                              # destroy skip dialog
+                self.destroy()
+                logScreenUi.findNewComPort()
+                logScreenUi.onConnectButtonClicked()                                                                              # destroy skip dialog
                 return
             # if info dialogs are not skipped #
             logScreenUi.infoDialogCurrentIndex = logScreenUi.infoDialogCurrentIndex + 1
