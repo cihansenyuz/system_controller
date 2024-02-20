@@ -42,7 +42,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
-
+        self.create
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -53,6 +53,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.onShowDialogsButtonClicked() # call it once the page is created
 
     def createComboBoxes(self):
+        """
+        A method to create comboBox contents
+
+        Creates lists of serial port parameters, and adds them into related comboBoxes
+        """
         # create lists
         self.baudRateList = ["1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"]
         self.dataBitList = ["5 bits", "6 bits", "7 bits", "8 bits"]
@@ -73,6 +78,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.setCurrentIndex(0)
 
     def setDefaultSerialParameters(self):
+        """
+        A method to set current selected parameters for serial port
+
+        Calls all slot methods to handle index changes in comboboxes to set serial port parameters as selected
+        """
         self.onBaudRateBoxCurrentIndexChanged(self.baudRateBox.currentIndex())
         self.onDataBitBoxCurrentIndexChanged(self.dataBitBox.currentIndex())
         self.onStopBitBoxCurrentIndexChanged(self.stopBitBox.currentIndex())
@@ -81,6 +91,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.clear()
 
     def getComPorts(self):
+        """
+        A method to get available serial ports to user for selection
+
+        Calls all slot methods to handle index changes in comboboxes to set serial port parameters as selected
+        """
         if platform.system() == 'Windows':
             self.comPortList = QSerialPortInfo.availablePorts()
         else:
@@ -100,6 +115,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     # slot function definitions
     def onBaudRateBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on baudRateBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
         if index == 0:
             self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud1200)
         elif index == 1:
@@ -119,6 +142,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
 
     def onDataBitBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on dataBitBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
         if index == 0:
             self.serialPort.setDataBits(QSerialPort.DataBits.Data5)
         elif index == 1:
@@ -130,6 +161,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
 
     def onStopBitBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on stopBitBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
         if index == 0:
             self.serialPort.setStopBits(QSerialPort.StopBits.OneStop)
         elif index == 1:
@@ -139,6 +178,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
 
     def onParityBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on parityBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
         if index == 0:
             self.serialPort.setParity(QSerialPort.Parity.NoParity)
         elif index == 1:
@@ -152,6 +199,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
 
     def onFlowControlBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on flowControlBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
         if index == 0:
             self.serialPort.setFlowControl(QSerialPort.FlowControl.NoFlowControl)
         elif index == 1:
@@ -161,13 +216,31 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))
 
     def onLogScreenBackButtonClicked(self):
+        """
+        Slot method to handle click action on logScreenBackButton
+
+        Sets the page of main screen as current page
+
+        """
         self.parent().setCurrentIndex(0)
 
     def onResetButtonClicked(self):
+        """
+        Slot method to handle click action on resetButton
+
+        Refreshes available serial port list, and appends informative message to infoMessages
+
+        """
         self.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
     def onConnectButtonClicked(self):
+        """
+        Slot method to handle click action on connectButton
+
+        Refreshes available serial port list, and appends informative message to infoMessages
+
+        """
         # match selected combobox item and comPortList item
         if len(self.comPortList) == 0:
             return
@@ -177,6 +250,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
 
     def onSendButtonClicked(self):
+        """
+        Slot method to handle click action on sendButton
+
+        Takes the user input in messageLine, and writes it to the serial port
+
+        """
         text = self.messageLine.text()                     # get the string
         self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
         self.messageLine.clear()                           # clear the message line
@@ -185,21 +264,41 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort.write(bytes)                        # write it to serial port
 
     def onDisconnectButtonClicked(self):
+        """
+        Slot method to handle click action on disconnectButton
+
+        Closes serial ports if there is open one, and appends related message to infoMessages
+
+        """
         if self.serialPort.isOpen():
             self.serialPort.close()
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
         else:
             self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
+
     def readFromSerialPort(self):
-            text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
-            self.serialMessages.appendPlainText(text)                     # print them on UI
+        text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
+        self.serialMessages.appendPlainText(text)                     # print them on UI
 
     def onComPortButtonClicked(self):
         self.getComPorts()
 
     def onClearInfoPanelButtonClicked(self):
+        """
+        Slot method to handle click action on clearInfoPanelButton
+
+        Clears all message history in the infoMessages
+
+        """
         self.infoMessages.clear()
+
     def onClearMessagePanelButtonClicked(self):
+        """
+        Slot method to handle click action on clearMessagePanelButton
+
+        Clears all message history in the serialMessages
+
+        """
         self.serialMessages.clear()
 
     def onShowDialogsButtonClicked(self):
@@ -210,6 +309,13 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             pass # other pages
 
     def onErrorOccurred(self, error):
+        """
+        Method to handle errors for serial port
+
+        Parameters:
+        - error: raised error from the serial port
+
+        """
         if error == QSerialPort.SerialPortError.OpenError:
             self.infoMessages.appendPlainText("Info: You have already opened the serial port.")
         elif error == QSerialPort.SerialPortError.DeviceNotFoundError:
