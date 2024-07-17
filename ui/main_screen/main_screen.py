@@ -1,6 +1,6 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import QRect
+from PySide6.QtCore import QRect, QDate
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 from ui.log_alma_screen.log_alma_screen import LogScreenWindow
 from ui.auto_offline.auto_offline_screen import AutoOfflineWindow
@@ -15,8 +15,8 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.getLogButton.clicked.connect(self.onGetLogButtonClicked)
         self.pushButton_2.clicked.connect(self.onButton2Clicked)
         self.pushButton_3.clicked.connect(self.onButton3Clicked)
-        self.pushButton_4.clicked.connect(self.onButton4Clicked)
-        self.pushButton_5.clicked.connect(self.onButton5Clicked)
+        self.autoOfflineButton.clicked.connect(self.onAutoOfflineButtonClicked)
+        self.showDateButton.clicked.connect(self.onShowDateButtonClicked)
         self.pushButton_6.clicked.connect(self.onButton6Clicked)
     
     # slot function definitions
@@ -41,10 +41,16 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         print("button2 clicked")
     def onButton3Clicked(self):
         print("button3 clicked")
-    def onButton4Clicked(self):
+    def onAutoOfflineButtonClicked(self):
+        print("Otomatik Offline Yükle Tıklandı")
         pass
-    def onButton5Clicked(self):
-        pass
+    
+    def onShowDateButtonClicked(self):
+        if not self.label.text():
+            self.label.setText(QDate.currentDate().toString())
+        else:
+            self.label.setText("")
+
     def onButton6Clicked(self):
         pass
 
