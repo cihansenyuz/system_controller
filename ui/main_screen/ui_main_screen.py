@@ -23,7 +23,7 @@ class Ui_mainScreenWindow(object):
         if not mainScreenWindow.objectName():
             mainScreenWindow.setObjectName(u"mainScreenWindow")
         mainScreenWindow.setEnabled(True)
-        mainScreenWindow.resize(1024, 679)
+        mainScreenWindow.resize(1161, 679)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -33,7 +33,7 @@ class Ui_mainScreenWindow(object):
         mainScreenWindow.setAutoFillBackground(False)
         self.layoutWidget = QWidget(mainScreenWindow)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(80, 30, 871, 641))
+        self.layoutWidget.setGeometry(QRect(80, 30, 1051, 641))
         self.horizontalLayout = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setSpacing(20)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -61,13 +61,24 @@ class Ui_mainScreenWindow(object):
 
         self.verticalLayout.addWidget(self.pushButton_2)
 
-        self.pushButton_3 = QPushButton(self.layoutWidget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        sizePolicy1.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
-        self.pushButton_3.setSizePolicy(sizePolicy1)
+        self.showConnectionInfo = QPushButton(self.layoutWidget)
+        self.showConnectionInfo.setObjectName(u"showConnectionInfo")
+        sizePolicy1.setHeightForWidth(self.showConnectionInfo.sizePolicy().hasHeightForWidth())
+        self.showConnectionInfo.setSizePolicy(sizePolicy1)
 
-        self.verticalLayout.addWidget(self.pushButton_3)
+        self.verticalLayout.addWidget(self.showConnectionInfo)
 
+        self.connectionPhotoLabel = QLabel(self.layoutWidget)
+        self.connectionPhotoLabel.setObjectName(u"connectionPhotoLabel")
+        self.connectionPhotoLabel.setEnabled(True)
+        self.connectionPhotoLabel.setPixmap(QPixmap(u"../photos/info.png"))
+
+        self.verticalLayout.addWidget(self.connectionPhotoLabel)
+
+        self.verticalLayout.setStretch(0, 3)
+        self.verticalLayout.setStretch(1, 3)
+        self.verticalLayout.setStretch(2, 3)
+        self.verticalLayout.setStretch(3, 1)
 
         self.horizontalLayout.addLayout(self.verticalLayout)
 
@@ -90,11 +101,11 @@ class Ui_mainScreenWindow(object):
 
         self.verticalLayout_2.addWidget(self.showDateButton)
 
-        self.label = QLabel(self.layoutWidget)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.dateLabel = QLabel(self.layoutWidget)
+        self.dateLabel.setObjectName(u"dateLabel")
+        self.dateLabel.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_2.addWidget(self.label)
+        self.verticalLayout_2.addWidget(self.dateLabel)
 
         self.pushButton_6 = QPushButton(self.layoutWidget)
         self.pushButton_6.setObjectName(u"pushButton_6")
@@ -120,10 +131,11 @@ class Ui_mainScreenWindow(object):
         mainScreenWindow.setWindowTitle(QCoreApplication.translate("mainScreenWindow", u"Form", None))
         self.getLogButton.setText(QCoreApplication.translate("mainScreenWindow", u"TV'nin logunu al", None))
         self.pushButton_2.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
-        self.pushButton_3.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
+        self.showConnectionInfo.setText(QCoreApplication.translate("mainScreenWindow", u"Ba\u011flant\u0131 Bilgisi G\u00f6ster", None))
+        self.connectionPhotoLabel.setText("")
         self.autoOfflineButton.setText(QCoreApplication.translate("mainScreenWindow", u"Otomatik Offline Y\u00fckle", None))
         self.showDateButton.setText(QCoreApplication.translate("mainScreenWindow", u"Tarih G\u00f6ster", None))
-        self.label.setText("")
+        self.dateLabel.setText("")
         self.pushButton_6.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
     # retranslateUi
 

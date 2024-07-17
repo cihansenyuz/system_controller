@@ -1,4 +1,4 @@
-from PySide6.QtGui import QResizeEvent
+from PySide6.QtGui import QResizeEvent, QPixmap
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect, QDate
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
@@ -14,10 +14,16 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         # button conecctions on the main screen page
         self.getLogButton.clicked.connect(self.onGetLogButtonClicked)
         self.pushButton_2.clicked.connect(self.onButton2Clicked)
-        self.pushButton_3.clicked.connect(self.onButton3Clicked)
+        self.showConnectionInfo.clicked.connect(self.onOnConnectinInfoClicked)
         self.autoOfflineButton.clicked.connect(self.onAutoOfflineButtonClicked)
         self.showDateButton.clicked.connect(self.onShowDateButtonClicked)
         self.pushButton_6.clicked.connect(self.onButton6Clicked)
+
+        # label's setup
+        self.connectionPhotoLabel.setPixmap(QPixmap(u"./ui/photos/info.png"))
+        self.connectionPhotoLabel.setHidden(True)
+        self.dateLabel.setHidden(True)
+
     
     # slot function definitions
     def onGetLogButtonClicked(self):
@@ -39,17 +45,24 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.parent().setCurrentWidget(self.autoOfflinePage)    
         print(self.parent().count())
         print("button2 clicked")
-    def onButton3Clicked(self):
-        print("button3 clicked")
+
+    def onOnConnectinInfoClicked(self):
+        if self.connectionPhotoLabel.isHidden() == False:
+            self.connectionPhotoLabel.setHidden(True)
+        else:
+            self.connectionPhotoLabel.setHidden(False)
+        
     def onAutoOfflineButtonClicked(self):
         print("Otomatik Offline Yükle Tıklandı")
         pass
     
     def onShowDateButtonClicked(self):
-        if not self.label.text():
-            self.label.setText(QDate.currentDate().toString())
+        if not self.dateLabel.text():
+            self.dateLabel.setHidden(False)
+            self.dateLabel.setText(QDate.currentDate().toString())
         else:
-            self.label.setText("")
+            self.dateLabel.setText("")
+            self.dateLabel.setHidden(True)
 
     def onButton6Clicked(self):
         pass

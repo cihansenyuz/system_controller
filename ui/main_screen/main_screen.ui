@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1161</width>
     <height>679</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
     <rect>
      <x>80</x>
      <y>30</y>
-     <width>871</width>
+     <width>1051</width>
      <height>641</height>
     </rect>
    </property>
@@ -54,7 +54,7 @@
      <number>20</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,3,3,1">
       <property name="spacing">
        <number>20</number>
       </property>
@@ -94,7 +94,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="showConnectionInfo">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -102,7 +102,20 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Bağlantı Bilgisi Göster</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="connectionPhotoLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>../photos/info.png</pixmap>
         </property>
        </widget>
       </item>
@@ -149,7 +162,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="dateLabel">
         <property name="text">
          <string/>
         </property>
