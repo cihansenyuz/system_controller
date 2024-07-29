@@ -1,9 +1,25 @@
 from PySide6.QtGui import QResizeEvent, QPixmap
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect, QDate
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtCore import Signal
 from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 from ui.log_alma_screen.log_alma_screen import LogScreenWindow
 from ui.auto_offline.auto_offline_screen import AutoOfflineWindow
+from ui.components.ui_date_dialog import Ui_DateDialog
+
+class DateDialog(QWidget, Ui_DateDialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+        self.okButton.clicked.connect(self.onOkButtonClicked)
+
+        # label's setup
+        self.dateLabel.setText(QDate.currentDate().toString())
+    def onOkButtonClicked(self):
+        self.close()
+
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -15,14 +31,16 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.getLogButton.clicked.connect(self.onGetLogButtonClicked)
         self.pushButton_2.clicked.connect(self.onButton2Clicked)
         self.showConnectionInfo.clicked.connect(self.onOnConnectinInfoClicked)
-        self.autoOfflineButton.clicked.connect(self.onAutoOfflineButtonClicked)
+        self.addNoteButton.clicked.connect(self.onAddNoteButtonClicked)
         self.showDateButton.clicked.connect(self.onShowDateButtonClicked)
-        self.pushButton_6.clicked.connect(self.onButton6Clicked)
+        self.dialogDateButton.clicked.connect(self.onDialogDateButtonClicked)
 
         # label's setup
         self.connectionPhotoLabel.setPixmap(QPixmap(u"./ui/photos/info.png"))
         self.connectionPhotoLabel.setHidden(True)
         self.dateLabel.setHidden(True)
+        ##self.noteLabel.setHidden(True)
+
 
     
     # slot function definitions
@@ -52,20 +70,25 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         else:
             self.connectionPhotoLabel.setHidden(False)
         
-    def onAutoOfflineButtonClicked(self):
-        print("Otomatik Offline Yükle Tıklandı")
+
+    def onAddNoteButtonClicked(self):
         pass
-    
+
+
+        
     def onShowDateButtonClicked(self):
         if not self.dateLabel.text():
-            self.dateLabel.setHidden(False)
+            self.dateLabel.setHidden(True)
             self.dateLabel.setText(QDate.currentDate().toString())
         else:
             self.dateLabel.setText("")
             self.dateLabel.setHidden(True)
 
-    def onButton6Clicked(self):
-        pass
+    def onDialogDateButtonClicked(self): 
+        self.dialog = DateDialog()
+        self.dialog.show()
+        self.dialog.raise_()
+
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))

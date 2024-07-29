@@ -87,12 +87,17 @@ class Ui_mainScreenWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
         self.verticalLayout_2.setContentsMargins(-1, 20, -1, 20)
-        self.autoOfflineButton = QPushButton(self.layoutWidget)
-        self.autoOfflineButton.setObjectName(u"autoOfflineButton")
-        sizePolicy1.setHeightForWidth(self.autoOfflineButton.sizePolicy().hasHeightForWidth())
-        self.autoOfflineButton.setSizePolicy(sizePolicy1)
+        self.addNoteButton = QPushButton(self.layoutWidget)
+        self.addNoteButton.setObjectName(u"addNoteButton")
+        sizePolicy1.setHeightForWidth(self.addNoteButton.sizePolicy().hasHeightForWidth())
+        self.addNoteButton.setSizePolicy(sizePolicy1)
 
-        self.verticalLayout_2.addWidget(self.autoOfflineButton)
+        self.verticalLayout_2.addWidget(self.addNoteButton)
+
+        self.noteLabel = QLabel(self.layoutWidget)
+        self.noteLabel.setObjectName(u"noteLabel")
+
+        self.verticalLayout_2.addWidget(self.noteLabel)
 
         self.showDateButton = QPushButton(self.layoutWidget)
         self.showDateButton.setObjectName(u"showDateButton")
@@ -107,17 +112,17 @@ class Ui_mainScreenWindow(object):
 
         self.verticalLayout_2.addWidget(self.dateLabel)
 
-        self.pushButton_6 = QPushButton(self.layoutWidget)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-        sizePolicy1.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
-        self.pushButton_6.setSizePolicy(sizePolicy1)
+        self.dialogDateButton = QPushButton(self.layoutWidget)
+        self.dialogDateButton.setObjectName(u"dialogDateButton")
+        sizePolicy1.setHeightForWidth(self.dialogDateButton.sizePolicy().hasHeightForWidth())
+        self.dialogDateButton.setSizePolicy(sizePolicy1)
 
-        self.verticalLayout_2.addWidget(self.pushButton_6)
+        self.verticalLayout_2.addWidget(self.dialogDateButton)
 
         self.verticalLayout_2.setStretch(0, 5)
-        self.verticalLayout_2.setStretch(1, 5)
-        self.verticalLayout_2.setStretch(2, 1)
-        self.verticalLayout_2.setStretch(3, 5)
+        self.verticalLayout_2.setStretch(2, 5)
+        self.verticalLayout_2.setStretch(3, 1)
+        self.verticalLayout_2.setStretch(4, 5)
 
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
@@ -133,9 +138,10 @@ class Ui_mainScreenWindow(object):
         self.pushButton_2.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
         self.showConnectionInfo.setText(QCoreApplication.translate("mainScreenWindow", u"Ba\u011flant\u0131 Bilgisi G\u00f6ster", None))
         self.connectionPhotoLabel.setText("")
-        self.autoOfflineButton.setText(QCoreApplication.translate("mainScreenWindow", u"Otomatik Offline Y\u00fckle", None))
+        self.addNoteButton.setText(QCoreApplication.translate("mainScreenWindow", u"Not Ekleme", None))
+        self.noteLabel.setText("")
         self.showDateButton.setText(QCoreApplication.translate("mainScreenWindow", u"Tarih G\u00f6ster", None))
         self.dateLabel.setText("")
-        self.pushButton_6.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
+        self.dialogDateButton.setText(QCoreApplication.translate("mainScreenWindow", u"Ayr\u0131 Tarih G\u00f6ster", None))
     # retranslateUi
 

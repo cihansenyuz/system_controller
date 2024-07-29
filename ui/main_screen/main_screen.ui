@@ -122,7 +122,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="5,5,1,5">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="5,0,5,1,5">
       <property name="spacing">
        <number>20</number>
       </property>
@@ -136,7 +136,7 @@
        <number>20</number>
       </property>
       <item>
-       <widget class="QPushButton" name="autoOfflineButton">
+       <widget class="QPushButton" name="addNoteButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -144,7 +144,14 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Otomatik Offline Yükle</string>
+         <string>Not Ekleme</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="noteLabel">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -172,7 +179,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="dialogDateButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -180,7 +187,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Ayrı Tarih Göster</string>
         </property>
        </widget>
       </item>
