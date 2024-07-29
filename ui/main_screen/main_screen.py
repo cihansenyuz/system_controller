@@ -7,6 +7,7 @@ from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
 from ui.log_alma_screen.log_alma_screen import LogScreenWindow
 from ui.auto_offline.auto_offline_screen import AutoOfflineWindow
 from ui.components.ui_date_dialog import Ui_DateDialog
+from ui.components.ui_text_edit_dialog import Ui_textEditDialog
 
 class DateDialog(QWidget, Ui_DateDialog):
     def __init__(self):
@@ -20,6 +21,27 @@ class DateDialog(QWidget, Ui_DateDialog):
     def onOkButtonClicked(self):
         self.close()
 
+class AddNoteDialog(QWidget, Ui_textEditDialog):
+    def __init__(self, main_window):
+        super().__init__()
+        self.setupUi(self)
+        self.main_window = main_window
+        self.sendButton.clicked.connect(self.onSendButtonClicked)
+        self.deleteButton.clicked.connect(self.onDeleteButtonClicked)
+
+    def onSendButtonClicked(self):
+        self.main_window.noteLabel.setHidden(False)
+
+        note = self.textEdit.toPlainText()
+        self.main_window.noteLabel.setText(note)
+        #self.close()
+
+    def onDeleteButtonClicked(self):
+        self.textEdit.setText("")
+        note = ""
+        self.main_window.noteLabel.setText("")
+        self.main_window.noteLabel.setHidden(True)
+        self.close()
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -39,7 +61,7 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.connectionPhotoLabel.setPixmap(QPixmap(u"./ui/photos/info.png"))
         self.connectionPhotoLabel.setHidden(True)
         self.dateLabel.setHidden(True)
-        ##self.noteLabel.setHidden(True)
+        self.noteLabel.setHidden(True)
 
 
     
@@ -72,13 +94,16 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         
 
     def onAddNoteButtonClicked(self):
-        pass
+
+        self.dialog = AddNoteDialog(self)
+        self.dialog.show()
+        self.dialog.raise_()
 
 
         
     def onShowDateButtonClicked(self):
         if not self.dateLabel.text():
-            self.dateLabel.setHidden(True)
+            self.dateLabel.setHidden(False)
             self.dateLabel.setText(QDate.currentDate().toString())
         else:
             self.dateLabel.setText("")
