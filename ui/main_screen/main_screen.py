@@ -21,7 +21,6 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     
     # slot function definitions
     def onGetLogButtonClicked(self):
-        #self.parent().stackedWidget.setCurrentIndex(1)
         if not hasattr(self,"logScreenPage"):
             self.logScreenPage = LogScreenWindow(1)
             self.parent().addWidget(self.logScreenPage)
@@ -32,15 +31,14 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def onButton2Clicked(self):
         
         if not hasattr(self,"autoOfflinePage"):
-            print("asdf")
             self.autoOfflinePage = AutoOfflineWindow()
             self.parent().addWidget(self.autoOfflinePage)
         
         self.parent().setCurrentWidget(self.autoOfflinePage)    
         print(self.parent().count())
-        print("button2 clicked")
+        pass
     def onButton3Clicked(self):
-        print("button3 clicked")
+        pass
     def onButton4Clicked(self):
         pass
     def onButton5Clicked(self):

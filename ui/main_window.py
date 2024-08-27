@@ -11,8 +11,8 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         
-        self.resize(1080, 720)
-        self.setMinimumSize(800,600)
+        #self.resize(1080, 720)
+        #self.setMinimumSize(800,600)
         # create a widget and make it central on the window
         self.mainCentralWidget = QWidget()
         self.setCentralWidget(self.mainCentralWidget)
