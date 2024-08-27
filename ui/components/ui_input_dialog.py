@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'input_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,10 +23,10 @@ class Ui_InputDialog(object):
     def setupUi(self, InputDialog):
         if not InputDialog.objectName():
             InputDialog.setObjectName(u"InputDialog")
-        InputDialog.resize(400, 300)
+        InputDialog.resize(959, 666)
         self.verticalLayout = QVBoxLayout(InputDialog)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
@@ -37,12 +37,17 @@ class Ui_InputDialog(object):
         font = QFont()
         font.setPointSize(12)
         self.label.setFont(font)
-        self.label.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
         self.horizontalLayout_2.addWidget(self.label)
 
         self.projectBox = QComboBox(InputDialog)
         self.projectBox.setObjectName(u"projectBox")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.projectBox.sizePolicy().hasHeightForWidth())
+        self.projectBox.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.projectBox)
 
@@ -51,29 +56,38 @@ class Ui_InputDialog(object):
 
         self.skipButton = QPushButton(InputDialog)
         self.skipButton.setObjectName(u"skipButton")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.skipButton.sizePolicy().hasHeightForWidth())
+        self.skipButton.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.skipButton)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setSizeConstraint(QLayout.SetMinimumSize)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout.addItem(self.horizontalSpacer)
-
+        self.horizontalLayout.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         self.backButton = QPushButton(InputDialog)
         self.backButton.setObjectName(u"backButton")
+        sizePolicy1.setHeightForWidth(self.backButton.sizePolicy().hasHeightForWidth())
+        self.backButton.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout.addWidget(self.backButton)
 
         self.nextButton = QPushButton(InputDialog)
         self.nextButton.setObjectName(u"nextButton")
+        sizePolicy1.setHeightForWidth(self.nextButton.sizePolicy().hasHeightForWidth())
+        self.nextButton.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout.addWidget(self.nextButton)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
+        self.verticalLayout.setStretch(0, 6)
+        self.verticalLayout.setStretch(1, 1)
+        self.verticalLayout.setStretch(2, 1)
+        self.verticalLayout.setStretch(3, 1)
 
         self.retranslateUi(InputDialog)
 
