@@ -6,6 +6,7 @@ from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
 import psutil
+import os
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
@@ -43,6 +44,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
+        self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
         self.create
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
@@ -57,9 +59,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         usb_drives = self.get_usb_drives()
         if usb_drives:
             for drive in usb_drives:
-                self.usbPortBox.addItem(drive['device'])
+                self.usbPortBox.addItem(drive['mountpoint'])
         else:
             self.infoMessages.appendPlainText("No USB drives detected.")
+            self.usbPortBox.setCurrentIndex(-1)
 
     def createComboBoxes(self):
         """
@@ -380,3 +383,23 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         return usb_drives
 
+    def onKaydetButtonClicked(self):
+            # Get the selected USB drive's mount point from the comboBox
+            selected_mount_point = self.usbPortBox.currentText()
+
+            if not selected_mount_point:
+                print("No USB drive selected!")
+                return
+
+            # Define the path to save the file in the root directory of the selected USB drive
+            file_path = os.path.join(selected_mount_point, 'example_text_file.txt')
+
+            try:
+                # Write some text to the file
+                with open(file_path, 'w') as file:
+                    file.write('Hello, this is a text file saved to the USB drive!')
+
+                print(f"File saved successfully at: {file_path}")
+
+            except Exception as e:
+                print(f"An error occurred while saving the file: {e}")

@@ -145,13 +145,13 @@ class Ui_logScreenWindow(object):
 
         self.verticalLayout_7.addWidget(self.usbPortBox)
 
-        self.pushButton = QPushButton(self.groupBox_5)
-        self.pushButton.setObjectName(u"pushButton")
-        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.setMinimumSize(QSize(125, 0))
+        self.kaydetButton = QPushButton(self.groupBox_5)
+        self.kaydetButton.setObjectName(u"kaydetButton")
+        sizePolicy.setHeightForWidth(self.kaydetButton.sizePolicy().hasHeightForWidth())
+        self.kaydetButton.setSizePolicy(sizePolicy)
+        self.kaydetButton.setMinimumSize(QSize(125, 0))
 
-        self.verticalLayout_7.addWidget(self.pushButton)
+        self.verticalLayout_7.addWidget(self.kaydetButton)
 
 
         self.verticalLayout_3.addWidget(self.groupBox_5)
@@ -303,7 +303,7 @@ class Ui_logScreenWindow(object):
         self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Kapat", None))
         self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Ba\u011flan", None))
         self.groupBox_5.setTitle(QCoreApplication.translate("logScreenWindow", u"USB Se\u00e7imi", None))
-        self.pushButton.setText(QCoreApplication.translate("logScreenWindow", u"Kaydet", None))
+        self.kaydetButton.setText(QCoreApplication.translate("logScreenWindow", u"Kaydet", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Ayarlar", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))
         self.label_5.setText(QCoreApplication.translate("logScreenWindow", u"Data Bit", None))
