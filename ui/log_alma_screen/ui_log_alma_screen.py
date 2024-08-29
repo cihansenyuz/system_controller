@@ -26,7 +26,7 @@ class Ui_logScreenWindow(object):
         logScreenWindow.resize(1086, 790)
         self.layoutWidget = QWidget(logScreenWindow)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(20, 20, 1041, 745))
+        self.layoutWidget.setGeometry(QRect(20, 20, 516, 643))
         self.horizontalLayout_17 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.horizontalLayout_17.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
@@ -135,6 +135,26 @@ class Ui_logScreenWindow(object):
 
 
         self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
+
+        self.groupBox_5 = QGroupBox(self.layoutWidget)
+        self.groupBox_5.setObjectName(u"groupBox_5")
+        self.verticalLayout_7 = QVBoxLayout(self.groupBox_5)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.usbPortBox = QComboBox(self.groupBox_5)
+        self.usbPortBox.setObjectName(u"usbPortBox")
+
+        self.verticalLayout_7.addWidget(self.usbPortBox)
+
+        self.pushButton = QPushButton(self.groupBox_5)
+        self.pushButton.setObjectName(u"pushButton")
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setMinimumSize(QSize(125, 0))
+
+        self.verticalLayout_7.addWidget(self.pushButton)
+
+
+        self.verticalLayout_3.addWidget(self.groupBox_5)
 
         self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
@@ -259,11 +279,11 @@ class Ui_logScreenWindow(object):
         self.verticalLayout_3.addWidget(self.logScreenBackButton)
 
         self.verticalLayout_3.setStretch(0, 2)
-        self.verticalLayout_3.setStretch(1, 2)
-        self.verticalLayout_3.setStretch(2, 1)
+        self.verticalLayout_3.setStretch(2, 2)
         self.verticalLayout_3.setStretch(3, 1)
         self.verticalLayout_3.setStretch(4, 1)
         self.verticalLayout_3.setStretch(5, 1)
+        self.verticalLayout_3.setStretch(6, 1)
 
         self.horizontalLayout_17.addLayout(self.verticalLayout_3)
 
@@ -282,6 +302,8 @@ class Ui_logScreenWindow(object):
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
         self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Kapat", None))
         self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Ba\u011flan", None))
+        self.groupBox_5.setTitle(QCoreApplication.translate("logScreenWindow", u"USB Se\u00e7imi", None))
+        self.pushButton.setText(QCoreApplication.translate("logScreenWindow", u"Kaydet", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Ayarlar", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))
         self.label_5.setText(QCoreApplication.translate("logScreenWindow", u"Data Bit", None))

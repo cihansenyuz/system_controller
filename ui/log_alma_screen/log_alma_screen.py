@@ -5,6 +5,7 @@ from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
+import psutil
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
@@ -51,6 +52,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
+        
+        # Detect USB drives
+        usb_drives = self.get_usb_drives()
+        if usb_drives:
+            for drive in usb_drives:
+                self.usbPortBox.addItem(drive['device'])
+        else:
+            self.infoMessages.appendPlainText("No USB drives detected.")
 
     def createComboBoxes(self):
         """
@@ -352,3 +361,22 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 self.infoMessages.appendPlainText("Info: Port " + (newPort.portName()) + " is found.")
         if self.comPortBox.currentIndex() == -1:
             self.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
+
+    def get_usb_drives(self):
+        """
+        Function to detect mounted USB drives.
+        """
+        partitions = psutil.disk_partitions(all=False)  # 'all=True' can show unmounted devices
+        usb_drives = []
+
+        for partition in partitions:
+            # Use 'removable' in partition.opts for Windows and other OS checks
+            if 'removable' in partition.opts or '/media/' in partition.mountpoint or '/mnt/' in partition.mountpoint:
+                usb_drives.append({
+                    'device': partition.device,
+                    'mountpoint': partition.mountpoint,
+                    'fstype': partition.fstype
+                })
+
+        return usb_drives
+
