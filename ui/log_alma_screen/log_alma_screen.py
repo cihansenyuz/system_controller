@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
+from datetime import datetime
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
 import psutil
@@ -386,12 +387,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onKaydetButtonClicked(self):
             selected_mount_point = self.usbPortBox.currentText()
+            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            file_name = f"log_file_{current_time}.txt"
 
             if not selected_mount_point:
                 self.infoMessages.appendPlainText("No USB drive selected!")
                 return
 
-            self.file_path = os.path.join(selected_mount_point, 'example_text_file.txt')
+            self.file_path = os.path.join(selected_mount_point, file_name)
             self.saveLogs = True
 
     def saveToUsbFile(self, text):
