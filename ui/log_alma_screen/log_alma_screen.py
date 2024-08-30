@@ -25,6 +25,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
         self.page = page
+        self.saveLogs = False
 
         self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
@@ -45,7 +46,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
         self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
+        self.bitirButton.clicked.connect(self.onBitirButtonClicked)
+        self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.create
+
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -54,15 +58,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
-        
-        # Detect USB drives
-        usb_drives = self.get_usb_drives()
-        if usb_drives:
-            for drive in usb_drives:
-                self.usbPortBox.addItem(drive['mountpoint'])
-        else:
-            self.infoMessages.appendPlainText("No USB drives detected.")
-            self.usbPortBox.setCurrentIndex(-1)
+        self.onUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
         """
@@ -116,7 +112,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             for port in self.comPortListAll:
                 if port.portName().find("USB") != -1:
                     self.comPortList.append(port)
-        
+
         self.comPortBox.clear()
         if not self.comPortList:  # Check if the list is empty
             self.comPortBox.addItem("No Port Detected")
@@ -268,9 +264,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         Takes the user input in messageLine, and writes it to the serial port
 
         """
-        text = self.messageLine.text()                     # get the string
-        self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
-        self.messageLine.clear()                           # clear the message line
+        text = self.messageLine.text()
+        self.serialMessages.appendPlainText(">> "+ text)
+        if(self.saveLogs):
+            self.saveToUsbFile(">> "+ text)
+        self.messageLine.clear()
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
@@ -291,6 +289,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def readFromSerialPort(self):
         text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
         self.serialMessages.appendPlainText(text)                     # print them on UI
+        
+        if(self.saveLogs):
+            self.saveToUsbFile(text)
 
     def onComPortButtonClicked(self):
         self.getComPorts()
@@ -384,22 +385,34 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         return usb_drives
 
     def onKaydetButtonClicked(self):
-            # Get the selected USB drive's mount point from the comboBox
             selected_mount_point = self.usbPortBox.currentText()
 
             if not selected_mount_point:
-                print("No USB drive selected!")
+                self.infoMessages.appendPlainText("No USB drive selected!")
                 return
 
-            # Define the path to save the file in the root directory of the selected USB drive
-            file_path = os.path.join(selected_mount_point, 'example_text_file.txt')
+            self.file_path = os.path.join(selected_mount_point, 'example_text_file.txt')
+            self.saveLogs = True
 
-            try:
-                # Write some text to the file
-                with open(file_path, 'w') as file:
-                    file.write('Hello, this is a text file saved to the USB drive!')
+    def saveToUsbFile(self, text):
+        try:
+            with open(self.file_path, 'a') as file:
+                file.write(text)
+                file.write('\n')
 
-                print(f"File saved successfully at: {file_path}")
+        except Exception as e:
+            self.infoMessages.appendPlainText(f"An error occurred while saving the file: {e}")
 
-            except Exception as e:
-                print(f"An error occurred while saving the file: {e}")
+    def onBitirButtonClicked(self):
+        self.saveLogs = False
+
+    def onUsbYenileButtonClicked(self):
+        self.usbPortBox.clear()
+        usb_drives = self.get_usb_drives()
+        if usb_drives:
+            for drive in usb_drives:
+                self.usbPortBox.addItem(drive['mountpoint'])
+        else:
+            self.infoMessages.appendPlainText("No USB drives detected.")
+        
+        self.usbPortBox.setCurrentIndex(-1)
