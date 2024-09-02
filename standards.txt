@@ -1,8 +1,22 @@
-## page foldering & filing
-\example_screen
+## foldering & filing
+
+/screens        # class and logics for screens
 example_screen.py
+
+/dialogs        # class and logics for dialog
+example_dialog.py
+
+/ui             # .ui files for screens and dialogs
 example_screen.ui
+
+/ui_compiled    # ui complier created py files
 ui_example_screen.py
+
+/resources      # images, icons, gifs etc.
+example_image.png
+
+/modules        # user defined classes to perform certain tasks
+example_module.py
 
 ## py file and ui py file
 example_file.py
