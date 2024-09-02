@@ -1,7 +1,7 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QByteArray, QRect
+from PySide6.QtCore import Signal, QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 from datetime import datetime
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
@@ -14,7 +14,9 @@ import os
 #################################################################################
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    def __init__(self, page):
+    savingStatusChanged = Signal(bool)
+
+    def __init__(self, page):        
         super().__init__()
         self.setupUi(self)
 
@@ -27,7 +29,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.getComPorts() # find available com ports and add them into combobox
         self.page = page
         self.saveLogs = False
+        self.bitirButton.setEnabled(False)
+        self.bitirButton.setStyleSheet("color: gray;")
 
+        self.savingStatusChanged.connect(self.onSavingStatusChanged)
         self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
@@ -395,7 +400,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 return
 
             self.file_path = os.path.join(selected_mount_point, file_name)
-            self.saveLogs = True
+            self.savingStatusChanged.emit(True)
 
     def saveToUsbFile(self, text):
         try:
@@ -407,7 +412,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             self.infoMessages.appendPlainText(f"An error occurred while saving the file: {e}")
 
     def onBitirButtonClicked(self):
-        self.saveLogs = False
+        self.savingStatusChanged.emit(False)
 
     def onUsbYenileButtonClicked(self):
         self.usbPortBox.clear()
@@ -419,3 +424,19 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             self.infoMessages.appendPlainText("No USB drives detected.")
         
         self.usbPortBox.setCurrentIndex(-1)
+
+    def onSavingStatusChanged(self, status):
+        if(status):
+            self.saveLogs = True
+            self.kaydetButton.setEnabled(False)
+            self.kaydetButton.setStyleSheet("color: gray;")
+            self.bitirButton.setEnabled(True)
+            self.bitirButton.setStyleSheet("color: black;")
+            self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
+        else:
+            self.saveLogs = False
+            self.bitirButton.setEnabled(False)
+            self.bitirButton.setStyleSheet("color: gray;")
+            self.kaydetButton.setEnabled(True)
+            self.kaydetButton.setStyleSheet("color: black;")
+            self.infoMessages.appendPlainText("Log kaydı durduruldu.")
