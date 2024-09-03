@@ -29,7 +29,7 @@ class Ui_logScreenWindow(object):
         self.layoutWidget.setGeometry(QRect(20, 20, 516, 740))
         self.horizontalLayout_17 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.horizontalLayout_17.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout_17.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
@@ -59,6 +59,17 @@ class Ui_logScreenWindow(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.mBootButton = QPushButton(self.layoutWidget)
+        self.mBootButton.setObjectName(u"mBootButton")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mBootButton.sizePolicy().hasHeightForWidth())
+        self.mBootButton.setSizePolicy(sizePolicy)
+        self.mBootButton.setMinimumSize(QSize(125, 0))
+
+        self.horizontalLayout_3.addWidget(self.mBootButton)
+
         self.messageLine = QLineEdit(self.layoutWidget)
         self.messageLine.setObjectName(u"messageLine")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -68,6 +79,25 @@ class Ui_logScreenWindow(object):
         self.messageLine.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_3.addWidget(self.messageLine)
+
+        self.label = QLabel(self.layoutWidget)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_3.addWidget(self.label)
+
+        self.presetCommandBox = QComboBox(self.layoutWidget)
+        self.presetCommandBox.setObjectName(u"presetCommandBox")
+        self.presetCommandBox.setEnabled(True)
+        self.presetCommandBox.setMinimumSize(QSize(0, 0))
+        self.presetCommandBox.setSizeIncrement(QSize(0, 0))
+        self.presetCommandBox.setBaseSize(QSize(0, 0))
+        font = QFont()
+        font.setPointSize(18)
+        font.setBold(False)
+        self.presetCommandBox.setFont(font)
+        self.presetCommandBox.setIconSize(QSize(16, 16))
+
+        self.horizontalLayout_3.addWidget(self.presetCommandBox)
 
         self.sendButton = QPushButton(self.layoutWidget)
         self.sendButton.setObjectName(u"sendButton")
@@ -103,7 +133,7 @@ class Ui_logScreenWindow(object):
         self.groupBox.setCheckable(False)
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
+        self.verticalLayout_4.setSizeConstraint(QLayout.SetMinimumSize)
         self.comPortBox = QComboBox(self.groupBox)
         self.comPortBox.setObjectName(u"comPortBox")
         sizePolicy2.setHeightForWidth(self.comPortBox.sizePolicy().hasHeightForWidth())
@@ -113,7 +143,7 @@ class Ui_logScreenWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
+        self.horizontalLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
         self.comPortButton = QPushButton(self.groupBox)
         self.comPortButton.setObjectName(u"comPortButton")
         sizePolicy1.setHeightForWidth(self.comPortButton.sizePolicy().hasHeightForWidth())
@@ -139,7 +169,7 @@ class Ui_logScreenWindow(object):
         self.verticalLayout_4.addWidget(self.connectButton)
 
 
-        self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignTop)
 
         self.groupBox_5 = QGroupBox(self.layoutWidget)
         self.groupBox_5.setObjectName(u"groupBox_5")
@@ -328,6 +358,8 @@ class Ui_logScreenWindow(object):
         logScreenWindow.setWindowTitle(QCoreApplication.translate("logScreenWindow", u"Form", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("logScreenWindow", u"Seri Port Mesajlar\u0131 Paneli", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("logScreenWindow", u"Bilgi Paneli", None))
+        self.mBootButton.setText(QCoreApplication.translate("logScreenWindow", u"MBOOT", None))
+        self.label.setText(QCoreApplication.translate("logScreenWindow", u"Haz\u0131r Komutlar;", None))
         self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"G\u00f6nder", None))
         self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Se\u00e7imi", None))
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
