@@ -1,17 +1,22 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QByteArray, QRect
+from PySide6.QtCore import Signal, QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
+from datetime import datetime
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
+import psutil
+import os
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
 #################################################################################
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    def __init__(self, page):
+    savingStatusChanged = Signal(bool)
+
+    def __init__(self, page):        
         super().__init__()
         self.setupUi(self)
 
@@ -23,7 +28,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.setDefaultSerialParameters() # set defaults
         self.getComPorts() # find available com ports and add them into combobox
         self.page = page
+        self.saveLogs = False
+        self.bitirButton.setEnabled(False)
+        self.bitirButton.setStyleSheet("color: gray;")
 
+        self.savingStatusChanged.connect(self.onSavingStatusChanged)
         self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
@@ -42,7 +51,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
+        self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
+        self.bitirButton.clicked.connect(self.onBitirButtonClicked)
+        self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.create
+
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
         self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
@@ -51,6 +64,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
+        self.onUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
         """
@@ -104,7 +118,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             for port in self.comPortListAll:
                 if port.portName().find("USB") != -1:
                     self.comPortList.append(port)
-        
+
         self.comPortBox.clear()
         if not self.comPortList:  # Check if the list is empty
             self.comPortBox.addItem("No Port Detected")
@@ -256,9 +270,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         Takes the user input in messageLine, and writes it to the serial port
 
         """
-        text = self.messageLine.text()                     # get the string
-        self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
-        self.messageLine.clear()                           # clear the message line
+        text = self.messageLine.text()
+        self.serialMessages.appendPlainText(">> "+ text)
+        if(self.saveLogs):
+            self.saveToUsbFile(">> "+ text)
+        self.messageLine.clear()
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
@@ -279,6 +295,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def readFromSerialPort(self):
         text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
         self.serialMessages.appendPlainText(text)                     # print them on UI
+        
+        if(self.saveLogs):
+            self.saveToUsbFile(text)
 
     def onComPortButtonClicked(self):
         self.getComPorts()
@@ -352,3 +371,72 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 self.infoMessages.appendPlainText("Info: Port " + (newPort.portName()) + " is found.")
         if self.comPortBox.currentIndex() == -1:
             self.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
+
+    def get_usb_drives(self):
+        """
+        Function to detect mounted USB drives.
+        """
+        partitions = psutil.disk_partitions(all=False)  # 'all=True' can show unmounted devices
+        usb_drives = []
+
+        for partition in partitions:
+            # Use 'removable' in partition.opts for Windows and other OS checks
+            if 'removable' in partition.opts or '/media/' in partition.mountpoint or '/mnt/' in partition.mountpoint:
+                usb_drives.append({
+                    'device': partition.device,
+                    'mountpoint': partition.mountpoint,
+                    'fstype': partition.fstype
+                })
+
+        return usb_drives
+
+    def onKaydetButtonClicked(self):
+            selected_mount_point = self.usbPortBox.currentText()
+            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            file_name = f"log_file_{current_time}.txt"
+
+            if not selected_mount_point:
+                self.infoMessages.appendPlainText("No USB drive selected!")
+                return
+
+            self.file_path = os.path.join(selected_mount_point, file_name)
+            self.savingStatusChanged.emit(True)
+
+    def saveToUsbFile(self, text):
+        try:
+            with open(self.file_path, 'a') as file:
+                file.write(text)
+                file.write('\n')
+
+        except Exception as e:
+            self.infoMessages.appendPlainText(f"An error occurred while saving the file: {e}")
+
+    def onBitirButtonClicked(self):
+        self.savingStatusChanged.emit(False)
+
+    def onUsbYenileButtonClicked(self):
+        self.usbPortBox.clear()
+        usb_drives = self.get_usb_drives()
+        if usb_drives:
+            for drive in usb_drives:
+                self.usbPortBox.addItem(drive['mountpoint'])
+        else:
+            self.infoMessages.appendPlainText("No USB drives detected.")
+        
+        self.usbPortBox.setCurrentIndex(-1)
+
+    def onSavingStatusChanged(self, status):
+        if(status):
+            self.saveLogs = True
+            self.kaydetButton.setEnabled(False)
+            self.kaydetButton.setStyleSheet("color: gray;")
+            self.bitirButton.setEnabled(True)
+            self.bitirButton.setStyleSheet("color: black;")
+            self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
+        else:
+            self.saveLogs = False
+            self.bitirButton.setEnabled(False)
+            self.bitirButton.setStyleSheet("color: gray;")
+            self.kaydetButton.setEnabled(True)
+            self.kaydetButton.setStyleSheet("color: black;")
+            self.infoMessages.appendPlainText("Log kaydı durduruldu.")
