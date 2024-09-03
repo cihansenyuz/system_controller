@@ -30,7 +30,7 @@ def begin(logScreenUi):
             self.projectBox.addItems(["NX,GX,AN,GO","GB"])
             self.projectBox.setCurrentIndex(-1) # by default, show no items
             self.nextButton.setEnabled(False)
-            self.showFullScreen()
+            self.showMaximized()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)
@@ -69,7 +69,7 @@ def begin(logScreenUi):
             self.label.setPixmap(self.pixmap)
             # Resize the QLabel to fit the image
             self.label.setScaledContents(True)
-            self.showFullScreen()
+            self.showMaximized()
 
             self.nextButton.clicked.connect(self.onNextButtonClicked)
             self.backButton.clicked.connect(self.onBackButtonClicked)

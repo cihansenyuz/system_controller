@@ -61,6 +61,8 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.messageLine = QLineEdit(self.layoutWidget)
         self.messageLine.setObjectName(u"messageLine")
+        self.messageLine.focused = False
+        self.messageLine.installEventFilter(self)
 
         self.horizontalLayout_3.addWidget(self.messageLine)
 

@@ -1,10 +1,12 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QByteArray, QRect
+from PySide6.QtCore import QByteArray, QRect, QEvent
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
+import subprocess
+import time
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
@@ -262,6 +264,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
+    
+    def eventFilter(self, source, event):
+        if event.type() == QEvent.FocusIn and source is self.messageLine:
+            # QLineEdit'e tıklanınca ekran klavyesini aç
+            self.open_virtual_keyboard()
+        return super(LogScreenWindow, self).eventFilter(source, event)
+
+    def open_virtual_keyboard(self):
+        subprocess.Popen(['matchbox-keyboard'])
 
     def onDisconnectButtonClicked(self):
         """
