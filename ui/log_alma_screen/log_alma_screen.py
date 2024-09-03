@@ -5,6 +5,7 @@ from PySide6.QtCore import QByteArray, QRect
 from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
 import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
 import platform
+import time
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
@@ -42,6 +43,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
+        self.mBootButton.clicked.connect(self.onMBootButtonClicked)
         self.create
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
@@ -49,6 +51,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
         self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
         self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
+        self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
 
@@ -64,18 +67,29 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitList = ["1 bit", "1.5 bits", "2 bits"]
         self.parityList = ["no parity", "even", "odd", "space", "mark"]
         self.flowControlList = ["no flow control", "hardware", "software"]
+        #create command list
+        self.commandList = ["","Custar", "printenv"]
+
         # add lists to relative combo boxes
         self.baudRateBox.addItems(self.baudRateList)
         self.dataBitBox.addItems(self.dataBitList)
         self.stopBitBox.addItems(self.stopBitList)
         self.parityBox.addItems(self.parityList)
         self.flowControlBox.addItems(self.flowControlList)
+        self.presetCommandBox.addItems(self.commandList)
         # set current selected items # to change default parameters, set indexes here
         self.baudRateBox.setCurrentIndex(7)
         self.dataBitBox.setCurrentIndex(3)
         self.stopBitBox.setCurrentIndex(0)
         self.parityBox.setCurrentIndex(0)
         self.flowControlBox.setCurrentIndex(0)
+        self.presetCommandBox.setCurrentIndex(0)
+
+    def setPresetCommand(self):
+        """
+        This method is used for to set preset command
+        """
+        self.onPresetCommandBoxCurrentIndexChanged(self.presetCommandBox.currentIndex())
 
     def setDefaultSerialParameters(self):
         """
@@ -248,6 +262,38 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
                 self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
+
+    def onMBootButtonClicked(self):
+        """
+        To get the TV to the Mboot Menu
+        """
+        text = "MbootMode"                                  # mboot
+        self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
+
+        text = "reset"                                      # restarts the TV
+        bytes = QByteArray(text.encode())                   # convert str to byte       
+        self.serialPort.write(bytes)                        # write it to serial port
+        time.sleep(1)                                       # waits 1 second
+
+        i=0
+        for i in range(100):                                     # tries to get mboot
+            text = "\r"                                           # empty to simulate alone Entry
+            bytes = QByteArray(text.encode())                   # convert str to byte
+            self.serialPort.write(bytes)                        # write it to serial port
+            time.sleep(0.1)                                     # waits 0.1 second
+            
+
+    def onPresetCommandBoxCurrentIndexChanged(self,index):
+        """
+        To set selected preset command
+        """
+        if index == 0:
+            self.messageLine.setText("")
+        if index == 1:
+            self.messageLine.setText("custar")
+        if index == 2:
+            self.messageLine.setText("printenv")
+
 
     def onSendButtonClicked(self):
         """
