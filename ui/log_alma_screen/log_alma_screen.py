@@ -265,14 +265,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
     
-    def eventFilter(self, source, event):
+    """ def eventFilter(self, source, event):
         if event.type() == QEvent.FocusIn and source is self.messageLine:
             # QLineEdit'e tıklanınca ekran klavyesini aç
             self.open_virtual_keyboard()
-        return super(LogScreenWindow, self).eventFilter(source, event)
+        return super(LogScreenWindow, self).eventFilter(source, event)"""
 
     def open_virtual_keyboard(self):
-        subprocess.Popen(['matchbox-keyboard'])
+        # Raspberry Pi için matchbox-keyboard'u aç
+        subprocess.Popen(['onboard'])
 
     def onDisconnectButtonClicked(self):
         """
