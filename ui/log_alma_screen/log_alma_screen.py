@@ -68,7 +68,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityList = ["no parity", "even", "odd", "space", "mark"]
         self.flowControlList = ["no flow control", "hardware", "software"]
         #create command list
-        self.commandList = ["","Custar", "printenv"]
+        self.commandList = ["Custar", "printenv"]
 
         # add lists to relative combo boxes
         self.baudRateBox.addItems(self.baudRateList)
@@ -83,7 +83,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.setCurrentIndex(0)
         self.parityBox.setCurrentIndex(0)
         self.flowControlBox.setCurrentIndex(0)
-        self.presetCommandBox.setCurrentIndex(0)
+        self.presetCommandBox.setCurrentIndex(-1)
 
     def setPresetCommand(self):
         """
@@ -267,9 +267,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         """
         To get the TV to the Mboot Menu
         """
-        text = "MbootMode"                                  # mboot
-        self.serialMessages.appendPlainText(">> "+ text)    # print it on UI
-
         text = "reset"                                      # restarts the TV
         bytes = QByteArray(text.encode())                   # convert str to byte       
         self.serialPort.write(bytes)                        # write it to serial port
@@ -287,12 +284,8 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         """
         To set selected preset command
         """
-        if index == 0:
-            self.messageLine.setText("")
-        if index == 1:
-            self.messageLine.setText("custar")
-        if index == 2:
-            self.messageLine.setText("printenv")
+
+        self.messageLine.setText(self.commandList[index])
 
 
     def onSendButtonClicked(self):
