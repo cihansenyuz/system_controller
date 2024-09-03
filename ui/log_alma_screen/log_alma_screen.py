@@ -265,15 +265,24 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
     
-    """ def eventFilter(self, source, event):
+    def eventFilter(self, source, event):
         if event.type() == QEvent.FocusIn and source is self.messageLine:
-            # QLineEdit'e tıklanınca ekran klavyesini aç
             self.open_virtual_keyboard()
-        return super(LogScreenWindow, self).eventFilter(source, event)"""
+        return super(LogScreenWindow, self).eventFilter(source, event)
 
     def open_virtual_keyboard(self):
-        # Raspberry Pi için matchbox-keyboard'u aç
         subprocess.Popen(['onboard'])
+
+        time.sleep(2)  
+
+        try:
+            output = subprocess.check_output(['wmctrl', '-l'])
+            for line in output.decode('utf-8').splitlines():
+                if "Onboard" in line:
+                    window_id = line.split()[0]
+                    subprocess.call(['wmctrl', '-i', '-r', window_id, '-b', 'add,above'])
+        except subprocess.CalledProcessError as e:
+            print(f"Error in setting 'always on top' for Onboard: {e}")
 
     def onDisconnectButtonClicked(self):
         """
