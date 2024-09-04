@@ -2,9 +2,9 @@ from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
 from PySide6.QtCore import Signal, QByteArray, QRect
-from ui.log_alma_screen.ui_log_alma_screen import Ui_logScreenWindow
+from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 from datetime import datetime
-import ui.log_alma_screen.log_screen_dialogs as logScreendialogs
+import dialogs.log_screen_dialogs as logScreendialogs
 import platform
 import psutil
 import os
