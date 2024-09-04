@@ -1,11 +1,11 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
-from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
+from modules.serial_port import SerialPort
 from PySide6.QtCore import Signal, QByteArray, QRect
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 from datetime import datetime
 import dialogs.log_screen_dialogs as logScreendialogs
-import platform
+#import platform
 import psutil
 import os
 import time
@@ -25,23 +25,21 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         #self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
 
         self.createComboBoxes() # create lists and add them into comboboxes
-        self.serialPort = QSerialPort()
-        self.setDefaultSerialParameters() # set defaults
-        self.getComPorts() # find available com ports and add them into combobox
+        self.serialPort = SerialPort(self)
+        #self.setDefaultSerialParameters() # set defaults
+        #self.getComPorts() # find available com ports and add them into combobox
         self.page = page
         self.saveLogs = False
         self.bitirButton.setEnabled(False)
         self.bitirButton.setStyleSheet("color: gray;")
 
         self.savingStatusChanged.connect(self.onSavingStatusChanged)
-        self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
-        self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
+        #self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
+        #self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
         #### missing possible implementations ####
         # timing for read/write might need to be managed
         # errorOccured signal must be connected
-        # disconnect button and closing the serial port may be considered
-        # automaticly finding the com and selected
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
@@ -59,11 +57,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.create
 
         # combobox connections on log screen page
-        self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
-        self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
-        self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
-        self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
-        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
+        self.baudRateBox.currentIndexChanged.connect(self.serialPort.onBaudRateBoxCurrentIndexChanged)
+        self.dataBitBox.currentIndexChanged.connect(self.serialPort.onDataBitBoxCurrentIndexChanged)
+        self.stopBitBox.currentIndexChanged.connect(self.serialPort.onStopBitBoxCurrentIndexChanged)
+        self.parityBox.currentIndexChanged.connect(self.serialPort.onParityBoxCurrentIndexChanged)
+        self.flowControlBox.currentIndexChanged.connect(self.serialPort.onFlowControlBoxCurrentIndexChanged)
         self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
@@ -82,7 +80,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityList = ["no parity", "even", "odd", "space", "mark"]
         self.flowControlList = ["no flow control", "hardware", "software"]
         #create command list
-        self.commandList = ["Custar", "printenv"]
+        self.commandList = ["custar", "printenv"]
 
         # add lists to relative combo boxes
         self.baudRateBox.addItems(self.baudRateList)
@@ -99,13 +97,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.flowControlBox.setCurrentIndex(0)
         self.presetCommandBox.setCurrentIndex(-1)
 
-    def setPresetCommand(self):
-        """
-        This method is used for to set preset command
-        """
-        self.onPresetCommandBoxCurrentIndexChanged(self.presetCommandBox.currentIndex())
-
-    def setDefaultSerialParameters(self):
+    '''def setDefaultSerialParameters(self):
         """
         A method to set current selected parameters for serial port
 
@@ -139,10 +131,10 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         else:
             for portInfo in self.comPortList:
                 self.comPortBox.addItem(portInfo.portName())
-        self.comPortBox.setCurrentIndex(-1)
+        self.comPortBox.setCurrentIndex(-1)'''
 
     # slot function definitions
-    def onBaudRateBoxCurrentIndexChanged(self, index):
+    '''def onBaudRateBoxCurrentIndexChanged(self, index):
         """
         Slot method to handle item selection on baudRateBox
 
@@ -152,21 +144,21 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         - index (int): index number of current item
         """
         if index == 0:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud1200)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud1200)
         elif index == 1:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud2400)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud2400)
         elif index == 2:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud4800)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud4800)
         elif index == 3:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud9600)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud9600)
         elif index == 4:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud19200)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud19200)
         elif index == 5:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud38400)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud38400)
         elif index == 6:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud57600)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud57600)
         elif index == 7:
-            self.serialPort.setBaudRate(QSerialPort.BaudRate.Baud115200)
+            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud115200)
         self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
 
     def onDataBitBoxCurrentIndexChanged(self, index):
@@ -179,13 +171,13 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         - index (int): index number of current item
         """
         if index == 0:
-            self.serialPort.setDataBits(QSerialPort.DataBits.Data5)
+            self.serialPort.setDataBits(SerialPort.DataBits.Data5)
         elif index == 1:
-            self.serialPort.setDataBits(QSerialPort.DataBits.Data6)
+            self.serialPort.setDataBits(SerialPort.DataBits.Data6)
         elif index == 2:
-            self.serialPort.setDataBits(QSerialPort.DataBits.Data7)
+            self.serialPort.setDataBits(SerialPort.DataBits.Data7)
         elif index == 3:
-            self.serialPort.setDataBits(QSerialPort.DataBits.Data8)
+            self.serialPort.setDataBits(SerialPort.DataBits.Data8)
         self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
 
     def onStopBitBoxCurrentIndexChanged(self, index):
@@ -198,11 +190,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         - index (int): index number of current item
         """
         if index == 0:
-            self.serialPort.setStopBits(QSerialPort.StopBits.OneStop)
+            self.serialPort.setStopBits(SerialPort.StopBits.OneStop)
         elif index == 1:
-            self.serialPort.setStopBits(QSerialPort.StopBits.OneAndHalfStop)
+            self.serialPort.setStopBits(SerialPort.StopBits.OneAndHalfStop)
         elif index == 2:
-            self.serialPort.setStopBits(QSerialPort.StopBits.TwoStop)
+            self.serialPort.setStopBits(SerialPort.StopBits.TwoStop)
         self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
 
     def onParityBoxCurrentIndexChanged(self, index):
@@ -215,15 +207,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         - index (int): index number of current item
         """
         if index == 0:
-            self.serialPort.setParity(QSerialPort.Parity.NoParity)
+            self.serialPort.setParity(SerialPort.Parity.NoParity)
         elif index == 1:
-            self.serialPort.setParity(QSerialPort.Parity.EvenParity)
+            self.serialPort.setParity(SerialPort.Parity.EvenParity)
         elif index == 2:
-            self.serialPort.setParity(QSerialPort.Parity.OddParity)
+            self.serialPort.setParity(SerialPort.Parity.OddParity)
         elif index == 3:
-            self.serialPort.setParity(QSerialPort.Parity.SpaceParity)
+            self.serialPort.setParity(SerialPort.Parity.SpaceParity)
         elif index == 4:
-            self.serialPort.setParity(QSerialPort.Parity.MarkParity)
+            self.serialPort.setParity(SerialPort.Parity.MarkParity)
         self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
 
     def onFlowControlBoxCurrentIndexChanged(self, index):
@@ -236,12 +228,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         - index (int): index number of current item
         """
         if index == 0:
-            self.serialPort.setFlowControl(QSerialPort.FlowControl.NoFlowControl)
+            self.serialPort.setFlowControl(SerialPort.FlowControl.NoFlowControl)
         elif index == 1:
-            self.serialPort.setFlowControl(QSerialPort.FlowControl.HardwareControl)
+            self.serialPort.setFlowControl(SerialPort.FlowControl.HardwareControl)
         elif index == 2:
-            self.serialPort.setFlowControl(QSerialPort.FlowControl.SoftwareControl)
-        self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))
+            self.serialPort.setFlowControl(SerialPort.FlowControl.SoftwareControl)
+        self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))'''
 
     def onLogScreenBackButtonClicked(self):
         """
@@ -259,7 +251,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         Refreshes available serial port list, and appends informative message to infoMessages
 
         """
-        self.getComPorts()
+        self.serialPort.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
     def onConnectButtonClicked(self):
@@ -270,12 +262,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         """
         # match selected combobox item and comPortList item
-        if len(self.comPortList) == 0:
+        if len(self.serialPort.comPortList) == 0:
             return
-        for portInfo in self.comPortList:
+        for portInfo in self.serialPort.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-                self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode
 
     def onMBootButtonClicked(self):
         """
@@ -331,15 +323,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         else:
             self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
 
-    def readFromSerialPort(self):
+    '''def readFromSerialPort(self):
         text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
         self.serialMessages.appendPlainText(text)                     # print them on UI
         
         if(self.saveLogs):
-            self.saveToUsbFile(text)
+            self.saveToUsbFile(text)'''
 
     def onComPortButtonClicked(self):
-        self.getComPorts()
+        self.serialPort.getComPorts()
 
     def onClearInfoPanelButtonClicked(self):
         """
@@ -360,13 +352,13 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialMessages.clear()
 
     def onShowDialogsButtonClicked(self):
-        self.getComPorts()
+        self.serialPort.getComPorts()
         if self.page == 1:
             logScreendialogs.begin(self)
         else:
             pass # other pages
 
-    def onErrorOccurred(self, error):
+    '''def onErrorOccurred(self, error):
         """
         Method to handle errors for serial port
 
@@ -389,7 +381,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 return
             else:
                 self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
-
+'''
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
@@ -397,12 +389,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def findNewComPort(self):
         # get a list of port names
         oldComPortList = []
-        for port in self.comPortList:
+        for port in self.serialPort.comPortList:
             oldComPortList.append(port.portName())
         # refresh the port list
-        self.getComPorts()
+        self.serialPort.getComPorts()
         # compare if newPort is in the old list or not
-        for newPort in self.comPortList:
+        for newPort in self.serialPort.comPortList:
             if oldComPortList.count(newPort.portName()):
                 pass
             else:
