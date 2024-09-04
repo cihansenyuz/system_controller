@@ -18,13 +18,13 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>516</width>
-     <height>740</height>
+     <width>1041</width>
+     <height>745</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_17">
     <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
+     <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
     </property>
     <property name="leftMargin">
      <number>0</number>
@@ -58,9 +58,6 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLineEdit" name="messageLine">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
          <widget class="QPushButton" name="mBootButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -68,7 +65,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-         </widget>
           <property name="minimumSize">
            <size>
             <width>125</width>
@@ -151,10 +147,8 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2,2,2,1,1,1,1">
-      <item alignment="Qt::AlignmentFlag::AlignTop">
      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2,2,1,1,1,1">
-      <item alignment="Qt::AlignTop">
+      <item alignment="Qt::AlignmentFlag::AlignTop">
        <widget class="QGroupBox" name="groupBox">
         <property name="enabled">
          <bool>true</bool>
@@ -168,7 +162,7 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>150</height>
+          <height>200</height>
          </size>
         </property>
         <property name="title">
@@ -179,7 +173,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0">
          <property name="sizeConstraint">
-          <enum>QLayout::SetMinimumSize</enum>
+          <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
          </property>
          <item>
           <widget class="QComboBox" name="comPortBox">
@@ -194,7 +188,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <property name="sizeConstraint">
-            <enum>QLayout::SetMinimumSize</enum>
+            <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
            </property>
            <item>
             <widget class="QPushButton" name="comPortButton">
@@ -241,89 +235,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>USB Seçimi</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <item>
-          <widget class="QComboBox" name="usbPortBox">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <property name="sizeConstraint">
-            <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
-           </property>
-           <item>
-            <widget class="QPushButton" name="usbPortYenileButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Yenile</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="bitirButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Bitir</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="kaydetButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>125</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Kaydı Başlat</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -334,7 +245,7 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>0</height>
+          <height>200</height>
          </size>
         </property>
         <property name="title">
