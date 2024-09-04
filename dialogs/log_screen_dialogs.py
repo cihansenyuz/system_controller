@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QDialog
 from PySide6.QtGui import QPixmap
-from ui.components.ui_input_dialog import Ui_InputDialog
-from ui.components.ui_info_dialog import Ui_InfoDialogs
+from ui_compiled.ui_input_dialog import Ui_InputDialog
+from ui_compiled.ui_info_dialog import Ui_InfoDialogs
 import platform
 
 def begin(logScreenUi):
@@ -10,13 +10,13 @@ def begin(logScreenUi):
     ## mainboard project guides
     if platform.system() == "Windows":
         logScreenUi.infoDialogPaths = [
-            ["ui\\components\\project1dialog1.jpg", "ui\\components\\project1dialog2.jpg", "ui\\components\\project1dialog3.jpg"],
-            ["ui\\components\\project2dialog1.jpg", "ui\\components\\project2dialog2.jpg", "ui\\components\\project2dialog3.jpg"],
+            ["resources\\project1dialog1.jpg", "resources\\project1dialog2.jpg", "resources\\project1dialog3.jpg"],
+            ["resources\\project2dialog1.jpg", "resources\\project2dialog2.jpg", "resources\\project2dialog3.jpg"],
     ]
     else:
         logScreenUi.infoDialogPaths = [
-            ["ui/components/project1dialog1.jpg", "ui/components/project1dialog2.jpg", "ui/components/project1dialog3.jpg"],
-            ["ui/components/project2dialog1.jpg", "ui/components/project2dialog2.jpg", "ui/components/project2dialog3.jpg"],
+            ["resources/project1dialog1.jpg", "resources/project1dialog2.jpg", "resources/project1dialog3.jpg"],
+            ["resources/project2dialog1.jpg", "resources/project2dialog2.jpg", "resources/project2dialog3.jpg"],
     ]
 
 

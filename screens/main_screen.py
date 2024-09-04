@@ -1,15 +1,13 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect
-from ui.main_screen.ui_main_screen import Ui_mainScreenWindow
-from ui.log_alma_screen.log_alma_screen import LogScreenWindow
-from ui.auto_offline.auto_offline_screen import AutoOfflineWindow
+from ui_compiled.ui_main_screen import Ui_mainScreenWindow
+from screens.log_alma_screen import LogScreenWindow
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        
         
         # button conecctions on the main screen page
         self.getLogButton.clicked.connect(self.onGetLogButtonClicked)
@@ -26,16 +24,8 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
             self.parent().addWidget(self.logScreenPage)
         
         self.parent().setCurrentWidget(self.logScreenPage)
-
         
     def onButton2Clicked(self):
-        
-        if not hasattr(self,"autoOfflinePage"):
-            self.autoOfflinePage = AutoOfflineWindow()
-            self.parent().addWidget(self.autoOfflinePage)
-        
-        self.parent().setCurrentWidget(self.autoOfflinePage)    
-        print(self.parent().count())
         pass
     def onButton3Clicked(self):
         pass
