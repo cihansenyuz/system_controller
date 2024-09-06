@@ -75,11 +75,18 @@ def begin(logScreenUi):
             self.backButton.clicked.connect(self.onBackButtonClicked)
             self.rejected.connect(self.onRejected)
 
+        def findNewComPort(self):
+            newPortName = logScreenUi.serialPort.getNewComPortName()
+            logScreenUi.infoMessages.appendPlainText("Info: Port " + newPortName + " is found.")
+            logScreenUi.comPortBox.setCurrentText(newPortName)
+            if logScreenUi.comPortBox.currentIndex() == -1:
+                logScreenUi.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
+
         def onNextButtonClicked(self):
             if hasattr(logScreenUi, 'skipDialog') and isinstance(logScreenUi.skipDialog, InfoDialogWindow): # if skip button clicked
                 logScreenUi.inputDialog.destroy()                                                           # destroy input dialog
                 self.destroy()
-                logScreenUi.findNewComPort()
+                self.findNewComPort()
                 logScreenUi.onConnectButtonClicked()                                                                              # destroy skip dialog
                 return
             # if info dialogs are not skipped #
@@ -88,7 +95,7 @@ def begin(logScreenUi):
                 for infoDialog in logScreenUi.infoDialogs:
                     infoDialog.destroy()
                 logScreenUi.inputDialog.destroy()
-                logScreenUi.findNewComPort()
+                self.findNewComPort()
                 logScreenUi.onConnectButtonClicked()
             else:
                 newDialog = InfoDialogWindow(logScreenUi.infoDialogPaths[logScreenUi.inputDialog.projectBox.currentIndex()][logScreenUi.infoDialogCurrentIndex])

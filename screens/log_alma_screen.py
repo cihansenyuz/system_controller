@@ -204,23 +204,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
-    
-    def findNewComPort(self):
-        # get a list of port names
-        oldComPortList = []
-        for port in self.serialPort.comPortList:
-            oldComPortList.append(port.portName())
-        # refresh the port list
-        self.serialPort.getComPorts()
-        # compare if newPort is in the old list or not
-        for newPort in self.serialPort.comPortList:
-            if oldComPortList.count(newPort.portName()):
-                pass
-            else:
-                self.comPortBox.setCurrentText(newPort.portName())
-                self.infoMessages.appendPlainText("Info: Port " + (newPort.portName()) + " is found.")
-        if self.comPortBox.currentIndex() == -1:
-            self.infoMessages.appendPlainText("Error: No new device is found!\nClick 'Show Dialogs' button and follow instructions again.")
 
     def get_usb_drives(self):
         """

@@ -186,3 +186,18 @@ class SerialPort(QSerialPort):
         elif index == 2:
             self.setFlowControl(QSerialPort.FlowControl.SoftwareControl)
         self.parent().infoMessages.appendPlainText("Info: Flow control is set to " + str(self.flowControl()))
+
+
+    def getNewComPortName(self):
+        # get a list of port names
+        oldComPortList = []
+        for port in self.comPortList:
+            oldComPortList.append(port.portName())
+        # refresh the port list
+        self.getComPorts()
+        # compare if newPort is in the old list or not
+        for newPort in self.comPortList:
+            if oldComPortList.count(newPort.portName()):
+                pass
+            else:
+                return newPort.portName()
