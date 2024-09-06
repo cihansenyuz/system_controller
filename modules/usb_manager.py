@@ -32,7 +32,6 @@ class UsbManager:
             file.write('\n')
 
     def startRecording(self, selected_mount_point):
-
         current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         file_name = f"log_file_{current_time}.txt"
         

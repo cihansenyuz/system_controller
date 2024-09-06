@@ -4,10 +4,7 @@ from modules.serial_port import SerialPort
 from modules.usb_manager import UsbManager
 from PySide6.QtCore import Signal, QByteArray, QRect
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
-#from datetime import datetime
 import dialogs.log_screen_dialogs as logScreendialogs
-#import psutil
-#import os
 import time
 
 #################################################################################
@@ -28,7 +25,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.usbManager = UsbManager()
-        #self.saveLogs = False
         self.bitirButton.setEnabled(False)
         self.bitirButton.setStyleSheet("color: gray;")
 
@@ -121,11 +117,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             bytes = QByteArray(text.encode())                   # convert str to byte
             self.serialPort.write(bytes)                        # write it to serial port
             time.sleep(0.1)                                     # waits 0.1 second
-            
 
     def onPresetCommandBoxCurrentIndexChanged(self,index):
         self.messageLine.setText(self.commandList[index])
-
 
     def onSendButtonClicked(self):
         text = self.messageLine.text()
