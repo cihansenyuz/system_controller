@@ -51,11 +51,11 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
 
         # combobox connections on log screen page
-        self.baudRateBox.currentIndexChanged.connect(self.serialPort.onBaudRateBoxCurrentIndexChanged)
-        self.dataBitBox.currentIndexChanged.connect(self.serialPort.onDataBitBoxCurrentIndexChanged)
-        self.stopBitBox.currentIndexChanged.connect(self.serialPort.onStopBitBoxCurrentIndexChanged)
-        self.parityBox.currentIndexChanged.connect(self.serialPort.onParityBoxCurrentIndexChanged)
-        self.flowControlBox.currentIndexChanged.connect(self.serialPort.onFlowControlBoxCurrentIndexChanged)
+        self.baudRateBox.currentIndexChanged.connect(self.onBaudRateBoxCurrentIndexChanged)
+        self.dataBitBox.currentIndexChanged.connect(self.onDataBitBoxCurrentIndexChanged)
+        self.stopBitBox.currentIndexChanged.connect(self.onStopBitBoxCurrentIndexChanged)
+        self.parityBox.currentIndexChanged.connect(self.onParityBoxCurrentIndexChanged)
+        self.flowControlBox.currentIndexChanged.connect(self.onFlowControlBoxCurrentIndexChanged)
         self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
@@ -77,6 +77,66 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.parityBox.addItems(self.serialPort.parityList)
         self.flowControlBox.addItems(self.serialPort.flowControlList)
         self.presetCommandBox.addItems(self.commandList)
+
+    def onBaudRateBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on baudRateBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
+        self.serialPort.setNewBaudRate(index)
+        self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
+
+    def onDataBitBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on dataBitBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
+        self.serialPort.setNewDataBits(index)
+        self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
+
+    def onStopBitBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on stopBitBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
+        self.serialPort.setNewStopBits(index)
+        self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
+
+    def onParityBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on parityBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
+        self.serialPort.setNewParity(index)
+        self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
+
+    def onFlowControlBoxCurrentIndexChanged(self, index):
+        """
+        Slot method to handle item selection on flowControlBox
+
+        Gets the index for selected item and sets it to serial port.
+
+        Parameters:
+        - index (int): index number of current item
+        """
+        self.serialPort.setNewFlowControl(index)
+        self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))
 
     def onLogScreenBackButtonClicked(self):
         """

@@ -86,15 +86,7 @@ class SerialPort(QSerialPort):
             self.saveToUsbFile(text)
 
 
-    def onBaudRateBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on baudRateBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
+    def setNewBaudRate(self, index):
         if index == 0:
             self.setBaudRate(QSerialPort.BaudRate.Baud1200)
         elif index == 1:
@@ -111,9 +103,8 @@ class SerialPort(QSerialPort):
             self.setBaudRate(QSerialPort.BaudRate.Baud57600)
         elif index == 7:
             self.setBaudRate(QSerialPort.BaudRate.Baud115200)
-        self.parent().infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.baudRate()))
 
-    def onDataBitBoxCurrentIndexChanged(self, index):
+    def setNewDataBits(self, index):
         """
         Slot method to handle item selection on dataBitBox
 
@@ -130,9 +121,8 @@ class SerialPort(QSerialPort):
             self.setDataBits(QSerialPort.DataBits.Data7)
         elif index == 3:
             self.setDataBits(QSerialPort.DataBits.Data8)
-        self.parent().infoMessages.appendPlainText("Info: Data bits are set to " + str(self.dataBits()))
 
-    def onStopBitBoxCurrentIndexChanged(self, index):
+    def setNewStopBits(self, index):
         """
         Slot method to handle item selection on stopBitBox
 
@@ -147,9 +137,8 @@ class SerialPort(QSerialPort):
             self.setStopBits(QSerialPort.StopBits.OneAndHalfStop)
         elif index == 2:
             self.setStopBits(QSerialPort.StopBits.TwoStop)
-        self.parent().infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.stopBits()))
 
-    def onParityBoxCurrentIndexChanged(self, index):
+    def setNewParity(self, index):
         """
         Slot method to handle item selection on parityBox
 
@@ -168,9 +157,8 @@ class SerialPort(QSerialPort):
             self.setParity(QSerialPort.Parity.SpaceParity)
         elif index == 4:
             self.setParity(QSerialPort.Parity.MarkParity)
-        self.parent().infoMessages.appendPlainText("Info: Parity is set to " + str(self.parity()))
 
-    def onFlowControlBoxCurrentIndexChanged(self, index):
+    def setNewFlowControl(self, index):
         """
         Slot method to handle item selection on flowControlBox
 
@@ -201,3 +189,4 @@ class SerialPort(QSerialPort):
                 pass
             else:
                 return newPort.portName()
+        return ""
