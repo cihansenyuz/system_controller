@@ -7,7 +7,14 @@ class SerialPort(QSerialPort):
         super().__init__(parent)
 
         self.setDefaultSerialParameters()
-        self.getComPorts() 
+        self.getComPorts()
+
+        # create lists
+        self.baudRateList = ["1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"]
+        self.dataBitList = ["5 bits", "6 bits", "7 bits", "8 bits"]
+        self.stopBitList = ["1 bit", "1.5 bits", "2 bits"]
+        self.parityList = ["no parity", "even", "odd", "space", "mark"]
+        self.flowControlList = ["no flow control", "hardware", "software"]
 
         self.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
@@ -16,14 +23,13 @@ class SerialPort(QSerialPort):
         """
         A method to set current selected parameters for serial port
 
-        Calls all slot methods to handle index changes in comboboxes to set serial port parameters as selected
+        Sets serial port parameters as default
         """
-        self.onBaudRateBoxCurrentIndexChanged(self.parent().baudRateBox.currentIndex())
-        self.onDataBitBoxCurrentIndexChanged(self.parent().dataBitBox.currentIndex())
-        self.onStopBitBoxCurrentIndexChanged(self.parent().stopBitBox.currentIndex())
-        self.onParityBoxCurrentIndexChanged(self.parent().parityBox.currentIndex())
-        self.onFlowControlBoxCurrentIndexChanged(self.parent().flowControlBox.currentIndex())
-        self.parent().infoMessages.clear()
+        self.setBaudRate(QSerialPort.BaudRate.Baud115200)
+        self.setDataBits(QSerialPort.DataBits.Data8)
+        self.setStopBits(QSerialPort.StopBits.OneStop)
+        self.setParity(QSerialPort.Parity.NoParity)
+        self.setFlowControl(QSerialPort.FlowControl.NoFlowControl)
 
     def getComPorts(self):
         """

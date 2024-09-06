@@ -5,7 +5,6 @@ from PySide6.QtCore import Signal, QByteArray, QRect
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 from datetime import datetime
 import dialogs.log_screen_dialogs as logScreendialogs
-#import platform
 import psutil
 import os
 import time
@@ -23,19 +22,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         #Resize operations
         #self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
-
-        self.createComboBoxes() # create lists and add them into comboboxes
+        
         self.serialPort = SerialPort(self)
-        #self.setDefaultSerialParameters() # set defaults
-        #self.getComPorts() # find available com ports and add them into combobox
+        self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.saveLogs = False
         self.bitirButton.setEnabled(False)
         self.bitirButton.setStyleSheet("color: gray;")
 
         self.savingStatusChanged.connect(self.onSavingStatusChanged)
-        #self.serialPort.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
-        #self.serialPort.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 
         #### missing possible implementations ####
         # timing for read/write might need to be managed
@@ -54,7 +49,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.bitirButton.clicked.connect(self.onBitirButtonClicked)
         self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
-        self.create
 
         # combobox connections on log screen page
         self.baudRateBox.currentIndexChanged.connect(self.serialPort.onBaudRateBoxCurrentIndexChanged)
@@ -73,167 +67,16 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         Creates lists of serial port parameters, and adds them into related comboBoxes
         """
-        # create lists
-        self.baudRateList = ["1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"]
-        self.dataBitList = ["5 bits", "6 bits", "7 bits", "8 bits"]
-        self.stopBitList = ["1 bit", "1.5 bits", "2 bits"]
-        self.parityList = ["no parity", "even", "odd", "space", "mark"]
-        self.flowControlList = ["no flow control", "hardware", "software"]
-        #create command list
+
         self.commandList = ["custar", "printenv"]
 
         # add lists to relative combo boxes
-        self.baudRateBox.addItems(self.baudRateList)
-        self.dataBitBox.addItems(self.dataBitList)
-        self.stopBitBox.addItems(self.stopBitList)
-        self.parityBox.addItems(self.parityList)
-        self.flowControlBox.addItems(self.flowControlList)
+        self.baudRateBox.addItems(self.serialPort.baudRateList)
+        self.dataBitBox.addItems(self.serialPort.dataBitList)
+        self.stopBitBox.addItems(self.serialPort.stopBitList)
+        self.parityBox.addItems(self.serialPort.parityList)
+        self.flowControlBox.addItems(self.serialPort.flowControlList)
         self.presetCommandBox.addItems(self.commandList)
-        # set current selected items # to change default parameters, set indexes here
-        self.baudRateBox.setCurrentIndex(7)
-        self.dataBitBox.setCurrentIndex(3)
-        self.stopBitBox.setCurrentIndex(0)
-        self.parityBox.setCurrentIndex(0)
-        self.flowControlBox.setCurrentIndex(0)
-        self.presetCommandBox.setCurrentIndex(-1)
-
-    '''def setDefaultSerialParameters(self):
-        """
-        A method to set current selected parameters for serial port
-
-        Calls all slot methods to handle index changes in comboboxes to set serial port parameters as selected
-        """
-        self.onBaudRateBoxCurrentIndexChanged(self.baudRateBox.currentIndex())
-        self.onDataBitBoxCurrentIndexChanged(self.dataBitBox.currentIndex())
-        self.onStopBitBoxCurrentIndexChanged(self.stopBitBox.currentIndex())
-        self.onParityBoxCurrentIndexChanged(self.parityBox.currentIndex())
-        self.onFlowControlBoxCurrentIndexChanged(self.flowControlBox.currentIndex())
-        self.infoMessages.clear()
-
-    def getComPorts(self):
-        """
-        A method to get available serial ports to user for selection
-
-        Calls all slot methods to handle index changes in comboboxes to set serial port parameters as selected
-        """
-        if platform.system() == 'Windows':
-            self.comPortList = QSerialPortInfo.availablePorts()
-        else:
-            self.comPortListAll = QSerialPortInfo.availablePorts()
-            self.comPortList = list()
-            for port in self.comPortListAll:
-                if port.portName().find("USB") != -1:
-                    self.comPortList.append(port)
-
-        self.comPortBox.clear()
-        if not self.comPortList:  # Check if the list is empty
-            self.comPortBox.addItem("No Port Detected")
-        else:
-            for portInfo in self.comPortList:
-                self.comPortBox.addItem(portInfo.portName())
-        self.comPortBox.setCurrentIndex(-1)'''
-
-    # slot function definitions
-    '''def onBaudRateBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on baudRateBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
-        if index == 0:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud1200)
-        elif index == 1:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud2400)
-        elif index == 2:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud4800)
-        elif index == 3:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud9600)
-        elif index == 4:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud19200)
-        elif index == 5:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud38400)
-        elif index == 6:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud57600)
-        elif index == 7:
-            self.serialPort.setBaudRate(SerialPort.BaudRate.Baud115200)
-        self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
-
-    def onDataBitBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on dataBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
-        if index == 0:
-            self.serialPort.setDataBits(SerialPort.DataBits.Data5)
-        elif index == 1:
-            self.serialPort.setDataBits(SerialPort.DataBits.Data6)
-        elif index == 2:
-            self.serialPort.setDataBits(SerialPort.DataBits.Data7)
-        elif index == 3:
-            self.serialPort.setDataBits(SerialPort.DataBits.Data8)
-        self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
-
-    def onStopBitBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on stopBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
-        if index == 0:
-            self.serialPort.setStopBits(SerialPort.StopBits.OneStop)
-        elif index == 1:
-            self.serialPort.setStopBits(SerialPort.StopBits.OneAndHalfStop)
-        elif index == 2:
-            self.serialPort.setStopBits(SerialPort.StopBits.TwoStop)
-        self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
-
-    def onParityBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on parityBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
-        if index == 0:
-            self.serialPort.setParity(SerialPort.Parity.NoParity)
-        elif index == 1:
-            self.serialPort.setParity(SerialPort.Parity.EvenParity)
-        elif index == 2:
-            self.serialPort.setParity(SerialPort.Parity.OddParity)
-        elif index == 3:
-            self.serialPort.setParity(SerialPort.Parity.SpaceParity)
-        elif index == 4:
-            self.serialPort.setParity(SerialPort.Parity.MarkParity)
-        self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
-
-    def onFlowControlBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on flowControlBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
-        if index == 0:
-            self.serialPort.setFlowControl(SerialPort.FlowControl.NoFlowControl)
-        elif index == 1:
-            self.serialPort.setFlowControl(SerialPort.FlowControl.HardwareControl)
-        elif index == 2:
-            self.serialPort.setFlowControl(SerialPort.FlowControl.SoftwareControl)
-        self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))'''
 
     def onLogScreenBackButtonClicked(self):
         """
@@ -358,30 +201,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         else:
             pass # other pages
 
-    '''def onErrorOccurred(self, error):
-        """
-        Method to handle errors for serial port
-
-        Parameters:
-        - error: raised error from the serial port
-
-        """
-        if error == QSerialPort.SerialPortError.OpenError:
-            self.infoMessages.appendPlainText("Info: You have already opened the serial port.")
-        elif error == QSerialPort.SerialPortError.DeviceNotFoundError:
-            self.infoMessages.appendPlainText("Error: Attempting to open an non-existing device. Refresh port list.")
-        elif error == QSerialPort.SerialPortError.PermissionError:
-            self.infoMessages.appendPlainText("Error: Attempting to open an already opened device by another process or you don't have permissions")
-        elif error == QSerialPort.SerialPortError.TimeoutError:
-            self.infoMessages.appendPlainText("Error: A timeout error occurred, try again.")
-        elif error == QSerialPort.SerialPortError.UnknownError:
-            self.infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
-        elif error == QSerialPort.SerialPortError.NoError:
-            if self.serialPort.portName() == '':
-                return
-            else:
-                self.infoMessages.appendPlainText("Info: Port " + (self.serialPort.portName()) + " is opened successfully!")
-'''
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
