@@ -60,8 +60,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.onUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
-        self.commandList = ["custar", "printenv"]
-
         self.baudRateBox.addItems(self.serialPort.baudRateList)
         self.dataBitBox.addItems(self.serialPort.dataBitList)
         self.stopBitBox.addItems(self.serialPort.stopBitList)
@@ -140,7 +138,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
         else:
             self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
-
+            
     def onComPortButtonClicked(self):
         self.serialPort.getComPorts()
 
