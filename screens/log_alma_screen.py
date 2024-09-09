@@ -1,12 +1,10 @@
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from modules.serial_port import SerialPort
+from modules.usb_manager import UsbManager
 from PySide6.QtCore import Signal, QByteArray, QRect
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
-from datetime import datetime
 import dialogs.log_screen_dialogs as logScreendialogs
-import psutil
-import os
 import time
 
 #################################################################################
@@ -26,7 +24,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.serialPort = SerialPort(self)
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
-        self.saveLogs = False
+        self.usbManager = UsbManager()
         self.bitirButton.setEnabled(False)
         self.bitirButton.setStyleSheet("color: gray;")
 
@@ -62,15 +60,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.onUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
-        """
-        A method to create comboBox contents
-
-        Creates lists of serial port parameters, and adds them into related comboBoxes
-        """
-
-        self.commandList = ["custar", "printenv"]
-
-        # add lists to relative combo boxes
         self.baudRateBox.addItems(self.serialPort.baudRateList)
         self.dataBitBox.addItems(self.serialPort.dataBitList)
         self.stopBitBox.addItems(self.serialPort.stopBitList)
@@ -79,91 +68,33 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.presetCommandBox.addItems(self.commandList)
 
     def onBaudRateBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on baudRateBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         self.serialPort.setNewBaudRate(index)
         self.infoMessages.appendPlainText("Info: Baud rate is set to " + str(self.serialPort.baudRate()))
 
     def onDataBitBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on dataBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         self.serialPort.setNewDataBits(index)
         self.infoMessages.appendPlainText("Info: Data bits are set to " + str(self.serialPort.dataBits()))
 
     def onStopBitBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on stopBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         self.serialPort.setNewStopBits(index)
         self.infoMessages.appendPlainText("Info: Stop bit is set to " + str(self.serialPort.stopBits()))
 
     def onParityBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on parityBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         self.serialPort.setNewParity(index)
         self.infoMessages.appendPlainText("Info: Parity is set to " + str(self.serialPort.parity()))
 
     def onFlowControlBoxCurrentIndexChanged(self, index):
-        """
-        Slot method to handle item selection on flowControlBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         self.serialPort.setNewFlowControl(index)
         self.infoMessages.appendPlainText("Info: Flow control is set to " + str(self.serialPort.flowControl()))
 
     def onLogScreenBackButtonClicked(self):
-        """
-        Slot method to handle click action on logScreenBackButton
-
-        Sets the page of main screen as current page
-
-        """
         self.parent().setCurrentIndex(0)
 
     def onResetButtonClicked(self):
-        """
-        Slot method to handle click action on resetButton
-
-        Refreshes available serial port list, and appends informative message to infoMessages
-
-        """
         self.serialPort.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
     def onConnectButtonClicked(self):
-        """
-        Slot method to handle click action on connectButton
-
-        Refreshes available serial port list, and appends informative message to infoMessages
-
-        """
         # match selected combobox item and comPortList item
         if len(self.serialPort.comPortList) == 0:
             return
@@ -173,9 +104,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
                 self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode
 
     def onMBootButtonClicked(self):
-        """
-        To get the TV to the Mboot Menu
-        """
         text = "reset"                                      # restarts the TV
         bytes = QByteArray(text.encode())                   # convert str to byte       
         self.serialPort.write(bytes)                        # write it to serial port
@@ -187,71 +115,37 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             bytes = QByteArray(text.encode())                   # convert str to byte
             self.serialPort.write(bytes)                        # write it to serial port
             time.sleep(0.1)                                     # waits 0.1 second
-            
 
     def onPresetCommandBoxCurrentIndexChanged(self,index):
-        """
-        To set selected preset command
-        """
-
         self.messageLine.setText(self.commandList[index])
 
-
     def onSendButtonClicked(self):
-        """
-        Slot method to handle click action on sendButton
-
-        Takes the user input in messageLine, and writes it to the serial port
-
-        """
         text = self.messageLine.text()
         self.serialMessages.appendPlainText(">> "+ text)
-        if(self.saveLogs):
-            self.saveToUsbFile(">> "+ text)
+        if(self.usbManager.savingStatus):
+            try:
+                self.usbManager.saveToUsbFile(">> "+ text)
+            except Exception as e:
+                self.infoMessages.appendPlainText(f"An error occurred while saving the file: {e}")
         self.messageLine.clear()
 
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
 
     def onDisconnectButtonClicked(self):
-        """
-        Slot method to handle click action on disconnectButton
-
-        Closes serial ports if there is open one, and appends related message to infoMessages
-
-        """
         if self.serialPort.isOpen():
             self.serialPort.close()
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
         else:
             self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
-
-    '''def readFromSerialPort(self):
-        text = str(self.serialPort.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
-        self.serialMessages.appendPlainText(text)                     # print them on UI
-        
-        if(self.saveLogs):
-            self.saveToUsbFile(text)'''
-
+            
     def onComPortButtonClicked(self):
         self.serialPort.getComPorts()
 
     def onClearInfoPanelButtonClicked(self):
-        """
-        Slot method to handle click action on clearInfoPanelButton
-
-        Clears all message history in the infoMessages
-
-        """
         self.infoMessages.clear()
 
     def onClearMessagePanelButtonClicked(self):
-        """
-        Slot method to handle click action on clearMessagePanelButton
-
-        Clears all message history in the serialMessages
-
-        """
         self.serialMessages.clear()
 
     def onShowDialogsButtonClicked(self):
@@ -265,54 +159,23 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
 
-    def get_usb_drives(self):
-        """
-        Function to detect mounted USB drives.
-        """
-        partitions = psutil.disk_partitions(all=False)  # 'all=True' can show unmounted devices
-        usb_drives = []
-
-        for partition in partitions:
-            # Use 'removable' in partition.opts for Windows and other OS checks
-            if 'removable' in partition.opts or '/media/' in partition.mountpoint or '/mnt/' in partition.mountpoint:
-                usb_drives.append({
-                    'device': partition.device,
-                    'mountpoint': partition.mountpoint,
-                    'fstype': partition.fstype
-                })
-
-        return usb_drives
-
     def onKaydetButtonClicked(self):
-            selected_mount_point = self.usbPortBox.currentText()
-            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file_name = f"log_file_{current_time}.txt"
-
-            if not selected_mount_point:
+            self.selected_mount_point = self.usbPortBox.currentText()
+            if not self.selected_mount_point:
                 self.infoMessages.appendPlainText("No USB drive selected!")
                 return
-
-            self.file_path = os.path.join(selected_mount_point, file_name)
+            
             self.savingStatusChanged.emit(True)
-
-    def saveToUsbFile(self, text):
-        try:
-            with open(self.file_path, 'a') as file:
-                file.write(text)
-                file.write('\n')
-
-        except Exception as e:
-            self.infoMessages.appendPlainText(f"An error occurred while saving the file: {e}")
 
     def onBitirButtonClicked(self):
         self.savingStatusChanged.emit(False)
 
     def onUsbYenileButtonClicked(self):
         self.usbPortBox.clear()
-        usb_drives = self.get_usb_drives()
-        if usb_drives:
-            for drive in usb_drives:
-                self.usbPortBox.addItem(drive['mountpoint'])
+        usbDeviceList = self.usbManager.getAvailableUsbDevices()
+        if usbDeviceList:
+            for device in usbDeviceList:
+                self.usbPortBox.addItem(device['mountpoint'])
         else:
             self.infoMessages.appendPlainText("No USB drives detected.")
         
@@ -320,14 +183,14 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def onSavingStatusChanged(self, status):
         if(status):
-            self.saveLogs = True
+            self.usbManager.startRecording(self.selected_mount_point)
             self.kaydetButton.setEnabled(False)
             self.kaydetButton.setStyleSheet("color: gray;")
             self.bitirButton.setEnabled(True)
             self.bitirButton.setStyleSheet("color: black;")
             self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
         else:
-            self.saveLogs = False
+            self.usbManager.stopRecording()
             self.bitirButton.setEnabled(False)
             self.bitirButton.setStyleSheet("color: gray;")
             self.kaydetButton.setEnabled(True)
