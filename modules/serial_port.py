@@ -16,6 +16,8 @@ class SerialPort(QSerialPort):
         self.parityList = ["no parity", "even", "odd", "space", "mark"]
         self.flowControlList = ["no flow control", "hardware", "software"]
 
+        self.commandList = ["custar", "printenv"]
+
         self.errorOccurred.connect(self.onErrorOccurred)# to handle occurred serial port errors
         self.readyRead.connect(self.readFromSerialPort) # continuously read from serial port
 

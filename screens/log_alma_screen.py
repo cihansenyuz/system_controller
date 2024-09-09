@@ -65,7 +65,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.stopBitBox.addItems(self.serialPort.stopBitList)
         self.parityBox.addItems(self.serialPort.parityList)
         self.flowControlBox.addItems(self.serialPort.flowControlList)
-        self.presetCommandBox.addItems(self.commandList)
+        self.presetCommandBox.addItems(self.serialPort.commandList)
 
     def onBaudRateBoxCurrentIndexChanged(self, index):
         self.serialPort.setNewBaudRate(index)

@@ -26,10 +26,10 @@ class Ui_logScreenWindow(object):
         logScreenWindow.resize(1086, 790)
         self.layoutWidget = QWidget(logScreenWindow)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(20, 20, 516, 740))
+        self.layoutWidget.setGeometry(QRect(20, 20, 1041, 745))
         self.horizontalLayout_17 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.horizontalLayout_17.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.horizontalLayout_17.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
@@ -72,11 +72,6 @@ class Ui_logScreenWindow(object):
 
         self.messageLine = QLineEdit(self.layoutWidget)
         self.messageLine.setObjectName(u"messageLine")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.messageLine.sizePolicy().hasHeightForWidth())
-        self.messageLine.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_3.addWidget(self.messageLine)
 
@@ -101,11 +96,8 @@ class Ui_logScreenWindow(object):
 
         self.sendButton = QPushButton(self.layoutWidget)
         self.sendButton.setObjectName(u"sendButton")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.sendButton.sizePolicy().hasHeightForWidth())
-        self.sendButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.sendButton.sizePolicy().hasHeightForWidth())
+        self.sendButton.setSizePolicy(sizePolicy)
         self.sendButton.setMinimumSize(QSize(125, 0))
 
         self.horizontalLayout_3.addWidget(self.sendButton)
@@ -124,37 +116,37 @@ class Ui_logScreenWindow(object):
         self.groupBox = QGroupBox(self.layoutWidget)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setEnabled(True)
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
-        self.groupBox.setSizePolicy(sizePolicy2)
-        self.groupBox.setMinimumSize(QSize(0, 150))
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
+        self.groupBox.setSizePolicy(sizePolicy1)
+        self.groupBox.setMinimumSize(QSize(0, 200))
         self.groupBox.setCheckable(False)
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setSizeConstraint(QLayout.SetMinimumSize)
+        self.verticalLayout_4.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         self.comPortBox = QComboBox(self.groupBox)
         self.comPortBox.setObjectName(u"comPortBox")
-        sizePolicy2.setHeightForWidth(self.comPortBox.sizePolicy().hasHeightForWidth())
-        self.comPortBox.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.comPortBox.sizePolicy().hasHeightForWidth())
+        self.comPortBox.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_4.addWidget(self.comPortBox)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setSizeConstraint(QLayout.SetMinimumSize)
+        self.horizontalLayout_2.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         self.comPortButton = QPushButton(self.groupBox)
         self.comPortButton.setObjectName(u"comPortButton")
-        sizePolicy1.setHeightForWidth(self.comPortButton.sizePolicy().hasHeightForWidth())
-        self.comPortButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.comPortButton.sizePolicy().hasHeightForWidth())
+        self.comPortButton.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.comPortButton)
 
         self.disconnectButton = QPushButton(self.groupBox)
         self.disconnectButton.setObjectName(u"disconnectButton")
-        sizePolicy1.setHeightForWidth(self.disconnectButton.sizePolicy().hasHeightForWidth())
-        self.disconnectButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.disconnectButton.sizePolicy().hasHeightForWidth())
+        self.disconnectButton.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.disconnectButton)
 
@@ -163,25 +155,25 @@ class Ui_logScreenWindow(object):
 
         self.connectButton = QPushButton(self.groupBox)
         self.connectButton.setObjectName(u"connectButton")
-        sizePolicy1.setHeightForWidth(self.connectButton.sizePolicy().hasHeightForWidth())
-        self.connectButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.connectButton.sizePolicy().hasHeightForWidth())
+        self.connectButton.setSizePolicy(sizePolicy)
 
         self.verticalLayout_4.addWidget(self.connectButton)
 
 
-        self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignTop)
+        self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
 
         self.groupBox_5 = QGroupBox(self.layoutWidget)
         self.groupBox_5.setObjectName(u"groupBox_5")
-        sizePolicy2.setHeightForWidth(self.groupBox_5.sizePolicy().hasHeightForWidth())
-        self.groupBox_5.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.groupBox_5.sizePolicy().hasHeightForWidth())
+        self.groupBox_5.setSizePolicy(sizePolicy1)
         self.groupBox_5.setMinimumSize(QSize(0, 150))
         self.verticalLayout_7 = QVBoxLayout(self.groupBox_5)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.usbPortBox = QComboBox(self.groupBox_5)
         self.usbPortBox.setObjectName(u"usbPortBox")
-        sizePolicy2.setHeightForWidth(self.usbPortBox.sizePolicy().hasHeightForWidth())
-        self.usbPortBox.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.usbPortBox.sizePolicy().hasHeightForWidth())
+        self.usbPortBox.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_7.addWidget(self.usbPortBox)
 
@@ -190,15 +182,15 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_9.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         self.usbPortYenileButton = QPushButton(self.groupBox_5)
         self.usbPortYenileButton.setObjectName(u"usbPortYenileButton")
-        sizePolicy1.setHeightForWidth(self.usbPortYenileButton.sizePolicy().hasHeightForWidth())
-        self.usbPortYenileButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.usbPortYenileButton.sizePolicy().hasHeightForWidth())
+        self.usbPortYenileButton.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_9.addWidget(self.usbPortYenileButton)
 
         self.bitirButton = QPushButton(self.groupBox_5)
         self.bitirButton.setObjectName(u"bitirButton")
-        sizePolicy1.setHeightForWidth(self.bitirButton.sizePolicy().hasHeightForWidth())
-        self.bitirButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.bitirButton.sizePolicy().hasHeightForWidth())
+        self.bitirButton.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_9.addWidget(self.bitirButton)
 
@@ -207,8 +199,8 @@ class Ui_logScreenWindow(object):
 
         self.kaydetButton = QPushButton(self.groupBox_5)
         self.kaydetButton.setObjectName(u"kaydetButton")
-        sizePolicy1.setHeightForWidth(self.kaydetButton.sizePolicy().hasHeightForWidth())
-        self.kaydetButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.kaydetButton.sizePolicy().hasHeightForWidth())
+        self.kaydetButton.setSizePolicy(sizePolicy)
         self.kaydetButton.setMinimumSize(QSize(125, 0))
 
         self.verticalLayout_7.addWidget(self.kaydetButton)
@@ -218,9 +210,9 @@ class Ui_logScreenWindow(object):
 
         self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        sizePolicy2.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
-        self.groupBox_2.setSizePolicy(sizePolicy2)
-        self.groupBox_2.setMinimumSize(QSize(0, 0))
+        sizePolicy1.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
+        self.groupBox_2.setSizePolicy(sizePolicy1)
+        self.groupBox_2.setMinimumSize(QSize(0, 200))
         self.verticalLayout_5 = QVBoxLayout(self.groupBox_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.horizontalLayout_4 = QHBoxLayout()
@@ -272,11 +264,11 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy3)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy2)
 
         self.horizontalLayout_6.addWidget(self.label_3)
 
@@ -293,8 +285,8 @@ class Ui_logScreenWindow(object):
         self.label_6 = QLabel(self.groupBox_2)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setEnabled(True)
-        sizePolicy3.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy2)
         self.label_6.setScaledContents(False)
 
         self.horizontalLayout_5.addWidget(self.label_6)
@@ -312,34 +304,33 @@ class Ui_logScreenWindow(object):
 
         self.showDialogsButton = QPushButton(self.layoutWidget)
         self.showDialogsButton.setObjectName(u"showDialogsButton")
-        sizePolicy1.setHeightForWidth(self.showDialogsButton.sizePolicy().hasHeightForWidth())
-        self.showDialogsButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.showDialogsButton.sizePolicy().hasHeightForWidth())
+        self.showDialogsButton.setSizePolicy(sizePolicy)
 
         self.verticalLayout_3.addWidget(self.showDialogsButton)
 
         self.clearMessagePanelButton = QPushButton(self.layoutWidget)
         self.clearMessagePanelButton.setObjectName(u"clearMessagePanelButton")
-        sizePolicy1.setHeightForWidth(self.clearMessagePanelButton.sizePolicy().hasHeightForWidth())
-        self.clearMessagePanelButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.clearMessagePanelButton.sizePolicy().hasHeightForWidth())
+        self.clearMessagePanelButton.setSizePolicy(sizePolicy)
 
         self.verticalLayout_3.addWidget(self.clearMessagePanelButton)
 
         self.clearInfoPanelButton = QPushButton(self.layoutWidget)
         self.clearInfoPanelButton.setObjectName(u"clearInfoPanelButton")
-        sizePolicy1.setHeightForWidth(self.clearInfoPanelButton.sizePolicy().hasHeightForWidth())
-        self.clearInfoPanelButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.clearInfoPanelButton.sizePolicy().hasHeightForWidth())
+        self.clearInfoPanelButton.setSizePolicy(sizePolicy)
 
         self.verticalLayout_3.addWidget(self.clearInfoPanelButton)
 
         self.logScreenBackButton = QPushButton(self.layoutWidget)
         self.logScreenBackButton.setObjectName(u"logScreenBackButton")
-        sizePolicy1.setHeightForWidth(self.logScreenBackButton.sizePolicy().hasHeightForWidth())
-        self.logScreenBackButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.logScreenBackButton.sizePolicy().hasHeightForWidth())
+        self.logScreenBackButton.setSizePolicy(sizePolicy)
 
         self.verticalLayout_3.addWidget(self.logScreenBackButton)
 
         self.verticalLayout_3.setStretch(0, 2)
-        self.verticalLayout_3.setStretch(1, 2)
         self.verticalLayout_3.setStretch(2, 2)
         self.verticalLayout_3.setStretch(3, 1)
         self.verticalLayout_3.setStretch(4, 1)
