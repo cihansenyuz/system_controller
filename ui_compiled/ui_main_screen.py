@@ -117,7 +117,7 @@ class Ui_mainScreenWindow(object):
     def retranslateUi(self, mainScreenWindow):
         mainScreenWindow.setWindowTitle(QCoreApplication.translate("mainScreenWindow", u"Form", None))
         self.getLogButton.setText(QCoreApplication.translate("mainScreenWindow", u"TV'nin logunu al", None))
-        self.pushButton_2.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
+        self.pushButton_2.setText(QCoreApplication.translate("mainScreenWindow", u"USB Image Olu\u015ftur", None))
         self.pushButton_3.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
         self.pushButton_4.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))
         self.pushButton_5.setText(QCoreApplication.translate("mainScreenWindow", u"PushButton", None))

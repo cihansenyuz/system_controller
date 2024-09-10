@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect
 from ui_compiled.ui_main_screen import Ui_mainScreenWindow
 from screens.log_alma_screen import LogScreenWindow
+from screens.image_creator_screen import ImageCreatorWindow
 
 class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
     def __init__(self):
@@ -26,7 +27,12 @@ class  MainScreenWindow(QWidget, Ui_mainScreenWindow):
         self.parent().setCurrentWidget(self.logScreenPage)
         
     def onButton2Clicked(self):
-        pass
+        if not hasattr(self,"ImageCreatorPage"):
+            self.ImageCreatorPage = ImageCreatorWindow(2)
+            self.parent().addWidget(self.ImageCreatorPage)
+        
+        self.parent().setCurrentWidget(self.ImageCreatorPage)
+    
     def onButton3Clicked(self):
         pass
     def onButton4Clicked(self):
