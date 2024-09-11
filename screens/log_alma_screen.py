@@ -1,18 +1,20 @@
 from PySide6.QtGui import QResizeEvent
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QGroupBox
 from modules.serial_port import SerialPort
 from modules.usb_manager import UsbManager
-from PySide6.QtCore import Signal, QByteArray, QRect
+from PySide6.QtCore import Signal, QByteArray, QRect, QSize
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 import dialogs.log_screen_dialogs as logScreendialogs
 import time
+from modules.usb_group_box import UsbGroupBox
+
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
 #################################################################################
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    savingStatusChanged = Signal(bool)
+    #savingStatusChanged = Signal(bool)
 
     def __init__(self, page):        
         super().__init__()
@@ -25,10 +27,20 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.usbManager = UsbManager()
-        self.bitirButton.setEnabled(False)
-        self.bitirButton.setStyleSheet("color: gray;")
 
-        self.savingStatusChanged.connect(self.onSavingStatusChanged)
+        self.usbGroupBox = UsbGroupBox(self.usbManager, self.infoMessages)
+        self.usbGroupBox.setObjectName(u"usbGroupBox")
+        self.usbGroupBox.setMinimumSize(QSize(0, 150))
+
+        self.verticalLayout_3.insertWidget(1, self.usbGroupBox)
+        #sizePolicy1.setHeightForWidth(self.usbGroupBox.sizePolicy().hasHeightForWidth())
+        #self.usbGroupBox.setSizePolicy(sizePolicy1)
+        
+ 
+        #self.bitirButton.setEnabled(False)
+        #self.bitirButton.setStyleSheet("color: gray;")
+
+        #self.savingStatusChanged.connect(self.onSavingStatusChanged)
 
         #### missing possible implementations ####
         # timing for read/write might need to be managed
@@ -43,9 +55,9 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
-        self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
-        self.bitirButton.clicked.connect(self.onBitirButtonClicked)
-        self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
+        #self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
+        #self.bitirButton.clicked.connect(self.onBitirButtonClicked)
+        #self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
 
         # combobox connections on log screen page
@@ -57,7 +69,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
-        self.onUsbYenileButtonClicked() # Detect USB drives
+        #self.ononUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
         self.baudRateBox.addItems(self.serialPort.baudRateList)
@@ -159,7 +171,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
 
-    def onKaydetButtonClicked(self):
+    '''def onKaydetButtonClicked(self):
             self.selected_mount_point = self.usbPortBox.currentText()
             if not self.selected_mount_point:
                 self.infoMessages.appendPlainText("No USB drive selected!")
@@ -195,4 +207,4 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
             self.bitirButton.setStyleSheet("color: gray;")
             self.kaydetButton.setEnabled(True)
             self.kaydetButton.setStyleSheet("color: black;")
-            self.infoMessages.appendPlainText("Log kaydı durduruldu.")
+            self.infoMessages.appendPlainText("Log kaydı durduruldu.")'''

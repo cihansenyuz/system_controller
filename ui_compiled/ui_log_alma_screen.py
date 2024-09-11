@@ -163,51 +163,6 @@ class Ui_logScreenWindow(object):
 
         self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
 
-        self.groupBox_5 = QGroupBox(self.layoutWidget)
-        self.groupBox_5.setObjectName(u"groupBox_5")
-        sizePolicy1.setHeightForWidth(self.groupBox_5.sizePolicy().hasHeightForWidth())
-        self.groupBox_5.setSizePolicy(sizePolicy1)
-        self.groupBox_5.setMinimumSize(QSize(0, 150))
-        self.verticalLayout_7 = QVBoxLayout(self.groupBox_5)
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.usbPortBox = QComboBox(self.groupBox_5)
-        self.usbPortBox.setObjectName(u"usbPortBox")
-        sizePolicy1.setHeightForWidth(self.usbPortBox.sizePolicy().hasHeightForWidth())
-        self.usbPortBox.setSizePolicy(sizePolicy1)
-
-        self.verticalLayout_7.addWidget(self.usbPortBox)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalLayout_9.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
-        self.usbPortYenileButton = QPushButton(self.groupBox_5)
-        self.usbPortYenileButton.setObjectName(u"usbPortYenileButton")
-        sizePolicy.setHeightForWidth(self.usbPortYenileButton.sizePolicy().hasHeightForWidth())
-        self.usbPortYenileButton.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_9.addWidget(self.usbPortYenileButton)
-
-        self.bitirButton = QPushButton(self.groupBox_5)
-        self.bitirButton.setObjectName(u"bitirButton")
-        sizePolicy.setHeightForWidth(self.bitirButton.sizePolicy().hasHeightForWidth())
-        self.bitirButton.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_9.addWidget(self.bitirButton)
-
-
-        self.verticalLayout_7.addLayout(self.horizontalLayout_9)
-
-        self.kaydetButton = QPushButton(self.groupBox_5)
-        self.kaydetButton.setObjectName(u"kaydetButton")
-        sizePolicy.setHeightForWidth(self.kaydetButton.sizePolicy().hasHeightForWidth())
-        self.kaydetButton.setSizePolicy(sizePolicy)
-        self.kaydetButton.setMinimumSize(QSize(125, 0))
-
-        self.verticalLayout_7.addWidget(self.kaydetButton)
-
-
-        self.verticalLayout_3.addWidget(self.groupBox_5)
-
         self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
         sizePolicy1.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
@@ -330,12 +285,6 @@ class Ui_logScreenWindow(object):
 
         self.verticalLayout_3.addWidget(self.logScreenBackButton)
 
-        self.verticalLayout_3.setStretch(0, 2)
-        self.verticalLayout_3.setStretch(2, 2)
-        self.verticalLayout_3.setStretch(3, 1)
-        self.verticalLayout_3.setStretch(4, 1)
-        self.verticalLayout_3.setStretch(5, 1)
-        self.verticalLayout_3.setStretch(6, 1)
 
         self.horizontalLayout_17.addLayout(self.verticalLayout_3)
 
@@ -356,10 +305,6 @@ class Ui_logScreenWindow(object):
         self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
         self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Kapat", None))
         self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Ba\u011flan", None))
-        self.groupBox_5.setTitle(QCoreApplication.translate("logScreenWindow", u"USB Se\u00e7imi", None))
-        self.usbPortYenileButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
-        self.bitirButton.setText(QCoreApplication.translate("logScreenWindow", u"Bitir", None))
-        self.kaydetButton.setText(QCoreApplication.translate("logScreenWindow", u"Kayd\u0131 Ba\u015flat", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Ayarlar", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))
         self.label_5.setText(QCoreApplication.translate("logScreenWindow", u"Data Bit", None))
