@@ -16,35 +16,28 @@ from modules.usb_group_box import UsbGroupBox
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
     #savingStatusChanged = Signal(bool)
 
-    def __init__(self, page):        
+    def __init__(self, page):
         super().__init__()
         self.setupUi(self)
-
-        #Resize operations
-        #self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         
         self.serialPort = SerialPort(self)
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.usbManager = UsbManager()
 
+        # create a USB settings combobox with all functional widgets
         self.usbGroupBox = UsbGroupBox(self.usbManager, self.infoMessages)
         self.usbGroupBox.setObjectName(u"usbGroupBox")
         self.usbGroupBox.setMinimumSize(QSize(0, 150))
 
-        self.verticalLayout_3.insertWidget(1, self.usbGroupBox)
-        #sizePolicy1.setHeightForWidth(self.usbGroupBox.sizePolicy().hasHeightForWidth())
-        #self.usbGroupBox.setSizePolicy(sizePolicy1)
-        
- 
-        #self.bitirButton.setEnabled(False)
-        #self.bitirButton.setStyleSheet("color: gray;")
-
-        #self.savingStatusChanged.connect(self.onSavingStatusChanged)
-
-        #### missing possible implementations ####
-        # timing for read/write might need to be managed
-        # errorOccured signal must be connected
+        self.settings_layout.insertWidget(1, self.usbGroupBox)
+        self.settings_layout.setStretch(0, 2)  # Port Seçimi
+        self.settings_layout.setStretch(1, 2)  # USB Ayarları
+        self.settings_layout.setStretch(2, 2)  # Ayarlar
+        self.settings_layout.setStretch(3, 1)  # Dökümentasyonu Göster button
+        self.settings_layout.setStretch(4, 1)  # Seri Port Mesaj Panelini Temizle button
+        self.settings_layout.setStretch(5, 1)  # Bilgi Panelini Temizle button
+        self.settings_layout.setStretch(6, 1)  # Ana Ekrana Dön button
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
@@ -55,9 +48,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
         self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
-        #self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
-        #self.bitirButton.clicked.connect(self.onBitirButtonClicked)
-        #self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
 
         # combobox connections on log screen page
@@ -69,7 +59,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
-        #self.ononUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
         self.baudRateBox.addItems(self.serialPort.baudRateList)
@@ -170,41 +159,3 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
-
-    '''def onKaydetButtonClicked(self):
-            self.selected_mount_point = self.usbPortBox.currentText()
-            if not self.selected_mount_point:
-                self.infoMessages.appendPlainText("No USB drive selected!")
-                return
-            
-            self.savingStatusChanged.emit(True)
-
-    def onBitirButtonClicked(self):
-        self.savingStatusChanged.emit(False)
-
-    def onUsbYenileButtonClicked(self):
-        self.usbPortBox.clear()
-        usbDeviceList = self.usbManager.getAvailableUsbDevices()
-        if usbDeviceList:
-            for device in usbDeviceList:
-                self.usbPortBox.addItem(device['mountpoint'])
-        else:
-            self.infoMessages.appendPlainText("No USB drives detected.")
-        
-        self.usbPortBox.setCurrentIndex(-1)
-
-    def onSavingStatusChanged(self, status):
-        if(status):
-            self.usbManager.startRecording(self.selected_mount_point)
-            self.kaydetButton.setEnabled(False)
-            self.kaydetButton.setStyleSheet("color: gray;")
-            self.bitirButton.setEnabled(True)
-            self.bitirButton.setStyleSheet("color: black;")
-            self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
-        else:
-            self.usbManager.stopRecording()
-            self.bitirButton.setEnabled(False)
-            self.bitirButton.setStyleSheet("color: gray;")
-            self.kaydetButton.setEnabled(True)
-            self.kaydetButton.setStyleSheet("color: black;")
-            self.infoMessages.appendPlainText("Log kaydı durduruldu.")'''

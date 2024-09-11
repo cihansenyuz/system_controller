@@ -111,8 +111,8 @@ class Ui_logScreenWindow(object):
 
         self.horizontalLayout_17.addLayout(self.verticalLayout_6)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.settings_layout = QVBoxLayout()
+        self.settings_layout.setObjectName(u"settings_layout")
         self.groupBox = QGroupBox(self.layoutWidget)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setEnabled(True)
@@ -161,7 +161,7 @@ class Ui_logScreenWindow(object):
         self.verticalLayout_4.addWidget(self.connectButton)
 
 
-        self.verticalLayout_3.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
+        self.settings_layout.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
 
         self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
@@ -255,38 +255,38 @@ class Ui_logScreenWindow(object):
         self.verticalLayout_5.addLayout(self.horizontalLayout_5)
 
 
-        self.verticalLayout_3.addWidget(self.groupBox_2)
+        self.settings_layout.addWidget(self.groupBox_2)
 
         self.showDialogsButton = QPushButton(self.layoutWidget)
         self.showDialogsButton.setObjectName(u"showDialogsButton")
         sizePolicy.setHeightForWidth(self.showDialogsButton.sizePolicy().hasHeightForWidth())
         self.showDialogsButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.showDialogsButton)
+        self.settings_layout.addWidget(self.showDialogsButton)
 
         self.clearMessagePanelButton = QPushButton(self.layoutWidget)
         self.clearMessagePanelButton.setObjectName(u"clearMessagePanelButton")
         sizePolicy.setHeightForWidth(self.clearMessagePanelButton.sizePolicy().hasHeightForWidth())
         self.clearMessagePanelButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.clearMessagePanelButton)
+        self.settings_layout.addWidget(self.clearMessagePanelButton)
 
         self.clearInfoPanelButton = QPushButton(self.layoutWidget)
         self.clearInfoPanelButton.setObjectName(u"clearInfoPanelButton")
         sizePolicy.setHeightForWidth(self.clearInfoPanelButton.sizePolicy().hasHeightForWidth())
         self.clearInfoPanelButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.clearInfoPanelButton)
+        self.settings_layout.addWidget(self.clearInfoPanelButton)
 
         self.logScreenBackButton = QPushButton(self.layoutWidget)
         self.logScreenBackButton.setObjectName(u"logScreenBackButton")
         sizePolicy.setHeightForWidth(self.logScreenBackButton.sizePolicy().hasHeightForWidth())
         self.logScreenBackButton.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_3.addWidget(self.logScreenBackButton)
+        self.settings_layout.addWidget(self.logScreenBackButton)
 
 
-        self.horizontalLayout_17.addLayout(self.verticalLayout_3)
+        self.horizontalLayout_17.addLayout(self.settings_layout)
 
 
         self.retranslateUi(logScreenWindow)

@@ -1,29 +1,31 @@
 from ui_compiled.ui_usb_group_box import Ui_usbGroupBox
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QGroupBox
 from PySide6.QtCore import Signal
 
-class UsbGroupBox(QWidget, Ui_usbGroupBox):
+class UsbGroupBox(QGroupBox):
     savingStatusChanged = Signal(bool)
 
-    def __init__(self, usbManager, infoMessages):
+    def __init__(self, parentUsbManager, parentInfoMessages):
         super().__init__()
-        self.setupUi(self)
-        self.usbManager = usbManager
-        self.infoMessages = infoMessages
+        self.ui = Ui_usbGroupBox()
+        self.ui.setupUi(self)
+        self.usbManager = parentUsbManager
+        self.infoMessages = parentInfoMessages
+        self.setTitle("USB Ayarları")
 
-        self.bitirButton.setEnabled(False)
-        self.bitirButton.setStyleSheet("color: gray;")
+        self.ui.bitirButton.setEnabled(False)
+        self.ui.bitirButton.setStyleSheet("color: gray;")
 
         self.savingStatusChanged.connect(self.onSavingStatusChanged)
 
-        self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
-        self.bitirButton.clicked.connect(self.onBitirButtonClicked)
-        self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
+        self.ui.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
+        self.ui.bitirButton.clicked.connect(self.onBitirButtonClicked)
+        self.ui.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
 
-        self.onUsbYenileButtonClicked() # Detect USB drives
+        self.onUsbYenileButtonClicked() # Detect USB drives for the first time
 
     def onKaydetButtonClicked(self):
-        self.selected_mount_point = self.usbPortBox.currentText()
+        self.selected_mount_point = self.ui.usbPortBox.currentText()
         if not self.selected_mount_point:
             self.infoMessages.appendPlainText("No USB drive selected!")
             return
@@ -34,28 +36,28 @@ class UsbGroupBox(QWidget, Ui_usbGroupBox):
         self.savingStatusChanged.emit(False)
 
     def onUsbYenileButtonClicked(self):
-        self.usbPortBox.clear()
+        self.ui.usbPortBox.clear()
         usbDeviceList = self.usbManager.getAvailableUsbDevices()
         if usbDeviceList:
             for device in usbDeviceList:
-                self.usbPortBox.addItem(device['mountpoint'])
+                self.ui.usbPortBox.addItem(device['mountpoint'])
         else:
             self.infoMessages.appendPlainText("No USB drives detected.")
         
-        self.usbPortBox.setCurrentIndex(-1)
+        self.ui.usbPortBox.setCurrentIndex(-1)
 
     def onSavingStatusChanged(self, status):
         if(status):
             self.usbManager.startRecording(self.selected_mount_point)
-            self.kaydetButton.setEnabled(False)
-            self.kaydetButton.setStyleSheet("color: gray;")
-            self.bitirButton.setEnabled(True)
-            self.bitirButton.setStyleSheet("color: black;")
+            self.ui.kaydetButton.setEnabled(False)
+            self.ui.kaydetButton.setStyleSheet("color: gray;")
+            self.ui.bitirButton.setEnabled(True)
+            self.ui.bitirButton.setStyleSheet("color: black;")
             self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
         else:
             self.usbManager.stopRecording()
-            self.bitirButton.setEnabled(False)
-            self.bitirButton.setStyleSheet("color: gray;")
-            self.kaydetButton.setEnabled(True)
-            self.kaydetButton.setStyleSheet("color: black;")
+            self.ui.bitirButton.setEnabled(False)
+            self.ui.bitirButton.setStyleSheet("color: gray;")
+            self.ui.kaydetButton.setEnabled(True)
+            self.ui.kaydetButton.setStyleSheet("color: black;")
             self.infoMessages.appendPlainText("Log kaydı durduruldu.")
