@@ -16,6 +16,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
         #button connections
         self.findButton.clicked.connect(self.onFindButtonClicked)
+        self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
 
     def onFindButtonClicked(self):
         self.imageFinder.setProjectName(self.projectNameLineEdit.text())
@@ -26,3 +27,6 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.prepareButton.setEnabled(True)
         self.prepareButton.setStyleSheet("color: black;")
 
+    def onPrepareButtonClicked(self):
+        self.infoMessages.appendPlainText("Preparing image...")
+        # do other stuff

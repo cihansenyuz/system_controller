@@ -1,4 +1,5 @@
 from PySide6.QtCore import QObject, Signal
+import os
 
 class ImageFinder(QObject):
     foundImageVersion = Signal(str)
@@ -12,7 +13,10 @@ class ImageFinder(QObject):
         self.projectName = projectName
 
     def getLatestImageVersion(self):
-        # get the latest image version from the project folder
+        os.chdir(self.rootPath) # Change to the root directory
+        files = os.listdir() # Get a list of all files in the current directory
+        
+        # TODO: Implement logic to find the latest image version
         foundImageVersion = "1.0.0"
         self.foundImageVersion.emit(foundImageVersion)
 

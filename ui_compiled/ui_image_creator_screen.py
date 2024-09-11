@@ -65,6 +65,8 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
+        self.verticalLayout.setStretch(0, 6)
+        self.verticalLayout.setStretch(1, 1)
 
         self.horizontalLayout.addWidget(self.groupBox_3)
 
@@ -95,9 +97,14 @@ class Ui_imageCreatorWindow(object):
         self.prepareButton = QPushButton(imageCreatorWindow)
         self.prepareButton.setObjectName(u"prepareButton")
         self.prepareButton.setEnabled(False)
+        sizePolicy1.setHeightForWidth(self.prepareButton.sizePolicy().hasHeightForWidth())
+        self.prepareButton.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout.addWidget(self.prepareButton)
 
+        self.horizontalLayout.setStretch(0, 5)
+        self.horizontalLayout.setStretch(1, 1)
+        self.horizontalLayout.setStretch(2, 1)
 
         self.retranslateUi(imageCreatorWindow)
 
