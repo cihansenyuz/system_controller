@@ -113,58 +113,11 @@ class Ui_logScreenWindow(object):
 
         self.settings_layout = QVBoxLayout()
         self.settings_layout.setObjectName(u"settings_layout")
-        self.groupBox = QGroupBox(self.layoutWidget)
-        self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setEnabled(True)
+        self.groupBox_2 = QGroupBox(self.layoutWidget)
+        self.groupBox_2.setObjectName(u"groupBox_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
-        self.groupBox.setSizePolicy(sizePolicy1)
-        self.groupBox.setMinimumSize(QSize(0, 200))
-        self.groupBox.setCheckable(False)
-        self.verticalLayout_4 = QVBoxLayout(self.groupBox)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
-        self.comPortBox = QComboBox(self.groupBox)
-        self.comPortBox.setObjectName(u"comPortBox")
-        sizePolicy1.setHeightForWidth(self.comPortBox.sizePolicy().hasHeightForWidth())
-        self.comPortBox.setSizePolicy(sizePolicy1)
-
-        self.verticalLayout_4.addWidget(self.comPortBox)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
-        self.comPortButton = QPushButton(self.groupBox)
-        self.comPortButton.setObjectName(u"comPortButton")
-        sizePolicy.setHeightForWidth(self.comPortButton.sizePolicy().hasHeightForWidth())
-        self.comPortButton.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_2.addWidget(self.comPortButton)
-
-        self.disconnectButton = QPushButton(self.groupBox)
-        self.disconnectButton.setObjectName(u"disconnectButton")
-        sizePolicy.setHeightForWidth(self.disconnectButton.sizePolicy().hasHeightForWidth())
-        self.disconnectButton.setSizePolicy(sizePolicy)
-
-        self.horizontalLayout_2.addWidget(self.disconnectButton)
-
-
-        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
-
-        self.connectButton = QPushButton(self.groupBox)
-        self.connectButton.setObjectName(u"connectButton")
-        sizePolicy.setHeightForWidth(self.connectButton.sizePolicy().hasHeightForWidth())
-        self.connectButton.setSizePolicy(sizePolicy)
-
-        self.verticalLayout_4.addWidget(self.connectButton)
-
-
-        self.settings_layout.addWidget(self.groupBox, 0, Qt.AlignmentFlag.AlignTop)
-
-        self.groupBox_2 = QGroupBox(self.layoutWidget)
-        self.groupBox_2.setObjectName(u"groupBox_2")
         sizePolicy1.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
         self.groupBox_2.setSizePolicy(sizePolicy1)
         self.groupBox_2.setMinimumSize(QSize(0, 200))
@@ -301,10 +254,6 @@ class Ui_logScreenWindow(object):
         self.mBootButton.setText(QCoreApplication.translate("logScreenWindow", u"MBOOT", None))
         self.label.setText(QCoreApplication.translate("logScreenWindow", u"Haz\u0131r Komutlar;", None))
         self.sendButton.setText(QCoreApplication.translate("logScreenWindow", u"G\u00f6nder", None))
-        self.groupBox.setTitle(QCoreApplication.translate("logScreenWindow", u"Port Se\u00e7imi", None))
-        self.comPortButton.setText(QCoreApplication.translate("logScreenWindow", u"Yenile", None))
-        self.disconnectButton.setText(QCoreApplication.translate("logScreenWindow", u"Kapat", None))
-        self.connectButton.setText(QCoreApplication.translate("logScreenWindow", u"Ba\u011flan", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("logScreenWindow", u"Ayarlar", None))
         self.label_2.setText(QCoreApplication.translate("logScreenWindow", u"Baud Rate", None))
         self.label_5.setText(QCoreApplication.translate("logScreenWindow", u"Data Bit", None))

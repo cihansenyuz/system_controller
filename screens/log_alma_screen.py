@@ -1,13 +1,13 @@
 from PySide6.QtGui import QResizeEvent
-from PySide6.QtWidgets import QWidget, QGroupBox
+from PySide6.QtWidgets import QWidget
 from modules.serial_port import SerialPort
 from modules.usb_manager import UsbManager
-from PySide6.QtCore import Signal, QByteArray, QRect, QSize
+from PySide6.QtCore import QByteArray, QRect, QSize
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 import dialogs.log_screen_dialogs as logScreendialogs
 import time
 from modules.usb_group_box import UsbGroupBox
-
+from modules.serial_group_box import SerialGroupBox
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
@@ -21,16 +21,23 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.setupUi(self)
         
         self.serialPort = SerialPort(self)
+        self.serialPort.dataReceived.connect(self.updateSerialMessages)
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.usbManager = UsbManager()
+
+        # create a Serial settings combobox with all functional widgets
+        self.serialGroupBox = SerialGroupBox(self.serialPort, self.infoMessages)
+        self.serialGroupBox.setObjectName(u"serialGroupBox")
+        self.serialGroupBox.setMinimumSize(QSize(0, 150))
+        self.settings_layout.insertWidget(0, self.serialGroupBox)
 
         # create a USB settings combobox with all functional widgets
         self.usbGroupBox = UsbGroupBox(self.usbManager, self.infoMessages)
         self.usbGroupBox.setObjectName(u"usbGroupBox")
         self.usbGroupBox.setMinimumSize(QSize(0, 150))
-
         self.settings_layout.insertWidget(1, self.usbGroupBox)
+
         self.settings_layout.setStretch(0, 2)  # Port Seçimi
         self.settings_layout.setStretch(1, 2)  # USB Ayarları
         self.settings_layout.setStretch(2, 2)  # Ayarlar
@@ -41,12 +48,12 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
-        self.connectButton.clicked.connect(self.onConnectButtonClicked)
+        #self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.sendButton.clicked.connect(self.onSendButtonClicked)
-        self.comPortButton.clicked.connect(self.onResetButtonClicked)
+        #self.comPortButton.clicked.connect(self.onResetButtonClicked)
         self.clearInfoPanelButton.clicked.connect(self.onClearInfoPanelButtonClicked)
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
-        self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
+        #self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
 
@@ -91,7 +98,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
 
-    def onResetButtonClicked(self):
+    '''def onResetButtonClicked(self):
         self.serialPort.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
@@ -102,7 +109,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         for portInfo in self.serialPort.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-                self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode'''
 
     def onMBootButtonClicked(self):
         text = "reset"                                      # restarts the TV
@@ -133,15 +140,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
 
-    def onDisconnectButtonClicked(self):
+    '''def onDisconnectButtonClicked(self):
         if self.serialPort.isOpen():
             self.serialPort.close()
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
         else:
-            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
+            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")'''
             
-    def onComPortButtonClicked(self):
-        self.serialPort.getComPorts()
+    '''def onComPortButtonClicked(self):
+        self.serialPort.getComPorts()'''
 
     def onClearInfoPanelButtonClicked(self):
         self.infoMessages.clear()
@@ -159,3 +166,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
+
+    def updateSerialMessages(self, text):
+        self.serialMessages.appendPlainText(text)
