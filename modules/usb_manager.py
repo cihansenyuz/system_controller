@@ -43,4 +43,8 @@ class UsbManager:
         self.savingStatus = False
 
     def copyFileToUsb(self, file_path, selected_mount_point):
-        shutil.copy(file_path, selected_mount_point)
+        try:
+            shutil.copy2(file_path, selected_mount_point)  # shutil.copy2 preserves metadata
+            print(f"File {file_path} copied to {selected_mount_point} successfully!")
+        except Exception as e:
+            print(f"Error while copying file: {e}")

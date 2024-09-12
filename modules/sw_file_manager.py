@@ -2,13 +2,13 @@ from modules.file_retriever import FileRetriever
 from PySide6.QtCore import Signal
 
 class SwFileManager(FileRetriever):
-    foundSwVersion = Signal(str)
+    foundSwFile = Signal(str)
 
     def __init__(self, rootDirectory):
         super().__init__(rootDirectory)
         self.osSeperator = self.rootDirectory[0]
         self.projectName = None
-        self.latestSwVersion = None
+        self.latestSwFile = None
 
         self.filePath = None
         self.oemPath = None
@@ -17,12 +17,12 @@ class SwFileManager(FileRetriever):
 
     def setProjectName(self, projectName):
         self.projectName = projectName
-        self.currentDirectory = self.rootDirectory + self.projectName + self.osSeperator + "MAIN_SW_MMC"
+        self.currentDirectory = self.rootDirectory + self.projectName + self.osSeperator + "USBDEN_YUKLEME" + self.osSeperator + "BIRINCI_USB"
 
     def getLatestSwVersion(self):
         fileList = self.getFileList()
 
         # TODO: Implement logic to find the latest image version
         self.filePath = self.currentDirectory + self.osSeperator + fileList[-1]
-        latestSwVersion = fileList[-1]
-        self.foundSwVersion.emit(latestSwVersion)
+        latestSwFileName = fileList[-1]
+        self.foundSwFile.emit(latestSwFileName)
