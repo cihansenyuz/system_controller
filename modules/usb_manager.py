@@ -1,5 +1,6 @@
 import psutil
 import os
+import shutil
 from datetime import datetime
 
 class UsbManager:
@@ -40,3 +41,6 @@ class UsbManager:
 
     def stopRecording(self):
         self.savingStatus = False
+
+    def copyFileToUsb(self, file_path, selected_mount_point):
+        shutil.copy(file_path, selected_mount_point)

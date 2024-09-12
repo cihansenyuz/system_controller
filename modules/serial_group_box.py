@@ -1,4 +1,5 @@
 from ui_compiled.ui_serial_group_box import Ui_serialGroupBox
+from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtWidgets import QGroupBox
 from PySide6.QtCore import Slot
 
@@ -42,7 +43,7 @@ class SerialGroupBox(QGroupBox):
         for portInfo in self.serialPort.comPortList:
             if portInfo.portName() == self.ui.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-                self.serialPort.open(self.serialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
 
     def onDisconnectButtonClicked(self):
         if self.serialPort.isOpen():
