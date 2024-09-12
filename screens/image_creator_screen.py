@@ -31,8 +31,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.swFileManager.setProjectName(self.projectNameLineEdit.text())
         self.swFileManager.getLatestSwVersion()
 
-    def onSwVersionFound(self, swVersion):
-        self.infoMessages.appendPlainText("SW version found: " + swVersion)
+    def onSwVersionFound(self, fileName):
+        self.infoMessages.appendPlainText("File found: " + fileName)
         self.prepareButton.setEnabled(True)
         self.prepareButton.setStyleSheet("color: black;")
 
