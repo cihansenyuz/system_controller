@@ -1,12 +1,15 @@
 from PySide6.QtWidgets import QWidget
 from ui_compiled.ui_image_creator_screen import Ui_imageCreatorWindow
 from modules.sw_file_manager import SwFileManager
+from modules.usb_manager import UsbManager
 import platform
 
 class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     def __init__(self, page):
         super().__init__()
         self.setupUi(self)
+        self.usbManager = UsbManager()
+        self.onRefreshButtonClicked()
 
         self.page = page
         self.prepareButton.setEnabled(False)
@@ -22,6 +25,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         #button connections
         self.findButton.clicked.connect(self.onFindButtonClicked)
         self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
+        self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
 
     def onFindButtonClicked(self):
         self.swFileManager.setProjectName(self.projectNameLineEdit.text())
@@ -34,4 +38,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onPrepareButtonClicked(self):
         self.infoMessages.appendPlainText("Preparing image...")
+        self.usbManager.copyFileToUsb(self.swFileManager.filePath, self.usbDevicesBox.currentText())
         # do other stuff
+
+    def onRefreshButtonClicked(self):
+        self.usbDevicesBox.clear()
+        for device in self.usbManager.getAvailableUsbDevices():
+            self.usbDevicesBox.addItem(device['mountpoint'])

@@ -7,6 +7,8 @@ class SwFileManager(FileRetriever):
     def __init__(self, rootDirectory):
         super().__init__(rootDirectory)
         self.projectName = None
+        self.latestSwVersion = None
+        self.filePath = None
 
     def setProjectName(self, projectName):
         self.projectName = projectName
@@ -16,5 +18,6 @@ class SwFileManager(FileRetriever):
         fileList = self.getFileList()
 
         # TODO: Implement logic to find the latest image version
-        foundSwVersion = fileList[-1]
-        self.foundSwVersion.emit(foundSwVersion)
+        self.filePath = self.currentDirectory + fileList[-1]
+        latestSwVersion = fileList[-1]
+        self.foundSwVersion.emit(latestSwVersion)
