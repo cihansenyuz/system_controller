@@ -55,6 +55,7 @@ class SerialPort(QSerialPort):
         if not self.comPortList:  # Check if the list is empty
             self.comPortNameList = ["No Port Detected"]
         else:
+            self.comPortNameList = []
             for portInfo in self.comPortList:
                 self.comPortNameList.append(portInfo.portName())
         self.portListUpdated.emit(self.comPortNameList)
@@ -88,8 +89,8 @@ class SerialPort(QSerialPort):
     def readFromSerialPort(self):
         text = str(self.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str                  # print them on UI
         
-        if(self.parent().saveLogs):
-            self.saveToUsbFile(text)
+        if(self.parent().usbManager.savingStatus):
+            self.parent().usbManager.saveToUsbFile(text)
         self.dataReceived.emit(text)
 
     def setNewBaudRate(self, index):
