@@ -19,7 +19,7 @@ class SwFileManager(FileBrowser):
         self.targetPidDir = self.rootDirectory + self.projectName + self.osSeperator + "PROJECT_ID_YUKLEME"
         self.targetOemDir = self.rootDirectory + self.projectName + self.osSeperator + "OEM_YUKLEME\GRUNDIG_NONFARFIELD"
 
-    def setProjectName(self, name):
+    def setProject(self, name):
         self.projectName = name
         self.createTargetDirectories()
 

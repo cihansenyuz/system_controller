@@ -7,9 +7,8 @@ class FileBrowser(QObject):
         self.rootDirectory = rootDirectory
         self.osSeperator = self.rootDirectory[0] # backslash or forwardslash
 
-    def getFileList(self):
-        os.chdir(self.targetDirectory)
+    def getFileList(self, targetDirectory):
+        os.chdir(targetDirectory)
         files = os.listdir()
-        #print("visiting directory: " + self.currentDirectory)
         return files
 

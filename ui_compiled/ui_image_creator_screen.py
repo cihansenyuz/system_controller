@@ -43,7 +43,7 @@ class Ui_imageCreatorWindow(object):
 
         self.projectNameLineEdit = QLineEdit(self.groupBox_3)
         self.projectNameLineEdit.setObjectName(u"projectNameLineEdit")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.projectNameLineEdit.sizePolicy().hasHeightForWidth())
@@ -53,18 +53,14 @@ class Ui_imageCreatorWindow(object):
 
         self.findButton = QPushButton(self.groupBox_3)
         self.findButton.setObjectName(u"findButton")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.findButton.sizePolicy().hasHeightForWidth())
-        self.findButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.findButton.sizePolicy().hasHeightForWidth())
+        self.findButton.setSizePolicy(sizePolicy)
         self.findButton.setFont(font)
 
         self.horizontalLayout_2.addWidget(self.findButton)
 
         self.horizontalLayout_2.setStretch(0, 1)
         self.horizontalLayout_2.setStretch(1, 1)
-        self.horizontalLayout_2.setStretch(2, 1)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -77,6 +73,11 @@ class Ui_imageCreatorWindow(object):
 
         self.projectIdLineEdit = QLineEdit(self.groupBox_3)
         self.projectIdLineEdit.setObjectName(u"projectIdLineEdit")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.projectIdLineEdit.sizePolicy().hasHeightForWidth())
+        self.projectIdLineEdit.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout_3.addWidget(self.projectIdLineEdit)
 
@@ -85,6 +86,8 @@ class Ui_imageCreatorWindow(object):
 
         self.dortluPaketCheckBox = QCheckBox(self.groupBox_3)
         self.dortluPaketCheckBox.setObjectName(u"dortluPaketCheckBox")
+        sizePolicy.setHeightForWidth(self.dortluPaketCheckBox.sizePolicy().hasHeightForWidth())
+        self.dortluPaketCheckBox.setSizePolicy(sizePolicy)
         self.dortluPaketCheckBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
 
         self.verticalLayout.addWidget(self.dortluPaketCheckBox)
@@ -94,6 +97,10 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.addWidget(self.infoMessages)
 
+        self.verticalLayout.setStretch(0, 1)
+        self.verticalLayout.setStretch(1, 1)
+        self.verticalLayout.setStretch(2, 1)
+        self.verticalLayout.setStretch(3, 5)
 
         self.horizontalLayout.addWidget(self.groupBox_3)
 
@@ -115,8 +122,8 @@ class Ui_imageCreatorWindow(object):
 
         self.refreshButton = QPushButton(self.groupBox)
         self.refreshButton.setObjectName(u"refreshButton")
-        sizePolicy1.setHeightForWidth(self.refreshButton.sizePolicy().hasHeightForWidth())
-        self.refreshButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.refreshButton.sizePolicy().hasHeightForWidth())
+        self.refreshButton.setSizePolicy(sizePolicy)
         self.refreshButton.setFont(font)
 
         self.verticalLayout_3.addWidget(self.refreshButton)
@@ -127,8 +134,8 @@ class Ui_imageCreatorWindow(object):
         self.prepareButton = QPushButton(imageCreatorWindow)
         self.prepareButton.setObjectName(u"prepareButton")
         self.prepareButton.setEnabled(False)
-        sizePolicy1.setHeightForWidth(self.prepareButton.sizePolicy().hasHeightForWidth())
-        self.prepareButton.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.prepareButton.sizePolicy().hasHeightForWidth())
+        self.prepareButton.setSizePolicy(sizePolicy)
         self.prepareButton.setFont(font)
 
         self.horizontalLayout.addWidget(self.prepareButton)
@@ -146,11 +153,12 @@ class Ui_imageCreatorWindow(object):
         imageCreatorWindow.setWindowTitle(QCoreApplication.translate("imageCreatorWindow", u"Form", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("imageCreatorWindow", u"Dosya Se\u00e7im Paneli", None))
         self.label.setText(QCoreApplication.translate("imageCreatorWindow", u"Image'\u0131 haz\u0131rlanacak proje:", None))
-        self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB Image Bul", None))
+        self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Projeyi Bul", None))
         self.label_2.setText(QCoreApplication.translate("imageCreatorWindow", u"ProjectID:", None))
         self.dortluPaketCheckBox.setText(QCoreApplication.translate("imageCreatorWindow", u"4'l\u00fc paket haz\u0131rlans\u0131n m\u0131?", None))
         self.groupBox.setTitle(QCoreApplication.translate("imageCreatorWindow", u"USB Se\u00e7imi", None))
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))
-        self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Haz\u0131rla", None))
+        self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Dosyalar\u0131\n"
+"Haz\u0131rla", None))
     # retranslateUi
 

@@ -25,6 +25,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/YAZILIM_YUKLEME/")
 
         self.swFileManager.foundSwFile.connect(self.onSwFileFound)
+        self.swFileManager.foundOemFile.connect(self.onOemFileFound)
+        self.swFileManager.foundCusData.connect(self.onCusDataFound)
+        self.swFileManager.foundPidFile.connect(self.onPidFileFound)
         self.fileCopyResult.connect(self.onFileCopyResult)
 
         #button connections
@@ -33,9 +36,13 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
 
     def onFindButtonClicked(self):
-        self.swFileManager.projectName = self.projectNameLineEdit.text()
-        self.swFileManager.setCurrentDirectory(self.swFileManager.projectName)
+        self.swFileManager.setProject(self.projectNameLineEdit.text())
         self.swFileManager.findUsbSwImage()
+        
+        if self.dortluPaketCheckBox.isChecked():
+            self.swFileManager.findOemFile()
+            self.swFileManager.findCusDataFile()
+            self.swFileManager.findPidFile()
 
     def onSwFileFound(self, result):
         if result:
@@ -44,6 +51,24 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.prepareButton.setStyleSheet("color: black;")
         else:
             self.infoMessages.appendPlainText("File not found!")
+
+    def onOemFileFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("OEM file found!")
+        else:
+            self.infoMessages.appendPlainText("OEM file not found!")
+
+    def onCusDataFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("CUSDATA file found!")
+        else:
+            self.infoMessages.appendPlainText("CUSDATA file not found!")
+
+    def onPidFileFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("PID file found!")
+        else:
+            self.infoMessages.appendPlainText("PID file not found!")
 
     def onPrepareButtonClicked(self):
         self.infoMessages.appendPlainText("Preparing USB device...")
@@ -86,3 +111,4 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.usbDevicesBox.setEnabled(True)
         else:
             self.infoMessages.appendPlainText("File copy failed!")
+
