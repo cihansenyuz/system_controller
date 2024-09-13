@@ -35,7 +35,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     def onFindButtonClicked(self):
         self.swFileManager.projectName = self.projectNameLineEdit.text()
         self.swFileManager.setCurrentDirectory(self.swFileManager.projectName)
-        self.swFileManager.getLatestSwVersion()
+        self.swFileManager.findUsbSwImage()
 
     def onSwFileFound(self, result):
         if result:
@@ -50,10 +50,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.usbDevicesBox.setEnabled(False)
 
         def copy_file_thread():
-            result = self.usbManager.copySwFileToUsb(self.swFileManager.filePath, self.usbDevicesBox.currentText())
+            result = self.usbManager.copySwFileToUsb(self.swFileManager.swFilePath, self.usbDevicesBox.currentText())
             self.fileCopyResult.emit(result)
         
-        if self.swFileManager.filePath is not None:
+        if self.swFileManager.swFilePath is not None:
             copy_thread = threading.Thread(target=copy_file_thread)
             copy_thread.start()
         if self.swFileManager.oemPath is not None:
