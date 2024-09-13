@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
+    <width>684</width>
     <height>292</height>
    </rect>
   </property>
@@ -22,11 +22,11 @@
       </font>
      </property>
      <property name="title">
-      <string>Dosya Seçim Paneli</string>
+      <string>Paket Seçim Paneli</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,1,5">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
         <item>
          <widget class="QLabel" name="label">
           <property name="font">
@@ -35,14 +35,14 @@
            </font>
           </property>
           <property name="text">
-           <string>Image'ı hazırlanacak proje:</string>
+           <string>Şasi Projesi:</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="projectNameLineEdit">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -50,20 +50,18 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="findButton">
+         <widget class="QCheckBox" name="dortluPaketCheckBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
           </property>
           <property name="text">
-           <string>Projeyi Bul</string>
+           <string>Tüm paketleri dahil et</string>
           </property>
          </widget>
         </item>
@@ -72,7 +70,10 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="projectIdLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>ProjectID:</string>
           </property>
@@ -80,6 +81,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="projectIdLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -91,18 +95,23 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="dortluPaketCheckBox">
+       <widget class="QPushButton" name="findButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LayoutDirection::LeftToRight</enum>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="text">
-         <string>4'lü paket hazırlansın mı?</string>
+         <string>Paketleri Bul</string>
         </property>
        </widget>
       </item>
@@ -176,7 +185,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Dosyaları
+      <string>USB'yi
 Hazırla</string>
      </property>
     </widget>

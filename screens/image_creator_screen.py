@@ -34,6 +34,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.findButton.clicked.connect(self.onFindButtonClicked)
         self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
+        self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
+        self.projectNameLineEdit.textEdited.connect(self.onProjectNameEdited)
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
@@ -103,6 +105,20 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.usbDevicesBox.clear()
         for device in self.usbManager.getAvailableUsbDevices():
             self.usbDevicesBox.addItem(device['mountpoint'])
+
+    def onCheckBoxClicked(self, checked):
+        if checked:
+            self.projectIdLabel.setEnabled(True)
+            self.projectIdLineEdit.setEnabled(True)
+        else:
+            self.projectIdLabel.setEnabled(False)
+            self.projectIdLineEdit.setEnabled(False)
+
+    def onProjectNameEdited(self):
+        if self.projectNameLineEdit.text() == "":
+            self.findButton.setEnabled(False)
+        else:
+            self.findButton.setEnabled(True)
 
     @Slot(bool)
     def onFileCopyResult(self, result):
