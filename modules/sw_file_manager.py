@@ -15,9 +15,9 @@ class SwFileManager(FileBrowser):
         self.pidPath = None
 
     def createTargetDirectories(self):
-        self.targetSwDir = self.rootDirectory + self.projectName + self.osSeperator + "USBDEN_YUKLEME" + self.osSeperator + "BIRINCI_USB"
-        self.targetPidDir = self.rootDirectory + self.projectName + self.osSeperator + "PROJECT_ID_YUKLEME"
-        self.targetOemDir = self.rootDirectory + self.projectName + self.osSeperator + "OEM_YUKLEME\GRUNDIG_NONFARFIELD"
+        self.targetSwDir = self.rootDirectory + "YAZILIM_YUKLEME" +self.osSeperator+ self.projectName +self.osSeperator+ "USBDEN_YUKLEME" +self.osSeperator+ "BIRINCI_USB"
+        self.targetPidDir = self.rootDirectory + self.projectName +self.osSeperator+ "PROJECT_ID_YUKLEME"
+        self.targetOemDir = self.rootDirectory + self.projectName +self.osSeperator+ "OEM_YUKLEME" +self.osSeperator+ "GRUNDIG_NONFARFIELD"
 
     def setProject(self, name):
         self.projectName = name
@@ -25,32 +25,39 @@ class SwFileManager(FileBrowser):
 
     def findUsbSwImage(self):
         fileList = self.getFileList(self.targetSwDir)
-        self.swFilePath = self.targetSwDir + self.osSeperator + fileList[-1]
-        if fileList[-1] == "upgrade_image_no_tvcertificate.pkg":
+        fileName = "upgrade_image_no_tvcertificate.pkg"
+        self.swFilePath = self.targetSwDir + self.osSeperator + fileName
+        if fileList[-1] == fileName:
             self.foundSwFile.emit(True)
         else:
             self.foundSwFile.emit(False)
     
     def findOemFile(self):
         fileList = self.getFileList(self.targetOemDir)
-        self.oemPath = self.targetOemDir + self.osSeperator + fileList[-1]
-        if fileList[-1] == "upgrade_image_oem.pkg":
+        fileName = "upgrade_image_oem.pkg"
+        self.oemPath = self.targetOemDir + self.osSeperator + fileName
+        if fileList[-1] == fileName:
             self.foundOemFile.emit(True)
         else:
             self.foundOemFile.emit(False)
 
     def findCusDataFile(self):
         fileList = self.getFileList(self.targetSwDir)
-        self.cusDataPath = self.targetSwDir + self.osSeperator + fileList[0]
-        if fileList[0] == "upgrade_image_cusdata.pkg":
+        fileName = "upgrade_image_cusdata.pkg"
+        self.cusDataPath = self.targetSwDir + self.osSeperator + fileName
+        if fileList[0] == fileName:
             self.foundCusData.emit(True)
         else:
             self.foundCusData.emit(False)
 
-    def findPidFile(self):
+    def findPidFile(self, number):
         fileList = self.getFileList(self.targetPidDir)
-        self.pidPath = self.targetPidDir + self.osSeperator + fileList[0]
-        if fileList[0] == "upgrade_image_cusdata.pkg":
-            self.foundPidFile.emit(True)
-        else:
-            self.foundPidFile.emit(False)
+        fileName = "upgrade_image_project_id_" + number + ".pkg"
+        self.pidPath = self.targetPidDir + self.osSeperator + fileName
+
+        for file in fileList:
+            if file == fileName:
+                self.foundPidFile.emit(True)
+                return
+            
+        self.foundPidFile.emit(False)

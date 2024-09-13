@@ -20,9 +20,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.prepareButton.setStyleSheet("color: gray;")
 
         if platform.system() == "Windows":
-            self.swFileManager = SwFileManager("\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\")
+            self.swFileManager = SwFileManager("\\\\arcei34v\\SOFTWARE\\SERI\\")
         else:
-            self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/YAZILIM_YUKLEME/")
+            self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/")
 
         self.swFileManager.foundSwFile.connect(self.onSwFileFound)
         self.swFileManager.foundOemFile.connect(self.onOemFileFound)
@@ -42,58 +42,62 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
             self.swFileManager.findCusDataFile()
-            self.swFileManager.findPidFile()
+            self.swFileManager.findPidFile(self.projectIdLineEdit.text())
 
     def onSwFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("File found!")
+            self.infoMessages.appendPlainText("SW Paket Adresi: " + self.swFileManager.swFilePath)
             self.prepareButton.setEnabled(True)
             self.prepareButton.setStyleSheet("color: black;")
         else:
-            self.infoMessages.appendPlainText("File not found!")
+            self.infoMessages.appendPlainText("SW paketi bulunamadı!")
 
     def onOemFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("OEM file found!")
+            self.infoMessages.appendPlainText("OEM Paket Adresi: " + self.swFileManager.oemPath)
         else:
-            self.infoMessages.appendPlainText("OEM file not found!")
+            self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
 
     def onCusDataFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("CUSDATA file found!")
+            self.infoMessages.appendPlainText("CUSDATA Paket Adresi: " + self.swFileManager.cusDataPath)
         else:
-            self.infoMessages.appendPlainText("CUSDATA file not found!")
+            self.infoMessages.appendPlainText("CUSDATA paketi bulunamadı!")
 
     def onPidFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("PID file found!")
+            self.infoMessages.appendPlainText("PID Paket Adresi: "+ self.swFileManager.pidPath)
         else:
-            self.infoMessages.appendPlainText("PID file not found!")
+            self.infoMessages.appendPlainText("PID paketi bulunamadı!")
 
     def onPrepareButtonClicked(self):
-        self.infoMessages.appendPlainText("Preparing USB device...")
+        self.infoMessages.appendPlainText("Preparing files into selected USB device...")
         self.usbDevicesBox.setEnabled(False)
+        targetDevice = self.usbDevicesBox.currentText()
 
-        def copy_files_thread():
-            files_to_copy = [(self.swFileManager.targetSwDir, self.swFileManager.swFilePath)]
+        def copyFilesThread():
+            filesToCopy = [(self.swFileManager.swFilePath, "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
-                files_to_copy.extend([
-                    (self.swFileManager.targetOemDir, self.swFileManager.oemPath),
-                    (self.swFileManager.targetSwDir, self.swFileManager.cusDataPath),
-                    (self.swFileManager.targetPidDir, self.swFileManager.pidPath)
+                filesToCopy.extend([
+                    (self.swFileManager.oemPath, "OEM paketi")
+                    (self.swFileManager.cusDataPath, "Cusdata paketi")
+                    (self.swFileManager.pidPath, "Project ID paketi")
                 ])
             
-            for target_path, source_path in files_to_copy:
-                result = self.usbManager.copySwFileToUsb(source_path, target_path)
+            for sourcePath, fileName in filesToCopy:
+                self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
+                result = self.usbManager.copySwFileToUsb(sourcePath, targetDevice)
                 if not result:
+                    self.infoMessages.appendPlainText("Başarısız!")
                     self.fileCopyResult.emit(False)
                     return
+                self.infoMessages.appendPlainText("Tamamlandı!")
             
             self.fileCopyResult.emit(True)
 
-        copy_thread = threading.Thread(target=copy_files_thread)
-        copy_thread.start()
+        copyThread = threading.Thread(target=copyFilesThread)
+        copyThread.start()
 
     def onRefreshButtonClicked(self):
         self.usbDevicesBox.clear()
