@@ -49,19 +49,26 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.infoMessages.appendPlainText("Preparing USB device...")
         self.usbDevicesBox.setEnabled(False)
 
-        def copy_file_thread():
-            result = self.usbManager.copySwFileToUsb(self.swFileManager.swFilePath, self.usbDevicesBox.currentText())
-            self.fileCopyResult.emit(result)
-        
-        if self.swFileManager.swFilePath is not None:
-            copy_thread = threading.Thread(target=copy_file_thread)
-            copy_thread.start()
-        if self.swFileManager.oemPath is not None:
-            pass
-        if self.swFileManager.cusDataPath is not None:
-            pass
-        if self.swFileManager.pidPath is not None:
-            pass
+        def copy_files_thread():
+            files_to_copy = [(self.swFileManager.targetSwDir, self.swFileManager.swFilePath)]
+            
+            if self.dortluPaketCheckBox.isChecked():
+                files_to_copy.extend([
+                    (self.swFileManager.targetOemDir, self.swFileManager.oemPath),
+                    (self.swFileManager.targetSwDir, self.swFileManager.cusDataPath),
+                    (self.swFileManager.targetPidDir, self.swFileManager.pidPath)
+                ])
+            
+            for target_path, source_path in files_to_copy:
+                result = self.usbManager.copySwFileToUsb(source_path, target_path)
+                if not result:
+                    self.fileCopyResult.emit(False)
+                    return
+            
+            self.fileCopyResult.emit(True)
+
+        copy_thread = threading.Thread(target=copy_files_thread)
+        copy_thread.start()
 
     def onRefreshButtonClicked(self):
         self.usbDevicesBox.clear()

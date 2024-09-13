@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'image_creator_screen.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -43,7 +43,7 @@ class Ui_imageCreatorWindow(object):
 
         self.projectNameLineEdit = QLineEdit(self.groupBox_3)
         self.projectNameLineEdit.setObjectName(u"projectNameLineEdit")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.projectNameLineEdit.sizePolicy().hasHeightForWidth())
@@ -53,7 +53,7 @@ class Ui_imageCreatorWindow(object):
 
         self.findButton = QPushButton(self.groupBox_3)
         self.findButton.setObjectName(u"findButton")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.findButton.sizePolicy().hasHeightForWidth())
@@ -75,19 +75,19 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_3.addWidget(self.label_2)
 
-        self.lineEdit = QLineEdit(self.groupBox_3)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.projectIdLineEdit = QLineEdit(self.groupBox_3)
+        self.projectIdLineEdit.setObjectName(u"projectIdLineEdit")
 
-        self.horizontalLayout_3.addWidget(self.lineEdit)
+        self.horizontalLayout_3.addWidget(self.projectIdLineEdit)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-        self.checkBox = QCheckBox(self.groupBox_3)
-        self.checkBox.setObjectName(u"checkBox")
-        self.checkBox.setLayoutDirection(Qt.LeftToRight)
+        self.dortluPaketCheckBox = QCheckBox(self.groupBox_3)
+        self.dortluPaketCheckBox.setObjectName(u"dortluPaketCheckBox")
+        self.dortluPaketCheckBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
 
-        self.verticalLayout.addWidget(self.checkBox)
+        self.verticalLayout.addWidget(self.dortluPaketCheckBox)
 
         self.infoMessages = QPlainTextEdit(self.groupBox_3)
         self.infoMessages.setObjectName(u"infoMessages")
@@ -104,7 +104,7 @@ class Ui_imageCreatorWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.usbDevicesBox = QComboBox(self.groupBox)
         self.usbDevicesBox.setObjectName(u"usbDevicesBox")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.usbDevicesBox.sizePolicy().hasHeightForWidth())
@@ -148,7 +148,7 @@ class Ui_imageCreatorWindow(object):
         self.label.setText(QCoreApplication.translate("imageCreatorWindow", u"Image'\u0131 haz\u0131rlanacak proje:", None))
         self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB Image Bul", None))
         self.label_2.setText(QCoreApplication.translate("imageCreatorWindow", u"ProjectID:", None))
-        self.checkBox.setText(QCoreApplication.translate("imageCreatorWindow", u"4'l\u00fc paket haz\u0131rlans\u0131n m\u0131?", None))
+        self.dortluPaketCheckBox.setText(QCoreApplication.translate("imageCreatorWindow", u"4'l\u00fc paket haz\u0131rlans\u0131n m\u0131?", None))
         self.groupBox.setTitle(QCoreApplication.translate("imageCreatorWindow", u"USB Se\u00e7imi", None))
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))
         self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Haz\u0131rla", None))

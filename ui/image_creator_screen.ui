@@ -79,14 +79,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="projectIdLineEdit"/>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="dortluPaketCheckBox">
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="text">
          <string>4'lü paket hazırlansın mı?</string>
