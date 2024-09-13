@@ -42,9 +42,34 @@ class UsbManager:
     def stopRecording(self):
         self.savingStatus = False
 
-    def copyFileToUsb(self, file_path, selected_mount_point):
+    def copySwFileToUsb(self, file_path, selected_mount_point):
         try:
+            destination_file_path = os.path.join(selected_mount_point, os.path.basename(file_path))
+            if os.path.exists(destination_file_path):
+                os.remove(destination_file_path)
+                print(f"Existing file {destination_file_path} deleted.")
+
+            print(f"File {file_path} copy started to {selected_mount_point}")
             shutil.copy2(file_path, selected_mount_point)  # shutil.copy2 preserves metadata
             print(f"File {file_path} copied to {selected_mount_point} successfully!")
+            return True
         except Exception as e:
             print(f"Error while copying file: {e}")
+            return False
+        
+    def unmountDeviceOnLinux(self, selected_mount_point):
+        import subprocess
+        print(f"Ejecting the device mounted at {selected_mount_point}")
+        subprocess.run(['umount', selected_mount_point], check=True)
+        print(f"Device ejected successfully!")
+
+    '''def unmountDeviceOnWin(self, selected_mount_point):
+        import win32file
+        print(f"Ejecting the device mounted at {selected_mount_point}")
+        drive_handle = win32file.CreateFile(selected_mount_point, win32file.GENERIC_READ, 
+                                            win32file.FILE_SHARE_READ | win32file.FILE_SHARE_WRITE, None, 
+                                            win32file.OPEN_EXISTING, 0, None)
+        win32file.DeviceIoControl(drive_handle, win32file.IOCTL_STORAGE_EJECT_MEDIA, None, None)
+        drive_handle.close()
+        print(f"Device ejected successfully!")
+    '''
