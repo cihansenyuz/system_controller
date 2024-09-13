@@ -24,7 +24,7 @@
      <property name="title">
       <string>Dosya Seçim Paneli</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,1">
         <item>
@@ -72,16 +72,26 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QCheckBox" name="checkBox">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>4'lü paket hazırlansın mı?</string>
+           <string>ProjectID:</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>4'lü paket hazırlansın mı?</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="infoMessages"/>
