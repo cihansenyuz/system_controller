@@ -24,8 +24,10 @@ class Ui_imageCreatorWindow(object):
     def setupUi(self, imageCreatorWindow):
         if not imageCreatorWindow.objectName():
             imageCreatorWindow.setObjectName(u"imageCreatorWindow")
-        imageCreatorWindow.resize(684, 292)
-        self.horizontalLayout = QHBoxLayout(imageCreatorWindow)
+        imageCreatorWindow.resize(792, 561)
+        self.verticalLayout_2 = QVBoxLayout(imageCreatorWindow)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.groupBox_3 = QGroupBox(imageCreatorWindow)
         self.groupBox_3.setObjectName(u"groupBox_3")
@@ -125,15 +127,9 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.addWidget(self.findButton)
 
-        self.infoMessages = QPlainTextEdit(self.groupBox_3)
-        self.infoMessages.setObjectName(u"infoMessages")
-
-        self.verticalLayout.addWidget(self.infoMessages)
-
         self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(3, 1)
-        self.verticalLayout.setStretch(4, 5)
 
         self.horizontalLayout.addWidget(self.groupBox_3)
 
@@ -173,9 +169,44 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout.addWidget(self.prepareButton)
 
-        self.horizontalLayout.setStretch(0, 5)
+        self.horizontalLayout.setStretch(0, 4)
         self.horizontalLayout.setStretch(1, 1)
         self.horizontalLayout.setStretch(2, 1)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.infoMessages = QPlainTextEdit(imageCreatorWindow)
+        self.infoMessages.setObjectName(u"infoMessages")
+
+        self.horizontalLayout_5.addWidget(self.infoMessages)
+
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.clearInfoMessagesButton = QPushButton(imageCreatorWindow)
+        self.clearInfoMessagesButton.setObjectName(u"clearInfoMessagesButton")
+        sizePolicy1.setHeightForWidth(self.clearInfoMessagesButton.sizePolicy().hasHeightForWidth())
+        self.clearInfoMessagesButton.setSizePolicy(sizePolicy1)
+        self.clearInfoMessagesButton.setFont(font)
+
+        self.verticalLayout_4.addWidget(self.clearInfoMessagesButton)
+
+        self.backButton = QPushButton(imageCreatorWindow)
+        self.backButton.setObjectName(u"backButton")
+        sizePolicy1.setHeightForWidth(self.backButton.sizePolicy().hasHeightForWidth())
+        self.backButton.setSizePolicy(sizePolicy1)
+        self.backButton.setFont(font)
+
+        self.verticalLayout_4.addWidget(self.backButton)
+
+
+        self.horizontalLayout_5.addLayout(self.verticalLayout_4)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
+
+        self.verticalLayout_2.setStretch(0, 4)
 
         self.retranslateUi(imageCreatorWindow)
 
@@ -196,5 +227,8 @@ class Ui_imageCreatorWindow(object):
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))
         self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB'yi\n"
 "Haz\u0131rla", None))
+        self.clearInfoMessagesButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Mesaj Panelini\n"
+"Temizle", None))
+        self.backButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Geri", None))
     # retranslateUi
 

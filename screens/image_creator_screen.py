@@ -37,6 +37,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
         self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
         self.projectNameLineEdit.textEdited.connect(self.onProjectNameEdited)
+        self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
+        self.backButton.clicked.connect(self.onBackButtonClicked)
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
@@ -152,3 +154,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         else:
             self.infoMessages.appendPlainText("File copy failed!")
 
+    def onClearInfoMessagesButtonClicked(self):
+        self.infoMessages.clear()
+
+    def onBackButtonClicked(self):
+        self.parent().setCurrentIndex(0)
