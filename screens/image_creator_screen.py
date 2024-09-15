@@ -26,7 +26,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
         self.swFileManager.foundSwFile.connect(self.onSwFileFound)
         self.swFileManager.foundOemFile.connect(self.onOemFileFound)
-        self.swFileManager.foundCusData.connect(self.onCusDataFound)
+        self.swFileManager.foundFactoryCusdata.connect(self.onFactoryCusdataFound)
+        self.swFileManager.foundCustomerCusdata.connect(self.onCustomerCusdataFound)
         self.swFileManager.foundPidFile.connect(self.onPidFileFound)
         self.fileCopyResult.connect(self.onFileCopyResult)
 
@@ -43,8 +44,11 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
-            self.swFileManager.findCusDataFile()
             self.swFileManager.findPidFile(self.projectIdLineEdit.text())
+            if self.customerRadioButton.isChecked():    
+                self.swFileManager.findCustomerCusdataFile()
+            else:
+                self.swFileManager.findFactoryCusdataFile()
 
     def onSwFileFound(self, result):
         if result:
@@ -60,11 +64,17 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         else:
             self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
 
-    def onCusDataFound(self, result):
+    def onFactoryCusdataFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("CUSDATA Paket Adresi: " + self.swFileManager.cusDataPath)
+            self.infoMessages.appendPlainText("Factory CUSDATA Paket Adresi: " + self.swFileManager.factoryCusdataPath)
         else:
-            self.infoMessages.appendPlainText("CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulunamadı!")
+
+    def onCustomerCusdataFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("Customer CUSDATA Paket Adresi: " + self.swFileManager.customerCusdataPath)
+        else:
+            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulunamadı!")
 
     def onPidFileFound(self, result):
         if result:
@@ -82,10 +92,13 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             
             if self.dortluPaketCheckBox.isChecked():
                 filesToCopy.extend([
-                    (self.swFileManager.oemPath, "OEM paketi")
-                    (self.swFileManager.cusDataPath, "Cusdata paketi")
+                    (self.swFileManager.oemPath, "OEM paketi"),
                     (self.swFileManager.pidPath, "Project ID paketi")
                 ])
+                if self.customerRadioButton.isChecked():
+                    filesToCopy.append((self.swFileManager.customerCusdataPath, "Customer CUSDATA paketi"))
+                else:
+                    filesToCopy.append((self.swFileManager.factoryCusdataPath, "Factory CUSDATA paketi"))
             
             for sourcePath, fileName in filesToCopy:
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
@@ -110,9 +123,16 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         if checked:
             self.projectIdLabel.setEnabled(True)
             self.projectIdLineEdit.setEnabled(True)
+            self.cusdataLabel.setEnabled(True)
+            self.customerRadioButton.setEnabled(True)
+            self.customerRadioButton.setChecked(True)
+            self.factoryRadioButton.setEnabled(True)
         else:
             self.projectIdLabel.setEnabled(False)
             self.projectIdLineEdit.setEnabled(False)
+            self.cusdataLabel.setEnabled(False)
+            self.customerRadioButton.setEnabled(False)
+            self.factoryRadioButton.setEnabled(False)
 
     def onProjectNameEdited(self):
         if self.projectNameLineEdit.text() == "":

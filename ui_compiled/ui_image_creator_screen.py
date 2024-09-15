@@ -17,7 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox,
     QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
-    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
+    QPushButton, QRadioButton, QSizePolicy, QVBoxLayout,
+    QWidget)
 
 class Ui_imageCreatorWindow(object):
     def setupUi(self, imageCreatorWindow):
@@ -59,6 +60,7 @@ class Ui_imageCreatorWindow(object):
         sizePolicy1.setHeightForWidth(self.dortluPaketCheckBox.sizePolicy().hasHeightForWidth())
         self.dortluPaketCheckBox.setSizePolicy(sizePolicy1)
         self.dortluPaketCheckBox.setLayoutDirection(Qt.LeftToRight)
+        self.dortluPaketCheckBox.setIconSize(QSize(32, 32))
 
         self.horizontalLayout_2.addWidget(self.dortluPaketCheckBox)
 
@@ -84,6 +86,36 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.cusdataLabel = QLabel(self.groupBox_3)
+        self.cusdataLabel.setObjectName(u"cusdataLabel")
+        self.cusdataLabel.setEnabled(False)
+
+        self.horizontalLayout_4.addWidget(self.cusdataLabel)
+
+        self.customerRadioButton = QRadioButton(self.groupBox_3)
+        self.customerRadioButton.setObjectName(u"customerRadioButton")
+        self.customerRadioButton.setEnabled(False)
+        sizePolicy1.setHeightForWidth(self.customerRadioButton.sizePolicy().hasHeightForWidth())
+        self.customerRadioButton.setSizePolicy(sizePolicy1)
+        self.customerRadioButton.setIconSize(QSize(32, 32))
+
+        self.horizontalLayout_4.addWidget(self.customerRadioButton)
+
+        self.factoryRadioButton = QRadioButton(self.groupBox_3)
+        self.factoryRadioButton.setObjectName(u"factoryRadioButton")
+        self.factoryRadioButton.setEnabled(False)
+        sizePolicy1.setHeightForWidth(self.factoryRadioButton.sizePolicy().hasHeightForWidth())
+        self.factoryRadioButton.setSizePolicy(sizePolicy1)
+        self.factoryRadioButton.setSizeIncrement(QSize(0, 0))
+        self.factoryRadioButton.setIconSize(QSize(32, 32))
+
+        self.horizontalLayout_4.addWidget(self.factoryRadioButton)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
+
         self.findButton = QPushButton(self.groupBox_3)
         self.findButton.setObjectName(u"findButton")
         self.findButton.setEnabled(False)
@@ -100,8 +132,8 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(1, 1)
-        self.verticalLayout.setStretch(2, 1)
-        self.verticalLayout.setStretch(3, 5)
+        self.verticalLayout.setStretch(3, 1)
+        self.verticalLayout.setStretch(4, 5)
 
         self.horizontalLayout.addWidget(self.groupBox_3)
 
@@ -156,6 +188,9 @@ class Ui_imageCreatorWindow(object):
         self.label.setText(QCoreApplication.translate("imageCreatorWindow", u"\u015easi Projesi:", None))
         self.dortluPaketCheckBox.setText(QCoreApplication.translate("imageCreatorWindow", u"T\u00fcm paketleri dahil et", None))
         self.projectIdLabel.setText(QCoreApplication.translate("imageCreatorWindow", u"ProjectID:", None))
+        self.cusdataLabel.setText(QCoreApplication.translate("imageCreatorWindow", u"Cusdata Se\u00e7imi:", None))
+        self.customerRadioButton.setText(QCoreApplication.translate("imageCreatorWindow", u"M\u00fc\u015fteri Modu", None))
+        self.factoryRadioButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Fabrika Modu", None))
         self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Paketleri Bul", None))
         self.groupBox.setTitle(QCoreApplication.translate("imageCreatorWindow", u"USB Se\u00e7imi", None))
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))

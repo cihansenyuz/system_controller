@@ -3,7 +3,8 @@ from PySide6.QtCore import Signal
 
 class SwFileManager(FileBrowser):
     foundSwFile = Signal(bool)
-    foundCusData = Signal(bool)
+    foundFactoryCusdata = Signal(bool)
+    foundCustomerCusdata = Signal(bool)
     foundOemFile = Signal(bool)
     foundPidFile = Signal(bool)
 
@@ -11,7 +12,8 @@ class SwFileManager(FileBrowser):
         super().__init__(rootDirectory)
         self.swFilePath = None
         self.oemPath = None
-        self.cusDataPath = None
+        self.customerCusdataPath = None
+        self.factoryCusdataPath = None
         self.pidPath = None
 
     def createTargetDirectories(self):
@@ -41,14 +43,23 @@ class SwFileManager(FileBrowser):
         else:
             self.foundOemFile.emit(False)
 
-    def findCusDataFile(self):
+    def findFactoryCusdataFile(self):
         fileList = self.getFileList(self.targetSwDir)
         fileName = "upgrade_image_cusdata.pkg"
-        self.cusDataPath = self.targetSwDir + self.osSeperator + fileName
+        self.factoryCusdataPath = self.targetSwDir + self.osSeperator + fileName
         if fileList[0] == fileName:
-            self.foundCusData.emit(True)
+            self.foundFactoryCusdata.emit(True)
         else:
-            self.foundCusData.emit(False)
+            self.foundFactoryCusdata.emit(False)
+
+    def findCustomerCusdataFile(self):
+        fileList = self.getFileList(self.targetOemDir)
+        fileName = "upgrade_image_cusdata.pkg"
+        self.customerCusdataPath = self.targetOemDir + self.osSeperator + fileName
+        if fileList[0] == fileName:
+            self.foundCustomerCusdata.emit(True)
+        else:
+            self.foundCustomerCusdata.emit(False)
 
     def findPidFile(self, number):
         fileList = self.getFileList(self.targetPidDir)
