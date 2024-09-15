@@ -203,10 +203,13 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_5.addLayout(self.verticalLayout_4)
 
+        self.horizontalLayout_5.setStretch(0, 6)
+        self.horizontalLayout_5.setStretch(1, 1)
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
         self.verticalLayout_2.setStretch(0, 4)
+        self.verticalLayout_2.setStretch(1, 5)
 
         self.retranslateUi(imageCreatorWindow)
 

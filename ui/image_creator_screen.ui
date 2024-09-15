@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,0">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,5">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,1,1">
      <item>
@@ -262,7 +262,7 @@ Hazırla</string>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="6,1">
      <item>
       <widget class="QPlainTextEdit" name="infoMessages"/>
      </item>
