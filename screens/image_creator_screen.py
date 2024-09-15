@@ -149,10 +149,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 pass#self.usbManager.unmountDeviceOnWin(self.usbDevicesBox.currentText())
             else:
                 self.usbManager.unmountDeviceOnLinux(self.usbDevicesBox.currentText())
-            self.infoMessages.appendPlainText("File copied successfully! USB device is ready.")
+            self.infoMessages.appendPlainText("Gerekli dosyalar USB cihazına kopyalandı. Cihaz hazır!")
             self.usbDevicesBox.setEnabled(True)
         else:
-            self.infoMessages.appendPlainText("File copy failed!")
+            self.infoMessages.appendPlainText("Dosya kopyalama hatası!")
 
     def onClearInfoMessagesButtonClicked(self):
         self.infoMessages.clear()
