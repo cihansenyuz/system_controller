@@ -15,7 +15,7 @@ class FileCacher(QObject):
             os.makedirs(os.path.dirname(cachedFilePath), exist_ok=True)
             
             if os.path.exists(cachedFilePath):
-                if not self.isUpdated(cachedFilePath, filePath):
+                if self.isUpdated(cachedFilePath, filePath):
                     print(f"FileCacher: File already cached and up-to-date. Exiting cache function, returning: {cachedFilePath}")
                     return cachedFilePath
 
@@ -45,6 +45,7 @@ class FileCacher(QObject):
         print(f"FileCacher: Entering isUpdated function with localFilePath: {localFilePath}, remoteFilePath: {remoteFilePath}")
         local_last_modified_timestamp = os.path.getmtime(localFilePath)
         remote_last_modified_timestamp = os.path.getmtime(remoteFilePath)
-        result = remote_last_modified_timestamp > local_last_modified_timestamp
+        print(f"FileCacher: local_last_modified_timestamp: {local_last_modified_timestamp}, remote_last_modified_timestamp: {remote_last_modified_timestamp}")
+        result = remote_last_modified_timestamp >= local_last_modified_timestamp
         print(f"FileCacher: Exiting isUpdated function, returning: {result}")
         return result

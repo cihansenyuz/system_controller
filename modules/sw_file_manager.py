@@ -24,14 +24,14 @@ class SwFileManager(FileBrowser, FileCacher):
         self.customerCusdataFileServerDir = self.oemFileServerDir
         self.pidFileServerDir = self.rootDirectory + self.projectName +self.osSeperator+ "PROJECT_ID_YUKLEME"
 
+        self.swFileName = "upgrade_image_no_tvcertificate.pkg"
+        self.swFilePath = self.swFileServerDir + self.osSeperator + self.swFileName
+
     def setProject(self, name):
         self.projectName = name
         self.createTargetDirectories()
 
     def prepareSwFile(self):
-        fileName = "upgrade_image_no_tvcertificate.pkg"
-        self.swFilePath = self.swFileServerDir + self.osSeperator + fileName
-        
         result = self.cachedSwFilePath = self.cache(self.swFilePath, self.projectName) # checks if the file is cached and up to date
         if result:
             self.swFileReady.emit(True)

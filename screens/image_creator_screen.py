@@ -51,16 +51,21 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             else:
                 self.swFileManager.findFactoryCusdataFile()
 
-        def prepareFilesThread():
-            self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
-            result = self.swFileManager.prepareSwFile()
-            if result:
-                self.infoMessages.appendPlainText("SW paketi hazır!")
-            else:
-                self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
+        targetDevice = self.usbDevicesBox.currentText()
+        if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName):
+            if self.swFileManager.isUpdated(targetDevice + self.swFileManager.swFileName, self.swFileManager.swFilePath):
+                self.infoMessages.appendPlainText("SW paketi USB cihazda zaten mevcut ve güncel!")
+        else:
+            def prepareFilesThread():
+                self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
+                result = self.swFileManager.prepareSwFile()
+                if result:
+                    self.infoMessages.appendPlainText("SW paketi hazır!")
+                else:
+                    self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
 
-        prepareThread = threading.Thread(target=prepareFilesThread)
-        prepareThread.start()
+            prepareThread = threading.Thread(target=prepareFilesThread)
+            prepareThread.start()
 
     def onSwFileReady(self, result):
         if result:
