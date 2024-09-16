@@ -32,8 +32,8 @@ class SwFileManager(FileBrowser, FileCacher):
         fileName = "upgrade_image_no_tvcertificate.pkg"
         self.swFilePath = self.swFileServerDir + self.osSeperator + fileName
         
-        self.cachedSwFilePath = self.cache(self.swFilePath, self.projectName) # checks if the file is cached and up to date
-        if self.cachedSwFilePath:
+        result = self.cachedSwFilePath = self.cache(self.swFilePath, self.projectName) # checks if the file is cached and up to date
+        if result:
             self.swFileReady.emit(True)
             return True
         else:

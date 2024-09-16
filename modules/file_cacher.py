@@ -5,24 +5,29 @@ import shutil
 class FileCacher(QObject):
     def __init__(self):
         super().__init__()
-        print("FileCacher: Initialized")
+        self.cache_dir = os.path.join(os.path.expanduser("~"), "system_controller_cache")
+        print(f"FileCacher: Initialized with cache directory: {self.cache_dir}")
 
     def cache(self, filePath, projectName):
         print(f"FileCacher: Entering cache function with filePath: {filePath}")
-        os.makedirs("cache", exist_ok=True)
-        cachedFilePath = os.path.join("cache", projectName, os.path.basename(filePath))
-        
-        if os.path.exists(cachedFilePath):
-            if not self.isUpdated(cachedFilePath, filePath):
-                print(f"FileCacher: File already cached and up-to-date. Exiting cache function, returning: {cachedFilePath}")
-                return cachedFilePath
-
         try:
+            cachedFilePath = os.path.join(self.cache_dir, projectName, os.path.basename(filePath))
+            os.makedirs(os.path.dirname(cachedFilePath), exist_ok=True)
+            
+            if os.path.exists(cachedFilePath):
+                if not self.isUpdated(cachedFilePath, filePath):
+                    print(f"FileCacher: File already cached and up-to-date. Exiting cache function, returning: {cachedFilePath}")
+                    return cachedFilePath
+
             shutil.copy2(filePath, cachedFilePath)
             print(f"FileCacher: File copied to cache. Exiting cache function, returning: {cachedFilePath}")
             return cachedFilePath
-        except IOError:
-            print("FileCacher: Exiting cache function, returning: None (IOError)")
+        except IOError as e:
+            print(f"FileCacher: IOError occurred: {e}")
+            print(f"FileCacher: Unable to copy file from {filePath} to {cachedFilePath}")
+            return None
+        except Exception as e:
+            print(f"FileCacher: Unexpected error occurred: {e}")
             return None
 
     def isCached(self, fileName, projectName):
