@@ -2,50 +2,59 @@ from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QWidget
 from modules.serial_port import SerialPort
 from modules.usb_manager import UsbManager
-from PySide6.QtCore import Signal, QByteArray, QRect
+from PySide6.QtCore import QByteArray, QRect, QSize
 from ui_compiled.ui_log_alma_screen import Ui_logScreenWindow
 import dialogs.log_screen_dialogs as logScreendialogs
 import time
+from modules.usb_group_box import UsbGroupBox
+from modules.serial_group_box import SerialGroupBox
 
 #################################################################################
 ########## MODIFY onShowDialogsButtonClicked() if you inheret this class ########
 #################################################################################
 
 class LogScreenWindow(QWidget, Ui_logScreenWindow):
-    savingStatusChanged = Signal(bool)
+    #savingStatusChanged = Signal(bool)
 
-    def __init__(self, page):        
+    def __init__(self, page):
         super().__init__()
         self.setupUi(self)
-
-        #Resize operations
-        #self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         
         self.serialPort = SerialPort(self)
+        self.serialPort.dataReceived.connect(self.updateSerialMessages)
         self.createComboBoxes() # create lists and add them into comboboxes
         self.page = page
         self.usbManager = UsbManager()
-        self.bitirButton.setEnabled(False)
-        self.bitirButton.setStyleSheet("color: gray;")
 
-        self.savingStatusChanged.connect(self.onSavingStatusChanged)
+        # create a Serial settings combobox with all functional widgets
+        self.serialGroupBox = SerialGroupBox(self.serialPort, self.infoMessages)
+        self.serialGroupBox.setObjectName(u"serialGroupBox")
+        self.serialGroupBox.setMinimumSize(QSize(0, 150))
+        self.settings_layout.insertWidget(0, self.serialGroupBox)
 
-        #### missing possible implementations ####
-        # timing for read/write might need to be managed
-        # errorOccured signal must be connected
+        # create a USB settings combobox with all functional widgets
+        self.usbGroupBox = UsbGroupBox(self.usbManager, self.infoMessages)
+        self.usbGroupBox.setObjectName(u"usbGroupBox")
+        self.usbGroupBox.setMinimumSize(QSize(0, 150))
+        self.settings_layout.insertWidget(1, self.usbGroupBox)
+
+        self.settings_layout.setStretch(0, 2)  # Port Seçimi
+        self.settings_layout.setStretch(1, 2)  # USB Ayarları
+        self.settings_layout.setStretch(2, 2)  # Ayarlar
+        self.settings_layout.setStretch(3, 1)  # Dökümentasyonu Göster button
+        self.settings_layout.setStretch(4, 1)  # Seri Port Mesaj Panelini Temizle button
+        self.settings_layout.setStretch(5, 1)  # Bilgi Panelini Temizle button
+        self.settings_layout.setStretch(6, 1)  # Ana Ekrana Dön button
 
         # button connections on log screen page
         self.logScreenBackButton.clicked.connect(self.onLogScreenBackButtonClicked)
-        self.connectButton.clicked.connect(self.onConnectButtonClicked)
+        #self.connectButton.clicked.connect(self.onConnectButtonClicked)
         self.sendButton.clicked.connect(self.onSendButtonClicked)
-        self.comPortButton.clicked.connect(self.onResetButtonClicked)
+        #self.comPortButton.clicked.connect(self.onResetButtonClicked)
         self.clearInfoPanelButton.clicked.connect(self.onClearInfoPanelButtonClicked)
         self.clearMessagePanelButton.clicked.connect(self.onClearMessagePanelButtonClicked)
-        self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
+        #self.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
         self.showDialogsButton.clicked.connect(self.onShowDialogsButtonClicked)
-        self.kaydetButton.clicked.connect(self.onKaydetButtonClicked)
-        self.bitirButton.clicked.connect(self.onBitirButtonClicked)
-        self.usbPortYenileButton.clicked.connect(self.onUsbYenileButtonClicked)
         self.mBootButton.clicked.connect(self.onMBootButtonClicked)
 
         # combobox connections on log screen page
@@ -57,7 +66,6 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.presetCommandBox.currentIndexChanged.connect(self.onPresetCommandBoxCurrentIndexChanged)
 
         self.onShowDialogsButtonClicked() # call it once the page is created
-        self.onUsbYenileButtonClicked() # Detect USB drives
 
     def createComboBoxes(self):
         self.baudRateBox.addItems(self.serialPort.baudRateList)
@@ -90,7 +98,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
     def onLogScreenBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
 
-    def onResetButtonClicked(self):
+    '''def onResetButtonClicked(self):
         self.serialPort.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
@@ -101,7 +109,7 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         for portInfo in self.serialPort.comPortList:
             if portInfo.portName() == self.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
-                self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode
+                self.serialPort.open(SerialPort.ReadWrite) # open the port in read/write mode'''
 
     def onMBootButtonClicked(self):
         text = "reset"                                      # restarts the TV
@@ -132,15 +140,15 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         bytes = QByteArray(text.encode())                   # convert str to byte
         self.serialPort.write(bytes)                        # write it to serial port
 
-    def onDisconnectButtonClicked(self):
+    '''def onDisconnectButtonClicked(self):
         if self.serialPort.isOpen():
             self.serialPort.close()
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
         else:
-            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")
+            self.infoMessages.appendPlainText("Info: No serial port is open or already closed")'''
             
-    def onComPortButtonClicked(self):
-        self.serialPort.getComPorts()
+    '''def onComPortButtonClicked(self):
+        self.serialPort.getComPorts()'''
 
     def onClearInfoPanelButtonClicked(self):
         self.infoMessages.clear()
@@ -159,40 +167,5 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
         self.layoutWidget.setGeometry(QRect(0, 0, self.width(), self.height()))
         return super().resizeEvent(event)
 
-    def onKaydetButtonClicked(self):
-            self.selected_mount_point = self.usbPortBox.currentText()
-            if not self.selected_mount_point:
-                self.infoMessages.appendPlainText("No USB drive selected!")
-                return
-            
-            self.savingStatusChanged.emit(True)
-
-    def onBitirButtonClicked(self):
-        self.savingStatusChanged.emit(False)
-
-    def onUsbYenileButtonClicked(self):
-        self.usbPortBox.clear()
-        usbDeviceList = self.usbManager.getAvailableUsbDevices()
-        if usbDeviceList:
-            for device in usbDeviceList:
-                self.usbPortBox.addItem(device['mountpoint'])
-        else:
-            self.infoMessages.appendPlainText("No USB drives detected.")
-        
-        self.usbPortBox.setCurrentIndex(-1)
-
-    def onSavingStatusChanged(self, status):
-        if(status):
-            self.usbManager.startRecording(self.selected_mount_point)
-            self.kaydetButton.setEnabled(False)
-            self.kaydetButton.setStyleSheet("color: gray;")
-            self.bitirButton.setEnabled(True)
-            self.bitirButton.setStyleSheet("color: black;")
-            self.infoMessages.appendPlainText("Log kaydı başlatıldı.")
-        else:
-            self.usbManager.stopRecording()
-            self.bitirButton.setEnabled(False)
-            self.bitirButton.setStyleSheet("color: gray;")
-            self.kaydetButton.setEnabled(True)
-            self.kaydetButton.setStyleSheet("color: black;")
-            self.infoMessages.appendPlainText("Log kaydı durduruldu.")
+    def updateSerialMessages(self, text):
+        self.serialMessages.appendPlainText(text)

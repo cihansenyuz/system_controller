@@ -99,7 +99,7 @@
          </font>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>USB Image Oluştur</string>
         </property>
        </widget>
       </item>

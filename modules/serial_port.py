@@ -1,8 +1,12 @@
 from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
-from PySide6.QtCore import QObject
+from PySide6.QtCore import QObject, Signal
 import platform
 
 class SerialPort(QSerialPort):
+    portListUpdated = Signal(list)
+    errorOccurred = Signal(str)
+    dataReceived = Signal(str)
+
     def __init__(self, parent: QObject = None):
         super().__init__(parent)
 
@@ -48,13 +52,13 @@ class SerialPort(QSerialPort):
                 if port.portName().find("USB") != -1:
                     self.comPortList.append(port)
 
-        self.parent().comPortBox.clear()
         if not self.comPortList:  # Check if the list is empty
-            self.parent().comPortBox.addItem("No Port Detected")
+            self.comPortNameList = ["No Port Detected"]
         else:
+            self.comPortNameList = []
             for portInfo in self.comPortList:
-                self.parent().comPortBox.addItem(portInfo.portName())
-        self.parent().comPortBox.setCurrentIndex(-1)
+                self.comPortNameList.append(portInfo.portName())
+        self.portListUpdated.emit(self.comPortNameList)
 
     def onErrorOccurred(self, error):
         """
@@ -65,28 +69,29 @@ class SerialPort(QSerialPort):
 
         """
         if error == QSerialPort.SerialPortError.OpenError:
-            self.parent().infoMessages.appendPlainText("Info: You have already opened the serial port.")
+            error_message = "Info: You have already opened the serial port."
         elif error == QSerialPort.SerialPortError.DeviceNotFoundError:
-            self.parent().infoMessages.appendPlainText("Error: Attempting to open an non-existing device. Refresh port list.")
+            error_message = "Error: Attempting to open an non-existing device. Refresh port list."
         elif error == QSerialPort.SerialPortError.PermissionError:
-            self.parent().infoMessages.appendPlainText("Error: Attempting to open an already opened device by another process or you don't have permissions")
+            error_message = "Error: Attempting to open an already opened device by another process or you don't have permissions"
         elif error == QSerialPort.SerialPortError.TimeoutError:
-            self.parent().infoMessages.appendPlainText("Error: A timeout error occurred, try again.")
+            error_message = "Error: A timeout error occurred, try again."
         elif error == QSerialPort.SerialPortError.UnknownError:
-            self.parent().infoMessages.appendPlainText("Error: An unidentified error occurred, try again.")
+            error_message = "Error: An unidentified error occurred, try again."
         elif error == QSerialPort.SerialPortError.NoError:
             if self.portName() == '':
                 return
             else:
-                self.parent().infoMessages.appendPlainText("Info: Port " + (self.portName()) + " is opened successfully!")
+                error_message = f"Info: Port {self.portName()} is opened successfully!"
+
+        self.errorOccurred.emit(error_message)
 
     def readFromSerialPort(self):
-        text = str(self.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str
-        self.parent().serialMessages.appendPlainText(text)                     # print them on UI
+        text = str(self.readAll(), encoding="utf-8", errors="replace") # get bytes from serial, convert to str                  # print them on UI
         
-        if(self.parent().saveLogs):
-            self.saveToUsbFile(text)
-
+        if(self.parent().usbManager.savingStatus):
+            self.parent().usbManager.saveToUsbFile(text)
+        self.dataReceived.emit(text)
 
     def setNewBaudRate(self, index):
         if index == 0:
@@ -107,14 +112,6 @@ class SerialPort(QSerialPort):
             self.setBaudRate(QSerialPort.BaudRate.Baud115200)
 
     def setNewDataBits(self, index):
-        """
-        Slot method to handle item selection on dataBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         if index == 0:
             self.setDataBits(QSerialPort.DataBits.Data5)
         elif index == 1:
@@ -125,14 +122,6 @@ class SerialPort(QSerialPort):
             self.setDataBits(QSerialPort.DataBits.Data8)
 
     def setNewStopBits(self, index):
-        """
-        Slot method to handle item selection on stopBitBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         if index == 0:
             self.setStopBits(QSerialPort.StopBits.OneStop)
         elif index == 1:
@@ -141,14 +130,6 @@ class SerialPort(QSerialPort):
             self.setStopBits(QSerialPort.StopBits.TwoStop)
 
     def setNewParity(self, index):
-        """
-        Slot method to handle item selection on parityBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         if index == 0:
             self.setParity(QSerialPort.Parity.NoParity)
         elif index == 1:
@@ -161,14 +142,6 @@ class SerialPort(QSerialPort):
             self.setParity(QSerialPort.Parity.MarkParity)
 
     def setNewFlowControl(self, index):
-        """
-        Slot method to handle item selection on flowControlBox
-
-        Gets the index for selected item and sets it to serial port.
-
-        Parameters:
-        - index (int): index number of current item
-        """
         if index == 0:
             self.setFlowControl(QSerialPort.FlowControl.NoFlowControl)
         elif index == 1:
@@ -176,7 +149,6 @@ class SerialPort(QSerialPort):
         elif index == 2:
             self.setFlowControl(QSerialPort.FlowControl.SoftwareControl)
         self.parent().infoMessages.appendPlainText("Info: Flow control is set to " + str(self.flowControl()))
-
 
     def getNewComPortName(self):
         # get a list of port names
