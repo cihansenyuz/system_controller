@@ -4,10 +4,10 @@ from PySide6.QtCore import Signal
 
 class SwFileManager(FileBrowser, FileCacher):
     swFileReady = Signal(bool)
-    foundFactoryCusdata = Signal(bool)
-    foundCustomerCusdata = Signal(bool)
-    foundOemFile = Signal(bool)
-    foundPidFile = Signal(bool)
+    oemFileFound = Signal(bool)
+    factoryCusdataFileFound = Signal(bool)
+    customerCusdataFileFound = Signal(bool)
+    pidFileFound = Signal(bool)
 
     def __init__(self, rootDirectory):
         super().__init__(rootDirectory)
@@ -41,40 +41,37 @@ class SwFileManager(FileBrowser, FileCacher):
             return False
 
     def findOemFile(self):
-        fileList = self.getFileList(self.oemFileServerDir)
         fileName = "upgrade_image_oem.pkg"
         self.oemPath = self.oemFileServerDir + self.osSeperator + fileName
-        if fileList[-1] == fileName:
-            self.foundOemFile.emit(True)
+
+        if self.doesFileExist(self.oemFileServerDir, fileName):
+            self.oemFileFound.emit(True)
         else:
-            self.foundOemFile.emit(False)
+            self.oemFileFound.emit(False)
 
     def findFactoryCusdataFile(self):
-        fileList = self.getFileList(self.factoryCusdataFileServerDir)
         fileName = "upgrade_image_cusdata.pkg"
         self.factoryCusdataPath = self.factoryCusdataFileServerDir + self.osSeperator + fileName
-        if fileList[0] == fileName:
-            self.foundFactoryCusdata.emit(True)
+        
+        if self.doesFileExist(self.factoryCusdataFileServerDir, fileName):
+            self.factoryCusdataFileFound.emit(True)
         else:
-            self.foundFactoryCusdata.emit(False)
+            self.factoryCusdataFileFound.emit(False)
 
     def findCustomerCusdataFile(self):
-        fileList = self.getFileList(self.customerCusdataFileServerDir)
         fileName = "upgrade_image_cusdata.pkg"
         self.customerCusdataPath = self.customerCusdataFileServerDir + self.osSeperator + fileName
-        if fileList[0] == fileName:
-            self.foundCustomerCusdata.emit(True)
+       
+        if self.doesFileExist(self.customerCusdataFileServerDir, fileName):
+            self.customerCusdataFileFound.emit(True)
         else:
-            self.foundCustomerCusdata.emit(False)
+            self.customerCusdataFileFound.emit(False)
 
     def findPidFile(self, number):
-        fileList = self.getFileList(self.pidFileServerDir)
         fileName = "upgrade_image_project_id_" + number + ".pkg"
         self.pidPath = self.pidFileServerDir + self.osSeperator + fileName
 
-        for file in fileList:
-            if file == fileName:
-                self.foundPidFile.emit(True)
-                return
-            
-        self.foundPidFile.emit(False)
+        if self.doesFileExist(self.pidFileServerDir, fileName):
+            self.pidFileFound.emit(True)
+        else:
+            self.pidFileFound.emit(False)

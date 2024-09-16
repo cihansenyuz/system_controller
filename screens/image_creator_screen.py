@@ -25,10 +25,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/")
 
         self.swFileManager.swFileReady.connect(self.onSwFileReady)
-        self.swFileManager.foundOemFile.connect(self.onOemFileFound)
-        self.swFileManager.foundFactoryCusdata.connect(self.onFactoryCusdataFound)
-        self.swFileManager.foundCustomerCusdata.connect(self.onCustomerCusdataFound)
-        self.swFileManager.foundPidFile.connect(self.onPidFileFound)
+        self.swFileManager.oemFileFound.connect(self.onOemFileFound)
+        self.swFileManager.pidFileFound.connect(self.onPidFileFound)
+        self.swFileManager.factoryCusdataFileFound.connect(self.onFactoryCusdataFileFound)
+        self.swFileManager.customerCusdataFileFound.connect(self.onCustomerCusdataFileFound)
         self.fileCopyResult.connect(self.onFileCopyResult)
 
         #button connections
@@ -43,24 +43,21 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
 
-        def prepareFilesThread():
-            filesToPrepare = [(self.swFileManager.prepareSwFile, "SW paketi")]
-            
-            if self.dortluPaketCheckBox.isChecked():
-                self.swFileManager.findOemFile()
-                self.swFileManager.findPidFile(self.projectIdLineEdit.text())
-                if self.customerRadioButton.isChecked():    
-                    self.swFileManager.findCustomerCusdataFile()
-                else:
-                    self.swFileManager.findFactoryCusdataFile()
+        if self.dortluPaketCheckBox.isChecked():
+            self.swFileManager.findOemFile()
+            self.swFileManager.findPidFile(self.projectIdLineEdit.text())
+            if self.customerRadioButton.isChecked():    
+                self.swFileManager.findCustomerCusdataFile()
+            else:
+                self.swFileManager.findFactoryCusdataFile()
 
-            for fileToPrepare, fileName in filesToPrepare:
-                self.infoMessages.appendPlainText(fileName + " hazırlanıyor...")
-                result = fileToPrepare()
-                if result:
-                    self.infoMessages.appendPlainText(fileName + " hazır!")
-                else:
-                    self.infoMessages.appendPlainText(fileName + " hazırlanamadı!")
+        def prepareFilesThread():
+            self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
+            result = self.swFileManager.prepareSwFile()
+            if result:
+                self.infoMessages.appendPlainText("SW paketi hazır!")
+            else:
+                self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
 
         prepareThread = threading.Thread(target=prepareFilesThread)
         prepareThread.start()
@@ -77,30 +74,30 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onOemFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("OEM Paket Adresi: " + self.swFileManager.oemPath)
+            self.infoMessages.appendPlainText("OEM paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
 
-    def onFactoryCusdataFound(self, result):
+    def onPidFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Factory CUSDATA Paket Adresi: " + self.swFileManager.factoryCusdataPath)
+            self.infoMessages.appendPlainText("Project ID paketi bulundu!")
+        else:
+            self.infoMessages.appendPlainText("Project ID paketi bulunamadı!")
+            
+    def onFactoryCusdataFileFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("Factory CUSDATA paketi bulunamadı!")
 
-    def onCustomerCusdataFound(self, result):
+    def onCustomerCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Customer CUSDATA Paket Adresi: " + self.swFileManager.customerCusdataPath)
+            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("Customer CUSDATA paketi bulunamadı!")
 
-    def onPidFileFound(self, result):
-        if result:
-            self.infoMessages.appendPlainText("PID Paket Adresi: "+ self.swFileManager.pidPath)
-        else:
-            self.infoMessages.appendPlainText("PID paketi bulunamadı!")
-
     def onPrepareButtonClicked(self):
-        self.infoMessages.appendPlainText("Preparing files into selected USB device...")
+        self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")
         self.usbDevicesBox.setEnabled(False)
         targetDevice = self.usbDevicesBox.currentText()
 

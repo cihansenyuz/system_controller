@@ -7,7 +7,7 @@ class FileBrowser(QObject):
         self.rootDirectory = rootDirectory
         self.osSeperator = os.sep
 
-    def doesExist(self, targetDirectory, fileName):
+    def doesFileExist(self, targetDirectory, fileName):
         os.chdir(targetDirectory)
         files = os.listdir()
         if fileName in files:
