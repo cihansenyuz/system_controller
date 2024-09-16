@@ -5,10 +5,12 @@ class FileBrowser(QObject):
     def __init__(self, rootDirectory):
         super().__init__()
         self.rootDirectory = rootDirectory
-        self.osSeperator = self.rootDirectory[0] # backslash or forwardslash
+        self.osSeperator = os.sep
 
-    def getFileList(self, targetDirectory):
+    def doesExist(self, targetDirectory, fileName):
         os.chdir(targetDirectory)
         files = os.listdir()
-        return files
-
+        if fileName in files:
+            return True
+        else:
+            return False

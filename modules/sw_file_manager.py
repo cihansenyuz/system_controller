@@ -1,8 +1,9 @@
 from modules.file_browser import FileBrowser
+from modules.file_cacher import FileCacher
 from PySide6.QtCore import Signal
 
-class SwFileManager(FileBrowser):
-    foundSwFile = Signal(bool)
+class SwFileManager(FileBrowser, FileCacher):
+    swFileReady = Signal(bool)
     foundFactoryCusdata = Signal(bool)
     foundCustomerCusdata = Signal(bool)
     foundOemFile = Signal(bool)
@@ -22,21 +23,23 @@ class SwFileManager(FileBrowser):
         self.factoryCusdataFileServerDir = self.swFileServerDir
         self.customerCusdataFileServerDir = self.oemFileServerDir
         self.pidFileServerDir = self.rootDirectory + self.projectName +self.osSeperator+ "PROJECT_ID_YUKLEME"
-        
 
     def setProject(self, name):
         self.projectName = name
         self.createTargetDirectories()
 
-    def findUsbSwImage(self):
-        fileList = self.getFileList(self.swFileServerDir)
+    def prepareSwFile(self):
         fileName = "upgrade_image_no_tvcertificate.pkg"
         self.swFilePath = self.swFileServerDir + self.osSeperator + fileName
-        if fileList[-1] == fileName:
-            self.foundSwFile.emit(True)
+        
+        self.cachedSwFilePath = self.cache(self.swFilePath) # checks if the file is cached and up to date
+        if self.cachedSwFilePath:
+            self.swFileReady.emit(True)
+            return True
         else:
-            self.foundSwFile.emit(False)
-    
+            self.swFileReady.emit(False)
+            return False
+
     def findOemFile(self):
         fileList = self.getFileList(self.oemFileServerDir)
         fileName = "upgrade_image_oem.pkg"

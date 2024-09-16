@@ -24,7 +24,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         else:
             self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/")
 
-        self.swFileManager.foundSwFile.connect(self.onSwFileFound)
+        self.swFileManager.swFileReady.connect(self.onSwFileReady)
         self.swFileManager.foundOemFile.connect(self.onOemFileFound)
         self.swFileManager.foundFactoryCusdata.connect(self.onFactoryCusdataFound)
         self.swFileManager.foundCustomerCusdata.connect(self.onCustomerCusdataFound)
@@ -42,23 +42,38 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
-        self.swFileManager.findUsbSwImage()
-        
-        if self.dortluPaketCheckBox.isChecked():
-            self.swFileManager.findOemFile()
-            self.swFileManager.findPidFile(self.projectIdLineEdit.text())
-            if self.customerRadioButton.isChecked():    
-                self.swFileManager.findCustomerCusdataFile()
-            else:
-                self.swFileManager.findFactoryCusdataFile()
 
-    def onSwFileFound(self, result):
+        def prepareFilesThread():
+            filesToPrepare = [(self.swFileManager.prepareSwFile, "SW paketi")]
+            
+            if self.dortluPaketCheckBox.isChecked():
+                self.swFileManager.findOemFile()
+                self.swFileManager.findPidFile(self.projectIdLineEdit.text())
+                if self.customerRadioButton.isChecked():    
+                    self.swFileManager.findCustomerCusdataFile()
+                else:
+                    self.swFileManager.findFactoryCusdataFile()
+
+            for fileToPrepare, fileName in filesToPrepare:
+                self.infoMessages.appendPlainText(fileName + " hazırlanıyor...")
+                result = fileToPrepare()
+                if result:
+                    self.infoMessages.appendPlainText(fileName + " hazır!")
+                else:
+                    self.infoMessages.appendPlainText(fileName + " hazırlanamadı!")
+
+        prepareThread = threading.Thread(target=prepareFilesThread)
+        prepareThread.start()
+
+    def onSwFileReady(self, result):
         if result:
-            self.infoMessages.appendPlainText("SW Paket Adresi: " + self.swFileManager.swFilePath)
+            #self.infoMessages.appendPlainText("SW Paketi güncellendi!")
             self.prepareButton.setEnabled(True)
             self.prepareButton.setStyleSheet("color: black;")
         else:
-            self.infoMessages.appendPlainText("SW paketi bulunamadı!")
+            #self.infoMessages.appendPlainText("SW paketi güncellenemedi!")
+            self.prepareButton.setEnabled(False)
+            self.prepareButton.setStyleSheet("color: gray;")
 
     def onOemFileFound(self, result):
         if result:
@@ -90,7 +105,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         targetDevice = self.usbDevicesBox.currentText()
 
         def copyFilesThread():
-            filesToCopy = [(self.swFileManager.swFilePath, "SW paketi")]
+            filesToCopy = [(self.swFileManager.cachedSwFilePath, "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
                 filesToCopy.extend([
