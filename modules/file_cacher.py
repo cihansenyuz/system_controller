@@ -7,10 +7,10 @@ class FileCacher(QObject):
         super().__init__()
         print("FileCacher: Initialized")
 
-    def cache(self, filePath):
+    def cache(self, filePath, projectName):
         print(f"FileCacher: Entering cache function with filePath: {filePath}")
         os.makedirs("cache", exist_ok=True)
-        cachedFilePath = os.path.join("cache", os.path.basename(filePath))
+        cachedFilePath = os.path.join("cache", projectName, os.path.basename(filePath))
         
         if os.path.exists(cachedFilePath):
             if not self.isUpdated(cachedFilePath, filePath):
@@ -25,9 +25,10 @@ class FileCacher(QObject):
             print("FileCacher: Exiting cache function, returning: None (IOError)")
             return None
 
-    def isCached(self, fileName):
+    def isCached(self, fileName, projectName):
         print(f"FileCacher: Entering isCached function with fileName: {fileName}")
-        cached_file_path = os.path.join("cache", fileName)
+        cached_file_path = os.path.join("cache", projectName, fileName)
+        
         if os.path.exists(cached_file_path):
             print(f"FileCacher: Exiting isCached function, returning: {cached_file_path}")
             return cached_file_path
