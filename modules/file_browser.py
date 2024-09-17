@@ -12,12 +12,10 @@ class FileBrowser(QObject):
         print(f"FileBrowser: fileName: {fileName}")
         os.chdir(targetDirectory)
         files = os.listdir()
-        print(f"FileBrowser: files: {files}")
+        
         if fileName in files:
-            print(f"FileBrowser: fileName: {fileName} found in files: {files}")
             return True
         else:
-            print(f"FileBrowser: fileName: {fileName} not found in files: {files}")
             return False
         
     def getNameOfFile(self, filePath):

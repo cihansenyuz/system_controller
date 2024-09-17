@@ -17,7 +17,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.factoryCusdataPath = None
         self.pidPath = None
 
-    def createTargetDirectories(self):
+    def createServerDirectories(self):
         self.swFileServerDir = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
                                 +self._FileBrowser__osSeperator+ self.projectName
                                 +self._FileBrowser__osSeperator+ "USBDEN_YUKLEME"
@@ -30,12 +30,14 @@ class SwFileManager(FileBrowser, FileCacher):
         self.pidFileServerDir = (self._FileBrowser__rootDirectory + self.projectName
                                  +self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME")
 
+    def createSwFilePath(self):
         self.swFileName = "upgrade_image_no_tvcertificate.pkg"
         self.swFilePath = self.swFileServerDir + self._FileBrowser__osSeperator + self.swFileName
 
     def setProject(self, name):
         self.projectName = name
-        self.createTargetDirectories()
+        self.createServerDirectories()
+        self.createSwFilePath()
 
     def prepareSwFile(self):
         self.cachedSwFilePath = self.cache(self.swFilePath, self.projectName) # checks if the file is cached and up to date
