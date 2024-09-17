@@ -11,11 +11,11 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def __init__(self, rootDirectory):
         super().__init__(rootDirectory)
-        self.swFilePath = None
-        self.oemPath = None
-        self.customerCusdataPath = None
-        self.factoryCusdataPath = None
-        self.pidPath = None
+        self.__swFilePath = None
+        self.__oemPath = None
+        self.__customerCusdataPath = None
+        self.__factoryCusdataPath = None
+        self.__pidPath = None
 
     def createServerDirectories(self):
         self.__swFileServerDir = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
@@ -46,7 +46,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def createSwFilePath(self):
         self.swFileName = "upgrade_image_no_tvcertificate.pkg"
-        self.swFilePath = (self.__swFileServerDir
+        self.__swFilePath = (self.__swFileServerDir
                            + self._FileBrowser__osSeperator + self.swFileName)
 
     def setProject(self, name):
@@ -55,7 +55,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.createSwFilePath()
 
     def prepareSwFile(self):
-        self.cachedSwFilePath = self.cache(self.swFilePath, self.projectName) # checks if the file is cached and up to date
+        self.cachedSwFilePath = self.cache(self.__swFilePath, self.projectName) # checks if the file is cached and up to date
         if self.cachedSwFilePath:
             self.swFileReady.emit(True)
             return True
@@ -65,7 +65,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def findOemFile(self):
         fileName = "upgrade_image_oem.pkg"
-        self.oemPath = (self.__oemFileServerDir
+        self.__oemPath = (self.__oemFileServerDir
                         + self._FileBrowser__osSeperator + fileName)
 
         if self.doesFileExist(self.__oemFileServerDir, fileName):
@@ -75,7 +75,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def findFactoryCusdataFile(self):
         fileName = "upgrade_image_cusdata.pkg"
-        self.factoryCusdataPath = (self.__factoryCusdataFileServerDir
+        self.__factoryCusdataPath = (self.__factoryCusdataFileServerDir
                                    + self._FileBrowser__osSeperator + fileName)
         
         if self.doesFileExist(self.__factoryCusdataFileServerDir, fileName):
@@ -85,7 +85,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def findCustomerCusdataFile(self):
         fileName = "upgrade_image_cusdata.pkg"
-        self.customerCusdataPath = (self.__customerCusdataFileServerDir
+        self.__customerCusdataPath = (self.__customerCusdataFileServerDir
                                     + self._FileBrowser__osSeperator + fileName)
        
         if self.doesFileExist(self.__customerCusdataFileServerDir, fileName):
@@ -95,10 +95,25 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def findPidFile(self, number):
         fileName = "upgrade_image_project_id_" + number + ".pkg"
-        self.pidPath = (self.__pidFileServerDir
+        self.__pidPath = (self.__pidFileServerDir
                         + self._FileBrowser__osSeperator + fileName)
 
         if self.doesFileExist(self.__pidFileServerDir, fileName):
             self.pidFileFound.emit(True)
         else:
             self.pidFileFound.emit(False)
+
+    def getSwFilePath(self):
+        return self.__swFilePath
+
+    def getOemPath(self):
+        return self.__oemPath
+
+    def getCustomerCusdataPath(self):
+        return self.__customerCusdataPath
+
+    def getFactoryCusdataPath(self):
+        return self.__factoryCusdataPath
+
+    def getPidPath(self):
+        return self.__pidPath

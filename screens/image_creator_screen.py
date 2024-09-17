@@ -107,17 +107,17 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         targetDevice = self.usbDevicesBox.currentText()
 
         def copyFilesThread():
-            filesToCopy = [(self.swFileManager.cachedSwFilePath, "SW paketi")]
+            filesToCopy = [(self.swFileManager.getSwFilePath(), "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
                 filesToCopy.extend([
-                    (self.swFileManager.oemPath, "OEM paketi"),
-                    (self.swFileManager.pidPath, "Project ID paketi")
+                    (self.swFileManager.getOemPath(), "OEM paketi"),
+                    (self.swFileManager.getPidPath(), "Project ID paketi")
                 ])
                 if self.customerRadioButton.isChecked():
-                    filesToCopy.append((self.swFileManager.customerCusdataPath, "Customer CUSDATA paketi"))
+                    filesToCopy.append((self.swFileManager.getCustomerCusdataPath(), "Customer CUSDATA paketi"))
                 else:
-                    filesToCopy.append((self.swFileManager.factoryCusdataPath, "Factory CUSDATA paketi"))
+                    filesToCopy.append((self.swFileManager.getFactoryCusdataPath(), "Factory CUSDATA paketi"))
             
             for sourcePath, fileName in filesToCopy:
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
