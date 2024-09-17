@@ -5,13 +5,13 @@ import shutil
 class FileCacher(QObject):
     def __init__(self):
         super().__init__()
-        self.cache_dir = os.path.join(os.path.expanduser("~"), "system_controller_cache")
-        print(f"FileCacher: Initialized with cache directory: {self.cache_dir}")
+        self.__cacheDirectory = os.path.join(os.path.expanduser("~"), "system_controller_cache")
+        print(f"FileCacher: Initialized with cache directory: {self.__cacheDirectory}")
 
     def cache(self, filePath, projectName):
         print(f"FileCacher: Entering cache function with filePath: {filePath}")
         try:
-            cachedFilePath = os.path.join(self.cache_dir, projectName, os.path.basename(filePath))
+            cachedFilePath = os.path.join(self.__cacheDirectory, projectName, os.path.basename(filePath))
             os.makedirs(os.path.dirname(cachedFilePath), exist_ok=True)
             
             if os.path.exists(cachedFilePath):
@@ -42,10 +42,10 @@ class FileCacher(QObject):
             return None
 
     def isUpdated(self, localFilePath, remoteFilePath):
-        print(f"FileCacher: Entering isUpdated function with localFilePath: {localFilePath}, remoteFilePath: {remoteFilePath}")
         local_last_modified_timestamp = os.path.getmtime(localFilePath)
         remote_last_modified_timestamp = os.path.getmtime(remoteFilePath)
-        print(f"FileCacher: local_last_modified_timestamp: {local_last_modified_timestamp}, remote_last_modified_timestamp: {remote_last_modified_timestamp}")
+        print(f"FileCacher: local_last_modified_timestamp: {local_last_modified_timestamp},"
+              f"remote_last_modified_timestamp: {remote_last_modified_timestamp}")
         result = remote_last_modified_timestamp >= local_last_modified_timestamp
         print(f"FileCacher: Exiting isUpdated function, returning: {result}")
         return result
