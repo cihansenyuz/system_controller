@@ -21,6 +21,8 @@ class SerialGroupBox(QGroupBox):
         self.ui.refreshComButton.clicked.connect(self.onRefreshComButtonClicked)
         self.ui.disconnectButton.clicked.connect(self.onDisconnectButtonClicked)
 
+        self.ui.disconnectButton.setEnabled(False)
+
     @Slot(list)
     def updateComPortBox(self, port_list):
         self.ui.comPortBox.clear()
@@ -33,6 +35,8 @@ class SerialGroupBox(QGroupBox):
         self.infoMessages.appendPlainText(error_message)
 
     def onRefreshComButtonClicked(self):
+        if self.serialPort.isOpen():
+            self.onDisconnectButtonClicked()
         self.serialPort.getComPorts()
         self.infoMessages.appendPlainText("Info: Available ports are refreshed.")
                                           
@@ -44,10 +48,15 @@ class SerialGroupBox(QGroupBox):
             if portInfo.portName() == self.ui.comPortBox.currentText():    # text vs text
                 self.serialPort.setPort(portInfo)   # set port once matched item found
                 self.serialPort.open(QSerialPort.ReadWrite) # open the port in read/write mode
+                self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is opened.")
+                self.ui.disconnectButton.setEnabled(True)
+                self.ui.connectButton.setEnabled(False)
 
     def onDisconnectButtonClicked(self):
         if self.serialPort.isOpen():
             self.serialPort.close()
             self.infoMessages.appendPlainText("Info: Port " + self.serialPort.portName() + " is closed.")
+            self.ui.disconnectButton.setEnabled(False)
+            self.ui.connectButton.setEnabled(True)
         else:
             self.infoMessages.appendPlainText("Info: No serial port is open or already closed")

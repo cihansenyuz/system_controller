@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'log_alma_screen.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -29,7 +29,7 @@ class Ui_logScreenWindow(object):
         self.layoutWidget.setGeometry(QRect(20, 20, 1041, 745))
         self.horizontalLayout_17 = QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.horizontalLayout_17.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout_17.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
@@ -61,7 +61,7 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.mBootButton = QPushButton(self.layoutWidget)
         self.mBootButton.setObjectName(u"mBootButton")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mBootButton.sizePolicy().hasHeightForWidth())
@@ -72,6 +72,11 @@ class Ui_logScreenWindow(object):
 
         self.messageLine = QLineEdit(self.layoutWidget)
         self.messageLine.setObjectName(u"messageLine")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.messageLine.sizePolicy().hasHeightForWidth())
+        self.messageLine.setSizePolicy(sizePolicy1)
 
         self.horizontalLayout_3.addWidget(self.messageLine)
 
@@ -83,6 +88,11 @@ class Ui_logScreenWindow(object):
         self.presetCommandBox = QComboBox(self.layoutWidget)
         self.presetCommandBox.setObjectName(u"presetCommandBox")
         self.presetCommandBox.setEnabled(True)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.presetCommandBox.sizePolicy().hasHeightForWidth())
+        self.presetCommandBox.setSizePolicy(sizePolicy2)
         self.presetCommandBox.setMinimumSize(QSize(0, 0))
         self.presetCommandBox.setSizeIncrement(QSize(0, 0))
         self.presetCommandBox.setBaseSize(QSize(0, 0))
@@ -115,11 +125,8 @@ class Ui_logScreenWindow(object):
         self.settings_layout.setObjectName(u"settings_layout")
         self.groupBox_2 = QGroupBox(self.layoutWidget)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
-        self.groupBox_2.setSizePolicy(sizePolicy1)
+        sizePolicy2.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
+        self.groupBox_2.setSizePolicy(sizePolicy2)
         self.groupBox_2.setMinimumSize(QSize(0, 200))
         self.verticalLayout_5 = QVBoxLayout(self.groupBox_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -172,11 +179,11 @@ class Ui_logScreenWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_3 = QLabel(self.groupBox_2)
         self.label_3.setObjectName(u"label_3")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy3)
 
         self.horizontalLayout_6.addWidget(self.label_3)
 
@@ -193,8 +200,8 @@ class Ui_logScreenWindow(object):
         self.label_6 = QLabel(self.groupBox_2)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setEnabled(True)
-        sizePolicy2.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy3)
         self.label_6.setScaledContents(False)
 
         self.horizontalLayout_5.addWidget(self.label_6)

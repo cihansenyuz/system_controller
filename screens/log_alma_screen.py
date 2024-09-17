@@ -69,11 +69,17 @@ class LogScreenWindow(QWidget, Ui_logScreenWindow):
 
     def createComboBoxes(self):
         self.baudRateBox.addItems(self.serialPort.baudRateList)
+        self.baudRateBox.setCurrentText("115200")
         self.dataBitBox.addItems(self.serialPort.dataBitList)
+        self.dataBitBox.setCurrentText("8 bits")
         self.stopBitBox.addItems(self.serialPort.stopBitList)
+        self.stopBitBox.setCurrentText("1 bit")
         self.parityBox.addItems(self.serialPort.parityList)
+        self.parityBox.setCurrentText("no parity")
         self.flowControlBox.addItems(self.serialPort.flowControlList)
-        self.presetCommandBox.addItems(self.serialPort.commandList)
+        self.flowControlBox.setCurrentText("no flow control")
+        self.presetCommandBox.addItems(self.serialPort.commandList) 
+        self.presetCommandBox.setCurrentIndex(-1)
 
     def onBaudRateBoxCurrentIndexChanged(self, index):
         self.serialPort.setNewBaudRate(index)
