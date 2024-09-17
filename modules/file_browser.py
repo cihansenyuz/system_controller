@@ -4,8 +4,8 @@ import os
 class FileBrowser(QObject):
     def __init__(self, rootDirectory):
         super().__init__()
-        self.rootDirectory = rootDirectory
-        self.osSeperator = os.sep
+        self.__rootDirectory = rootDirectory
+        self.__osSeperator = os.sep
 
     def doesFileExist(self, targetDirectory, fileName):
         print(f"FileBrowser: targetDirectory: {targetDirectory}")
