@@ -24,11 +24,11 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         else:
             self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/")
 
-        self.swFileManager.foundSwFile.connect(self.onSwFileFound)
-        self.swFileManager.foundOemFile.connect(self.onOemFileFound)
-        self.swFileManager.foundFactoryCusdata.connect(self.onFactoryCusdataFound)
-        self.swFileManager.foundCustomerCusdata.connect(self.onCustomerCusdataFound)
-        self.swFileManager.foundPidFile.connect(self.onPidFileFound)
+        self.swFileManager.swFileReady.connect(self.onSwFileReady)
+        self.swFileManager.oemFileFound.connect(self.onOemFileFound)
+        self.swFileManager.pidFileFound.connect(self.onPidFileFound)
+        self.swFileManager.factoryCusdataFileFound.connect(self.onFactoryCusdataFileFound)
+        self.swFileManager.customerCusdataFileFound.connect(self.onCustomerCusdataFileFound)
         self.fileCopyResult.connect(self.onFileCopyResult)
 
         #button connections
@@ -42,8 +42,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
-        self.swFileManager.findUsbSwImage()
-        
+
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
             self.swFileManager.findPidFile(self.projectIdLineEdit.text())
@@ -52,55 +51,73 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             else:
                 self.swFileManager.findFactoryCusdataFile()
 
-    def onSwFileFound(self, result):
+        targetDevice = self.usbDevicesBox.currentText()
+        if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName):
+            if self.swFileManager.isUpdated(targetDevice + self.swFileManager.swFileName, self.swFileManager.swFilePath):
+                self.infoMessages.appendPlainText("SW paketi USB cihazda zaten mevcut ve güncel!")
+        else:
+            def prepareFilesThread():
+                self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
+                result = self.swFileManager.prepareSwFile()
+                if result:
+                    self.infoMessages.appendPlainText("SW paketi hazır!")
+                else:
+                    self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
+
+            prepareThread = threading.Thread(target=prepareFilesThread)
+            prepareThread.start()
+
+    def onSwFileReady(self, result):
         if result:
-            self.infoMessages.appendPlainText("SW Paket Adresi: " + self.swFileManager.swFilePath)
+            #self.infoMessages.appendPlainText("SW Paketi güncellendi!")
             self.prepareButton.setEnabled(True)
             self.prepareButton.setStyleSheet("color: black;")
         else:
-            self.infoMessages.appendPlainText("SW paketi bulunamadı!")
+            #self.infoMessages.appendPlainText("SW paketi güncellenemedi!")
+            self.prepareButton.setEnabled(False)
+            self.prepareButton.setStyleSheet("color: gray;")
 
     def onOemFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("OEM Paket Adresi: " + self.swFileManager.oemPath)
+            self.infoMessages.appendPlainText("OEM paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
 
-    def onFactoryCusdataFound(self, result):
+    def onPidFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Factory CUSDATA Paket Adresi: " + self.swFileManager.factoryCusdataPath)
+            self.infoMessages.appendPlainText("Project ID paketi bulundu!")
+        else:
+            self.infoMessages.appendPlainText("Project ID paketi bulunamadı!")
+            
+    def onFactoryCusdataFileFound(self, result):
+        if result:
+            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("Factory CUSDATA paketi bulunamadı!")
 
-    def onCustomerCusdataFound(self, result):
+    def onCustomerCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Customer CUSDATA Paket Adresi: " + self.swFileManager.customerCusdataPath)
+            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulundu!")
         else:
             self.infoMessages.appendPlainText("Customer CUSDATA paketi bulunamadı!")
 
-    def onPidFileFound(self, result):
-        if result:
-            self.infoMessages.appendPlainText("PID Paket Adresi: "+ self.swFileManager.pidPath)
-        else:
-            self.infoMessages.appendPlainText("PID paketi bulunamadı!")
-
     def onPrepareButtonClicked(self):
-        self.infoMessages.appendPlainText("Preparing files into selected USB device...")
+        self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")
         self.usbDevicesBox.setEnabled(False)
         targetDevice = self.usbDevicesBox.currentText()
 
         def copyFilesThread():
-            filesToCopy = [(self.swFileManager.swFilePath, "SW paketi")]
+            filesToCopy = [(self.swFileManager.getSwFilePath(), "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
                 filesToCopy.extend([
-                    (self.swFileManager.oemPath, "OEM paketi"),
-                    (self.swFileManager.pidPath, "Project ID paketi")
+                    (self.swFileManager.getOemPath(), "OEM paketi"),
+                    (self.swFileManager.getPidPath(), "Project ID paketi")
                 ])
                 if self.customerRadioButton.isChecked():
-                    filesToCopy.append((self.swFileManager.customerCusdataPath, "Customer CUSDATA paketi"))
+                    filesToCopy.append((self.swFileManager.getCustomerCusdataPath(), "Customer CUSDATA paketi"))
                 else:
-                    filesToCopy.append((self.swFileManager.factoryCusdataPath, "Factory CUSDATA paketi"))
+                    filesToCopy.append((self.swFileManager.getFactoryCusdataPath(), "Factory CUSDATA paketi"))
             
             for sourcePath, fileName in filesToCopy:
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
