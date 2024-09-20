@@ -16,19 +16,27 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__customerCusdataPath = None
         self.__factoryCusdataPath = None
         self.__pidPath = None
+        self.__yazilimYuklemeDirList = []
+        self.__seriDirList = []
 
     def __createServerDirectories(self):
         self.__swFileServerDir = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
-                                +self._FileBrowser__osSeperator+ self.projectName
+                                +self._FileBrowser__osSeperator+ self.yazilimYuklemeSelection
                                 +self._FileBrowser__osSeperator+ "USBDEN_YUKLEME"
                                 +self._FileBrowser__osSeperator+ "BIRINCI_USB")
-        self.__oemFileServerDir = (self._FileBrowser__rootDirectory + self.projectName
+        self.__oemFileServerDir = [(self._FileBrowser__rootDirectory + self.projectName
                                  +self._FileBrowser__osSeperator+ "OEM_YUKLEME"
-                                 +self._FileBrowser__osSeperator+ "GRUNDIG_NONFARFIELD")
+                                 +self._FileBrowser__osSeperator+ "GRUNDIG_NONFARFIELD"),
+                                 (self._FileBrowser__rootDirectory + self.projectName
+                                 +self._FileBrowser__osSeperator+ "OEM_YUKLEME"
+                                 +self._FileBrowser__osSeperator+ "GRUNDIG")]
         self.__factoryCusdataFileServerDir = self.__swFileServerDir
         self.__customerCusdataFileServerDir = self.__oemFileServerDir
-        self.__pidFileServerDir = (self._FileBrowser__rootDirectory + self.projectName
-                                 +self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME")
+        self.__pidFileServerDir = [(self._FileBrowser__rootDirectory + self.projectName
+                                 +self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME"),
+                                 (self._FileBrowser__rootDirectory + self.projectName
+                                 +self._FileBrowser__osSeperator + "PROJECT_ID")]
+        
     def getSwFileServerDir(self):
         return self.__swFileServerDir
 
@@ -46,11 +54,15 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def __createSwFilePath(self):
         self.swFileName = "upgrade_image_no_tvcertificate.pkg"
+        if not self.doesFileExist(self.__swFileServerDir, self.swFileName):
+            self.swFileName = self.projectName + "_upgrade_image_no_tvcertificate.pkg"
+        
         self.__swFilePath = (self.__swFileServerDir
-                           + self._FileBrowser__osSeperator + self.swFileName)
+                            + self._FileBrowser__osSeperator + self.swFileName)
 
-    def setProject(self, name):
-        self.projectName = name
+    def setProject(self, yazilimYuklemeSelection):
+        self.projectName = yazilimYuklemeSelection[:2]
+        self.yazilimYuklemeSelection = yazilimYuklemeSelection
         self.__createServerDirectories()
         self.__createSwFilePath()
 
@@ -64,44 +76,51 @@ class SwFileManager(FileBrowser, FileCacher):
             return False
 
     def findOemFile(self):
-        fileName = "upgrade_image_oem.pkg"
-        self.__oemPath = (self.__oemFileServerDir
-                        + self._FileBrowser__osSeperator + fileName)
+        for dir in self.__oemFileServerDir: # there are two possible directories for oem files
+            fileName = "upgrade_image_oem.pkg" # and there are two possible file names
+            if not self.doesFileExist(dir, fileName): # if the first file name does not exist in the first directory
+                fileName = self.projectName + "_upgrade_image_oem.pkg" # try the second file name
 
-        if self.doesFileExist(self.__oemFileServerDir, fileName):
-            self.oemFileFound.emit(True)
-        else:
-            self.oemFileFound.emit(False)
+            self.__oemPath = (dir + self._FileBrowser__osSeperator + fileName)
+
+            if self.doesFileExist(dir, fileName): # if the file exists in one of the directories
+                self.oemFileFound.emit(True) # emit the signal
+                return True # return True
+        self.oemFileFound.emit(False) # if the file is not found in any of the directories, emit the signal and return False
 
     def findFactoryCusdataFile(self):
-        fileName = "upgrade_image_cusdata.pkg"
+        fileName = "upgrade_image_cusdata.pkg" # there is only one possible file name
         self.__factoryCusdataPath = (self.__factoryCusdataFileServerDir
                                    + self._FileBrowser__osSeperator + fileName)
         
-        if self.doesFileExist(self.__factoryCusdataFileServerDir, fileName):
-            self.factoryCusdataFileFound.emit(True)
+        if self.doesFileExist(self.__factoryCusdataFileServerDir, fileName): # if the file exists in the directory
+            self.factoryCusdataFileFound.emit(True) # emit the signal
         else:
             self.factoryCusdataFileFound.emit(False)
 
     def findCustomerCusdataFile(self):
-        fileName = "upgrade_image_cusdata.pkg"
-        self.__customerCusdataPath = (self.__customerCusdataFileServerDir
-                                    + self._FileBrowser__osSeperator + fileName)
-       
-        if self.doesFileExist(self.__customerCusdataFileServerDir, fileName):
-            self.customerCusdataFileFound.emit(True)
-        else:
-            self.customerCusdataFileFound.emit(False)
+        for dir in self.__customerCusdataFileServerDir: # there are two possible directories for customer cusdata files
+            fileName = "upgrade_image_cusdata.pkg" # and there are two possible file names
+            if not self.doesFileExist(dir, fileName): # if the first file name does not exist in the first directory
+                fileName = self.projectName + "_upgrade_image_cusdata.pkg" # try the second file name
+            self.__customerCusdataPath = (dir + self._FileBrowser__osSeperator + fileName)
+        
+            if self.doesFileExist(dir, fileName): # if the file exists in one of the directories
+                self.customerCusdataFileFound.emit(True)
+                return True # return True
+        self.customerCusdataFileFound.emit(False) # if the file is not found in any of the directories, emit the signal and return False
 
     def findPidFile(self, number):
-        fileName = "upgrade_image_project_id_" + number + ".pkg"
-        self.__pidPath = (self.__pidFileServerDir
-                        + self._FileBrowser__osSeperator + fileName)
+        for dir in self.__pidFileServerDir: # there are two possible directories for pid files
+            fileName = "upgrade_image_project_id_" + number + ".pkg" # and there are two possible file names
+            if not self.doesFileExist(dir, fileName): # if the first file name does not exist in the first directory
+                fileName = self.projectName + "_upgrade_image_project_id_" + number + ".pkg" # try the second file name
+            self.__pidPath = (dir + self._FileBrowser__osSeperator + fileName)
 
-        if self.doesFileExist(self.__pidFileServerDir, fileName):
-            self.pidFileFound.emit(True)
-        else:
-            self.pidFileFound.emit(False)
+            if self.doesFileExist(dir, fileName): # if the file exists in one of the directories
+                self.pidFileFound.emit(True) # emit the signal
+                return True # return True
+        self.pidFileFound.emit(False) # if the file is not found in any of the directories, emit the signal and return False
 
     def getSwFilePath(self):
         return self.__swFilePath

@@ -12,6 +12,7 @@ app = QApplication(sys.argv)
 ui = MainWindow()
 
 if args.dev:
+    ui.resize(800, 600)
     ui.show()
 else:
     ui.showFullScreen()

@@ -10,13 +10,9 @@ class FileBrowser(QObject):
     def doesFileExist(self, targetDirectory, fileName):
         print(f"FileBrowser: targetDirectory: {targetDirectory}")
         print(f"FileBrowser: fileName: {fileName}")
-        os.chdir(targetDirectory)
-        files = os.listdir()
         
-        if fileName in files:
-            return True
-        else:
-            return False
-        
+        fullPath = os.path.join(targetDirectory, fileName)
+        return os.path.exists(fullPath)
+    
     def getNameOfFile(self, filePath):
         return os.path.basename(filePath)
