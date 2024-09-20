@@ -39,6 +39,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.projectNameLineEdit.textEdited.connect(self.onProjectNameEdited)
         self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
         self.backButton.clicked.connect(self.onBackButtonClicked)
+        self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameLineEdit.text())
@@ -176,3 +177,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
+
+    def onClearCacheButtonClicked(self):
+        result = self.swFileManager.deleteCachedFiles()
+        self.infoMessages.appendPlainText(result)

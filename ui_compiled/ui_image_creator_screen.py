@@ -192,6 +192,14 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout_4.addWidget(self.clearInfoMessagesButton)
 
+        self.clearCacheButton = QPushButton(imageCreatorWindow)
+        self.clearCacheButton.setObjectName(u"clearCacheButton")
+        sizePolicy1.setHeightForWidth(self.clearCacheButton.sizePolicy().hasHeightForWidth())
+        self.clearCacheButton.setSizePolicy(sizePolicy1)
+        self.clearCacheButton.setFont(font)
+
+        self.verticalLayout_4.addWidget(self.clearCacheButton)
+
         self.backButton = QPushButton(imageCreatorWindow)
         self.backButton.setObjectName(u"backButton")
         sizePolicy1.setHeightForWidth(self.backButton.sizePolicy().hasHeightForWidth())
@@ -231,6 +239,9 @@ class Ui_imageCreatorWindow(object):
         self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB'yi\n"
 "Haz\u0131rla", None))
         self.clearInfoMessagesButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Mesaj Panelini\n"
+"Temizle", None))
+        self.clearCacheButton.setText(QCoreApplication.translate("imageCreatorWindow", u"\u00d6nbellek\n"
+"Dosyalar\u0131n\u0131\n"
 "Temizle", None))
         self.backButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Geri", None))
     # retranslateUi

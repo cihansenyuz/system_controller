@@ -49,3 +49,15 @@ class FileCacher(QObject):
         result = remote_last_modified_timestamp >= local_last_modified_timestamp
         print(f"FileCacher: Exiting isUpdated function, returning: {result}")
         return result
+
+    def deleteCachedFiles(self):
+        try:
+            if os.path.exists(self.__cacheDirectory):
+                shutil.rmtree(self.__cacheDirectory)
+                os.makedirs(self.__cacheDirectory)
+                return (f"Tüm önbellek dosyaları başarıyla silindi")
+            else:
+                return (f"Önbellekte silinecek dosya yok")
+
+        except Exception as e:
+            print(f"FileCacher: Error occurred while deleting cached files: {e}")

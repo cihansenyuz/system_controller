@@ -59,8 +59,8 @@ class SwFileManager(FileBrowser, FileCacher):
             self.swFileName = self.projectName + "_upgrade_image_no_tvcertificate.pkg" # try the second file name
         
             if not self.doesFileExist(self.__swFileServerDir, self.swFileName): # if the both possible file names do not exist in the directory
-                self.swFileName = "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg" # and the file name is this
-                self.__swFilePath = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" # then it is this path
+                self.swFileName = "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg" # then the file name is this
+                self.__swFilePath = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" # and it is this path
                                     +self._FileBrowser__osSeperator+ self.yazilimYuklemeSelection
                                     +self._FileBrowser__osSeperator+ "USBDEN_YUKLEME"
                                     +self._FileBrowser__osSeperator+ "GRUNDIG"
