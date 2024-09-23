@@ -36,13 +36,13 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
         self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
-        self.projectNameLineEdit.textEdited.connect(self.onProjectNameEdited)
+        self.projectNameComboBox.currentIndexChanged.connect(self.onProjectNameChanged)
         self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
         self.backButton.clicked.connect(self.onBackButtonClicked)
         self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
     def onFindButtonClicked(self):
-        self.swFileManager.setProject(self.projectNameLineEdit.text())
+        self.swFileManager.setProject(self.projectNameComboBox.text())
 
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
@@ -154,8 +154,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.customerRadioButton.setEnabled(False)
             self.factoryRadioButton.setEnabled(False)
 
-    def onProjectNameEdited(self):
-        if self.projectNameLineEdit.text() == "":
+    def onProjectNameChanged(self):
+        if self.projectNameComboBox.currentIndex() == -1:
             self.findButton.setEnabled(False)
         else:
             self.findButton.setEnabled(True)

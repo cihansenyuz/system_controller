@@ -44,15 +44,15 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label)
 
-        self.projectNameLineEdit = QLineEdit(self.groupBox_3)
-        self.projectNameLineEdit.setObjectName(u"projectNameLineEdit")
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.projectNameComboBox = QComboBox(self.groupBox_3)
+        self.projectNameComboBox.setObjectName(u"projectNameComboBox")
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.projectNameLineEdit.sizePolicy().hasHeightForWidth())
-        self.projectNameLineEdit.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.projectNameComboBox.sizePolicy().hasHeightForWidth())
+        self.projectNameComboBox.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_2.addWidget(self.projectNameLineEdit)
+        self.horizontalLayout_2.addWidget(self.projectNameComboBox)
 
         self.dortluPaketCheckBox = QCheckBox(self.groupBox_3)
         self.dortluPaketCheckBox.setObjectName(u"dortluPaketCheckBox")
@@ -80,8 +80,11 @@ class Ui_imageCreatorWindow(object):
         self.projectIdLineEdit = QLineEdit(self.groupBox_3)
         self.projectIdLineEdit.setObjectName(u"projectIdLineEdit")
         self.projectIdLineEdit.setEnabled(False)
-        sizePolicy.setHeightForWidth(self.projectIdLineEdit.sizePolicy().hasHeightForWidth())
-        self.projectIdLineEdit.setSizePolicy(sizePolicy)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.projectIdLineEdit.sizePolicy().hasHeightForWidth())
+        self.projectIdLineEdit.setSizePolicy(sizePolicy2)
 
         self.horizontalLayout_3.addWidget(self.projectIdLineEdit)
 
@@ -140,11 +143,8 @@ class Ui_imageCreatorWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.usbDevicesBox = QComboBox(self.groupBox)
         self.usbDevicesBox.setObjectName(u"usbDevicesBox")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.usbDevicesBox.sizePolicy().hasHeightForWidth())
-        self.usbDevicesBox.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.usbDevicesBox.sizePolicy().hasHeightForWidth())
+        self.usbDevicesBox.setSizePolicy(sizePolicy)
         self.usbDevicesBox.setFont(font)
 
         self.verticalLayout_3.addWidget(self.usbDevicesBox)

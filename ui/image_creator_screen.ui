@@ -42,9 +42,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="projectNameLineEdit">
+           <widget class="QComboBox" name="projectNameComboBox">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
