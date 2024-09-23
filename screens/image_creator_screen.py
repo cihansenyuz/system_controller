@@ -41,8 +41,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.backButton.clicked.connect(self.onBackButtonClicked)
         self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
+        self.projectNameComboBox.addItems(self.swFileManager.getProjectNameComboBox())
+
     def onFindButtonClicked(self):
-        self.swFileManager.setProject(self.projectNameComboBox.text())
+        self.swFileManager.setProject(self.projectNameComboBox.currentText())
 
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
@@ -58,12 +60,12 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.infoMessages.appendPlainText("SW paketi USB cihazda zaten mevcut ve güncel!")
                 return
         def prepareFilesThread():
-            self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
+            self.infoMessages.appendPlainText("SW paketi önbelleğe alınıyor...")
             result = self.swFileManager.prepareSwFile()
             if result:
-                self.infoMessages.appendPlainText("SW paketi hazır!")
+                self.infoMessages.appendPlainText("SW paketi önbellekte hazır!")
             else:
-                self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
+                self.infoMessages.appendPlainText("SW paketi önbelleğe alınamadı!")
 
         prepareThread = threading.Thread(target=prepareFilesThread)
         prepareThread.start()
@@ -80,27 +82,27 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onOemFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("OEM paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda OEM paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda OEM paketi bulunamadı!")
 
     def onPidFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Project ID paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Project ID paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulunamadı!")
             
     def onFactoryCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulunamadı!")
 
     def onCustomerCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulunamadı!")
 
     def onPrepareButtonClicked(self):
         self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")

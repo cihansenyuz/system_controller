@@ -147,3 +147,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def getPidPath(self):
         return self.__pidPath
+    
+    def getProjectNameComboBox(self):
+        projectNamesDirectory = self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
+        return self.getListOfFolders(projectNamesDirectory)

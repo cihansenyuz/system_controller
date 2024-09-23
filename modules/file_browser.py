@@ -16,3 +16,6 @@ class FileBrowser(QObject):
     
     def getNameOfFile(self, filePath):
         return os.path.basename(filePath)
+    
+    def getListOfFolders(self, directory):
+        return os.listdir(directory)
