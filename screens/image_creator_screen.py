@@ -17,7 +17,6 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
         self.page = page
         self.prepareButton.setEnabled(False)
-        self.prepareButton.setStyleSheet("color: gray;")
 
         if platform.system() == "Windows":
             self.swFileManager = SwFileManager("\\\\arcei34v\\SOFTWARE\\SERI\\")
@@ -76,10 +75,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     def onSwFileReady(self, result):
         if result:
             self.prepareButton.setEnabled(True)
-            self.prepareButton.setStyleSheet("color: black;")
         else:
             self.prepareButton.setEnabled(False)
-            self.prepareButton.setStyleSheet("color: gray;")
 
     def onOemFileFound(self, result):
         if result:
@@ -132,6 +129,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                     return
                 self.infoMessages.appendPlainText("Tamamlandı!")
             
+            self.infoMessages.appendPlainText("USB cihazı hazır. USB cihazını çıkarmadan önce 'güvenli kaldır' yapmayı unutmayın!")
             self.fileCopyResult.emit(True)
 
         copyThread = threading.Thread(target=copyFilesThread)
@@ -158,6 +156,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.factoryRadioButton.setEnabled(False)
 
     def onProjectNameChanged(self):
+        self.prepareButton.setEnabled(False)
         if self.projectNameComboBox.currentIndex() == -1:
             self.findButton.setEnabled(False)
         else:
