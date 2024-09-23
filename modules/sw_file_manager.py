@@ -16,8 +16,6 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__customerCusdataPath = None
         self.__factoryCusdataPath = None
         self.__pidPath = None
-        self.__yazilimYuklemeDirList = []
-        self.__seriDirList = []
 
     def __createServerDirectories(self):
         self.__swFileServerDir = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
@@ -78,7 +76,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__createSwFilePath()
 
     def prepareSwFile(self):
-        self.cachedSwFilePath = self.cache(self.__swFilePath, self.projectName) # checks if the file is cached and up to date
+        self.cachedSwFilePath = self.cache(self.__swFilePath, self.yazilimYuklemeSelection) # checks if the file is cached and up to date
         if self.cachedSwFilePath:
             self.swFileReady.emit(True)
             return True

@@ -41,7 +41,10 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.backButton.clicked.connect(self.onBackButtonClicked)
         self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
+        self.projectNameComboBox.blockSignals(True)
         self.projectNameComboBox.addItems(self.swFileManager.getProjectNameComboBox())
+        self.projectNameComboBox.setCurrentIndex(-1)
+        self.projectNameComboBox.blockSignals(False)
 
     def onFindButtonClicked(self):
         self.swFileManager.setProject(self.projectNameComboBox.currentText())
@@ -72,11 +75,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onSwFileReady(self, result):
         if result:
-            #self.infoMessages.appendPlainText("SW Paketi güncellendi!")
             self.prepareButton.setEnabled(True)
             self.prepareButton.setStyleSheet("color: black;")
         else:
-            #self.infoMessages.appendPlainText("SW paketi güncellenemedi!")
             self.prepareButton.setEnabled(False)
             self.prepareButton.setStyleSheet("color: gray;")
 
