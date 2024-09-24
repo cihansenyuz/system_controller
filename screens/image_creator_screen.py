@@ -55,14 +55,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.swFileManager.findCustomerCusdataFile()
             else:
                 self.swFileManager.findFactoryCusdataFile()
-
-        targetDevice = self.usbDevicesBox.currentText()
-        if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName):
-            if self.swFileManager.isUpdated(targetDevice + self.swFileManager.swFileName, self.swFileManager.getSwFilePath()):
-                self.infoMessages.appendPlainText("SW paketi USB cihazda zaten mevcut ve güncel!")
-                return
+        
         def prepareFilesThread():
-            self.infoMessages.appendPlainText("SW paketi önbelleğe alınıyor...")
+            self.infoMessages.appendPlainText("SW paketini önbelleğe alınıyor...")
             result = self.swFileManager.prepareSwFile()
             if result:
                 self.infoMessages.appendPlainText("SW paketi önbellekte hazır!")
@@ -70,7 +65,23 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.infoMessages.appendPlainText("SW paketi önbelleğe alınamadı!")
 
         prepareThread = threading.Thread(target=prepareFilesThread)
-        prepareThread.start()
+
+        cachedFilePath = self.swFileManager.isCached(self.swFileManager.swFileName, self.swFileManager.yazilimYuklemeSelection)
+        if cachedFilePath: # dosya önbellekte mevcutsa
+            if self.swFileManager.isUpdated(cachedFilePath, self.swFileManager.getSwFilePath()): # ve dosya güncel ise
+                self.infoMessages.appendPlainText("Güncel SW paketi önbellekte mevcut!")
+                targetDevice = self.usbDevicesBox.currentText()
+                if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName): # ve dosya USB cihazda da mevcutsa
+                    if self.swFileManager.isUpdated(targetDevice + self.swFileManager.swFileName, cachedFilePath): # ve dosya USB cihazda da güncel ise
+                        self.infoMessages.appendPlainText("Güncel SW paketi USB cihazda mevcut!")
+                        return  # işleme gerek yok
+            else: # önbellekte var ama güncel değilse, SW paketini önbelleğe al
+                self.infoMessages.appendPlainText("Önbellekteki SW paketi güncel değil!")
+                prepareThread.start()
+
+        else: # dosya önbellekte yoksa SW paketini önbelleğe al
+            self.infoMessages.appendPlainText("SW paketi önbellekte yok!")
+            prepareThread.start()
 
     def onSwFileReady(self, result):
         if result:
@@ -129,7 +140,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                     return
                 self.infoMessages.appendPlainText("Tamamlandı!")
             
-            self.infoMessages.appendPlainText("USB cihazı hazır. USB cihazını çıkarmadan önce 'güvenli kaldır' yapmayı unutmayın!")
+            self.infoMessages.appendPlainText("Tüm dosyalar kopyalandı!")
             self.fileCopyResult.emit(True)
 
         copyThread = threading.Thread(target=copyFilesThread)
@@ -169,7 +180,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 pass#self.usbManager.unmountDeviceOnWin(self.usbDevicesBox.currentText())
             else:
                 self.usbManager.unmountDeviceOnLinux(self.usbDevicesBox.currentText())
-            self.infoMessages.appendPlainText("Gerekli dosyalar USB cihazına kopyalandı. Cihaz hazır!")
+            self.infoMessages.appendPlainText("USB cihazı hazır. USB cihazını çıkarmadan önce 'güvenli kaldır' yapmayı unutmayın!")
             self.usbDevicesBox.setEnabled(True)
         else:
             self.infoMessages.appendPlainText("Dosya kopyalama hatası!")
