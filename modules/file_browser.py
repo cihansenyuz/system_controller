@@ -19,3 +19,10 @@ class FileBrowser(QObject):
     
     def getListOfFolders(self, directory):
         return os.listdir(directory)
+    
+    def isExactFile(self, filePath1, filePath2):
+        if not os.path.exists(filePath1) or not os.path.exists(filePath2):
+            return False
+        
+        return os.path.getmtime(filePath1) == os.path.getmtime(filePath2)
+    

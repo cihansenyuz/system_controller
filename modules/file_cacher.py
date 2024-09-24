@@ -32,7 +32,7 @@ class FileCacher(QObject):
 
     def isCached(self, fileName, projectName):
         print(f"FileCacher: Entering isCached function with fileName: {fileName}")
-        cached_file_path = os.path.join("cache", projectName, fileName)
+        cached_file_path = os.path.join(self.__cacheDirectory, projectName, fileName)
         
         if os.path.exists(cached_file_path):
             print(f"FileCacher: Exiting isCached function, returning: {cached_file_path}")
@@ -46,7 +46,7 @@ class FileCacher(QObject):
         remote_last_modified_timestamp = os.path.getmtime(remoteFilePath)
         print(f"FileCacher: local_last_modified_timestamp: {local_last_modified_timestamp},"
               f"remote_last_modified_timestamp: {remote_last_modified_timestamp}")
-        result = remote_last_modified_timestamp >= local_last_modified_timestamp
+        result = remote_last_modified_timestamp <= local_last_modified_timestamp
         print(f"FileCacher: Exiting isUpdated function, returning: {result}")
         return result
 
