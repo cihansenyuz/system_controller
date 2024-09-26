@@ -17,7 +17,6 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
         self.page = page
         self.prepareButton.setEnabled(False)
-        self.prepareButton.setStyleSheet("color: gray;")
 
         if platform.system() == "Windows":
             self.swFileManager = SwFileManager("\\\\arcei34v\\SOFTWARE\\SERI\\")
@@ -36,12 +35,18 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
         self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
-        self.projectNameLineEdit.textEdited.connect(self.onProjectNameEdited)
+        self.projectNameComboBox.currentIndexChanged.connect(self.onProjectNameChanged)
         self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
         self.backButton.clicked.connect(self.onBackButtonClicked)
+        self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
+
+        self.projectNameComboBox.blockSignals(True)
+        self.projectNameComboBox.addItems(self.swFileManager.getProjectNameComboBox())
+        self.projectNameComboBox.setCurrentIndex(-1)
+        self.projectNameComboBox.blockSignals(False)
 
     def onFindButtonClicked(self):
-        self.swFileManager.setProject(self.projectNameLineEdit.text())
+        self.swFileManager.setProject(self.projectNameComboBox.currentText())
 
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
@@ -50,56 +55,67 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.swFileManager.findCustomerCusdataFile()
             else:
                 self.swFileManager.findFactoryCusdataFile()
+        
+        def prepareFilesThread():
+            self.infoMessages.appendPlainText("SW paketini önbelleğe alınıyor...")
+            result = self.swFileManager.prepareSwFile()
+            if result:
+                self.infoMessages.appendPlainText("SW paketi önbellekte hazır!")
+            else:
+                self.infoMessages.appendPlainText("SW paketi önbelleğe alınamadı!")
 
-        targetDevice = self.usbDevicesBox.currentText()
-        if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName):
-            if self.swFileManager.isUpdated(targetDevice + self.swFileManager.swFileName, self.swFileManager.swFilePath):
-                self.infoMessages.appendPlainText("SW paketi USB cihazda zaten mevcut ve güncel!")
-        else:
-            def prepareFilesThread():
-                self.infoMessages.appendPlainText("SW paketi hazırlanıyor...")
-                result = self.swFileManager.prepareSwFile()
-                if result:
-                    self.infoMessages.appendPlainText("SW paketi hazır!")
-                else:
-                    self.infoMessages.appendPlainText("SW paketi hazırlanamadı!")
+        prepareThread = threading.Thread(target=prepareFilesThread)
 
-            prepareThread = threading.Thread(target=prepareFilesThread)
+        cachedFilePath = self.swFileManager.isCached(self.swFileManager.swFileName, self.swFileManager.yazilimYuklemeSelection)
+        if cachedFilePath: # dosya önbellekte mevcutsa
+            if self.swFileManager.isUpdated(cachedFilePath, self.swFileManager.getSwFilePath()): # ve dosya güncel ise
+                self.infoMessages.appendPlainText("Güncel SW paketi önbellekte mevcut!")
+                targetDevice = self.usbDevicesBox.currentText()
+                if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName): # ve dosya USB cihazda da mevcutsa
+                    if self.swFileManager.isExactFile(targetDevice + self.swFileManager.swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
+                        self.infoMessages.appendPlainText("Güncel SW paketi USB cihazda mevcut!")
+                        return  # işleme gerek yok
+                    else: # USB'de dosya var ama cachedekiyle aynı değilse
+                        self.infoMessages.appendPlainText("USB'deki SW paketi doğru değil, yenilenmesi gerekiyor!")
+                        self.swFileManager.swFileReady.emit(True)
+
+            else: # önbellekte var ama güncel değilse, SW paketini önbelleğe al
+                self.infoMessages.appendPlainText("Önbellekteki SW paketi güncel değil!")
+                prepareThread.start()
+
+        else: # dosya önbellekte yoksa SW paketini önbelleğe al
+            self.infoMessages.appendPlainText("SW paketi önbellekte yok!")
             prepareThread.start()
 
     def onSwFileReady(self, result):
         if result:
-            #self.infoMessages.appendPlainText("SW Paketi güncellendi!")
             self.prepareButton.setEnabled(True)
-            self.prepareButton.setStyleSheet("color: black;")
         else:
-            #self.infoMessages.appendPlainText("SW paketi güncellenemedi!")
             self.prepareButton.setEnabled(False)
-            self.prepareButton.setStyleSheet("color: gray;")
 
     def onOemFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("OEM paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda OEM paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("OEM paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda OEM paketi bulunamadı!")
 
     def onPidFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Project ID paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Project ID paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulunamadı!")
             
     def onFactoryCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Factory CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulunamadı!")
 
     def onCustomerCusdataFileFound(self, result):
         if result:
-            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulundu!")
+            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Customer CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulunamadı!")
 
     def onPrepareButtonClicked(self):
         self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")
@@ -128,6 +144,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                     return
                 self.infoMessages.appendPlainText("Tamamlandı!")
             
+            self.infoMessages.appendPlainText("Tüm dosyalar kopyalandı!")
             self.fileCopyResult.emit(True)
 
         copyThread = threading.Thread(target=copyFilesThread)
@@ -153,8 +170,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.customerRadioButton.setEnabled(False)
             self.factoryRadioButton.setEnabled(False)
 
-    def onProjectNameEdited(self):
-        if self.projectNameLineEdit.text() == "":
+    def onProjectNameChanged(self):
+        self.prepareButton.setEnabled(False)
+        if self.projectNameComboBox.currentIndex() == -1:
             self.findButton.setEnabled(False)
         else:
             self.findButton.setEnabled(True)
@@ -166,7 +184,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 pass#self.usbManager.unmountDeviceOnWin(self.usbDevicesBox.currentText())
             else:
                 self.usbManager.unmountDeviceOnLinux(self.usbDevicesBox.currentText())
-            self.infoMessages.appendPlainText("Gerekli dosyalar USB cihazına kopyalandı. Cihaz hazır!")
+            self.infoMessages.appendPlainText("USB cihazı hazır. USB cihazını çıkarmadan önce 'güvenli kaldır' yapmayı unutmayın!")
             self.usbDevicesBox.setEnabled(True)
         else:
             self.infoMessages.appendPlainText("Dosya kopyalama hatası!")
@@ -176,3 +194,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
+
+    def onClearCacheButtonClicked(self):
+        result = self.swFileManager.deleteCachedFiles()
+        self.infoMessages.appendPlainText(result)

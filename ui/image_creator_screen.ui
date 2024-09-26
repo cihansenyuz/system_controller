@@ -42,9 +42,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="projectNameLineEdit">
+           <widget class="QComboBox" name="projectNameComboBox">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -283,6 +283,26 @@ Hazırla</string>
          </property>
          <property name="text">
           <string>Mesaj Panelini
+Temizle</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clearCacheButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Önbellek
+Dosyalarını
 Temizle</string>
          </property>
         </widget>
