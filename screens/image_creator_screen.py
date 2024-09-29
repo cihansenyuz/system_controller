@@ -23,30 +23,27 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         else:
             self.swFileManager = SwFileManager("//arcei34v/SOFTWARE/SERI/")
 
+        self.projectsComboBox.addItems(self.swFileManager.getProjects())
+        self.projectsComboBox.setCurrentIndex(-1)
+
         self.swFileManager.swFileReady.connect(self.onSwFileReady)
         self.swFileManager.oemFileFound.connect(self.onOemFileFound)
         self.swFileManager.pidFileFound.connect(self.onPidFileFound)
         self.swFileManager.factoryCusdataFileFound.connect(self.onFactoryCusdataFileFound)
         self.swFileManager.customerCusdataFileFound.connect(self.onCustomerCusdataFileFound)
         self.fileCopyResult.connect(self.onFileCopyResult)
-
-        #button connections
+        # connections
         self.findButton.clicked.connect(self.onFindButtonClicked)
         self.prepareButton.clicked.connect(self.onPrepareButtonClicked)
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
         self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
-        self.projectNameComboBox.currentIndexChanged.connect(self.onProjectNameChanged)
+        self.projectsComboBox.currentIndexChanged.connect(self.onProjectNameChanged)
         self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
         self.backButton.clicked.connect(self.onBackButtonClicked)
         self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
-        self.projectNameComboBox.blockSignals(True)
-        self.projectNameComboBox.addItems(self.swFileManager.getProjectNameComboBox())
-        self.projectNameComboBox.setCurrentIndex(-1)
-        self.projectNameComboBox.blockSignals(False)
-
     def onFindButtonClicked(self):
-        self.swFileManager.setProject(self.projectNameComboBox.currentText())
+        self.swFileManager.setProject(self.projectsComboBox.currentText())
 
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
@@ -172,7 +169,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onProjectNameChanged(self):
         self.prepareButton.setEnabled(False)
-        if self.projectNameComboBox.currentIndex() == -1:
+        if self.projectsComboBox.currentIndex() == -1:
             self.findButton.setEnabled(False)
         else:
             self.findButton.setEnabled(True)
