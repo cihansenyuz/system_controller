@@ -11,69 +11,57 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def __init__(self, rootDirectory):
         super().__init__(rootDirectory)
-        self.__swFilePath = None
-        self.__oemPath = None
-        self.__customerCusdataPath = None
-        self.__factoryCusdataPath = None
-        self.__pidPath = None
+        self.__swFileServerPath = None
+        self.__oemFileServerPath = None
+        self.__factoryCusdataFileServerPath = None
+        self.__customerCusdataFileServerPath = None
+        self.__pidFileServerPath = None
 
-    def __createServerDirectories(self):
-        self.__swFileServerDir = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
-                                +self._FileBrowser__osSeperator+ self.yazilimYuklemeSelection
-                                +self._FileBrowser__osSeperator+ "USBDEN_YUKLEME"
-                                +self._FileBrowser__osSeperator+ "BIRINCI_USB")
-        self.__oemFileServerDir = [(self._FileBrowser__rootDirectory + self.projectName
-                                 +self._FileBrowser__osSeperator+ "OEM_YUKLEME"
-                                 +self._FileBrowser__osSeperator+ "GRUNDIG_NONFARFIELD"),
-                                 (self._FileBrowser__rootDirectory + self.projectName
-                                 +self._FileBrowser__osSeperator+ "OEM_YUKLEME"
-                                 +self._FileBrowser__osSeperator+ "GRUNDIG")]
-        self.__factoryCusdataFileServerDir = self.__swFileServerDir
-        self.__customerCusdataFileServerDir = self.__oemFileServerDir
-        self.__pidFileServerDir = [(self._FileBrowser__rootDirectory + self.projectName
-                                 +self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME"),
-                                 (self._FileBrowser__rootDirectory + self.projectName
-                                 +self._FileBrowser__osSeperator + "PROJECT_ID")]
+        self.__projectMainDirs = {
+        # projectName:  [seriFolderName,      tdaFolderName]
+        "GO CHARLIE":   ["GO",                  "GO"],
+        "GO DELTA2":    ["GO_DELTA_2",          "GO_DELTA2"],
+        "GY":           ["GY",                  "GY_GB_GT_GZ"],
+        }
+
+        self.__projects = list(self.__projectMainDirs.keys())
         
-    def getSwFileServerDir(self):
-        return self.__swFileServerDir
+    def getSwFilePath(self):
+        return self.__swFileServerPath
 
-    def getOemFileServerDir(self):
-        return self.__oemFileServerDir
+    def getOemFilePath(self):
+        return self.__oemFileServerPath
 
-    def getFactoryCusdataFileServerDir(self):
-        return self.__factoryCusdataFileServerDir
+    def getFactoryCusdataFilePath(self):
+        return self.__factoryCusdataFileServerPath
 
-    def getCustomerCusdataFileServerDir(self):
-        return self.__customerCusdataFileServerDir
+    def getCustomerCusdataFilePath(self):
+        return self.__customerCusdataFileServerPath
 
-    def getPidFileServerDir(self):
-        return self.__pidFileServerDir
+    def getPidFilePath(self):
+        return self.__pidFileServerPath
+    
+    def getProjects(self):
+        return self.__projects
+    
+    def getBrands(self):
+        return self.__brands
 
-    def __createSwFilePath(self):
-        
-        self.swFileName = "upgrade_image_no_tvcertificate.pkg" # there is two possible file names
-        if not self.doesFileExist(self.__swFileServerDir, self.swFileName): # if the first file name does not exist in the directory
-            self.swFileName = self.projectName + "_upgrade_image_no_tvcertificate.pkg" # try the second file name
-        
-            if not self.doesFileExist(self.__swFileServerDir, self.swFileName): # if the both possible file names do not exist in the directory
-                self.swFileName = "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg" # then the file name is this
-                self.__swFilePath = (self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" # and it is this path
-                                    +self._FileBrowser__osSeperator+ self.yazilimYuklemeSelection
-                                    +self._FileBrowser__osSeperator+ "USBDEN_YUKLEME"
-                                    +self._FileBrowser__osSeperator+ "GRUNDIG"
-                                    +self._FileBrowser__osSeperator+ "KEYLERI_SILMEYEN_FACTORY"
-                                    +self._FileBrowser__osSeperator+ self.swFileName)
-                return
-        
-        self.__swFilePath = (self.__swFileServerDir
-                            + self._FileBrowser__osSeperator + self.swFileName)
+    def setProject(self, projectSelection):
+        self.projectName = projectSelection[:2]
+        self.__projectSelection = projectSelection
+        self.__seriFolderName = self.__projectMainDirs[projectSelection][0]
+        self.__tdaFolderName = self.__projectMainDirs[projectSelection][1]
+        self.__getBrands()
 
-    def setProject(self, yazilimYuklemeSelection):
-        self.projectName = yazilimYuklemeSelection[:2]
-        self.yazilimYuklemeSelection = yazilimYuklemeSelection
-        self.__createServerDirectories()
-        self.__createSwFilePath()
+    def setPID(self, number):
+        self.__pidNumber = number
+
+    def setBrand(self, brandSelection):
+        self.__brand = brandSelection
+
+    def __getBrands(self):
+        self.__brands = self.getListOfFolders("\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\")
 
     def prepareSwFile(self):
         self.cachedSwFilePath = self.cache(self.__swFilePath, self.yazilimYuklemeSelection) # checks if the file is cached and up to date
@@ -131,21 +119,50 @@ class SwFileManager(FileBrowser, FileCacher):
                 return True # return True
         self.pidFileFound.emit(False) # if the file is not found in any of the directories, emit the signal and return False
 
-    def getSwFilePath(self):
-        return self.__swFilePath
-
-    def getOemPath(self):
-        return self.__oemPath
-
-    def getCustomerCusdataPath(self):
-        return self.__customerCusdataPath
-
-    def getFactoryCusdataPath(self):
-        return self.__factoryCusdataPath
-
-    def getPidPath(self):
-        return self.__pidPath
-    
     def getProjectNameComboBox(self):
         projectNamesDirectory = self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME"
         return self.getListOfFolders(projectNamesDirectory)
+    
+    def createFileServerPaths(self):
+        fileServerPaths = {
+        # projectName: [swFileServerPath,
+        #               oemFileServerPath,
+        #               factoryCusdataFileServerPath,
+        #               customerCusdataFileServerPath,
+        #               pidFileServerPath]
+        "GO CHARLIE": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_no_tvcertificate.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_oem.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID_YUKLEME\\"+ self.projectName +"_upgrade_image_project_id_"+ self.__pidNumber +".pkg"],
+        
+        "GO DELTA2": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_no_tvcertificate.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+self.projectName + "_upgrade_image_oem.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID_YUKLEME\\"+ self.projectName +"_upgrade_image_project_id_"+ self.__pidNumber +".pkg"],
+
+        "GY": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\upgrade_image_no_tvcertificate.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\upgrade_image_oem.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\upgrade_image_cusdata.pkg",
+                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID\\upgrade_image_project_id_"+ self.__pidNumber +".pkg"]
+        }
+        
+        self.__swFileServerPath = fileServerPaths[self.__projectSelection][0]
+        self.__oemFileServerPath = fileServerPaths[self.__projectSelection][1]
+        self.__factoryCusdataFileServerPath = fileServerPaths[self.__projectSelection][2]
+        self.__customerCusdataFileServerPath = fileServerPaths[self.__projectSelection][3]
+        self.__pidFileServerPath = fileServerPaths[self.__projectSelection][4]
+
+        ################ debug purposes
+        if not self.doesPathExist(self.__swFileServerPath):
+            print("swFileServerPath not found")
+        if not self.doesPathExist(self.__oemFileServerPath):
+            print("oemFileServerPath not found")
+        if not self.doesPathExist(self.__factoryCusdataFileServerPath):
+            print("factoryCusdataFileServerPath not found")
+        if not self.doesPathExist(self.__customerCusdataFileServerPath):
+            print("customerCusdataFileServerPath not found")
+        if not self.doesPathExist(self.__pidFileServerPath):
+            print("pidFileServerPath not found")

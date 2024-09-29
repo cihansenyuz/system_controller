@@ -26,3 +26,5 @@ class FileBrowser(QObject):
         
         return os.path.getmtime(filePath1) == os.path.getmtime(filePath2)
     
+    def doesPathExist(self, path):
+        return os.path.exists(path)
