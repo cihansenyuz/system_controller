@@ -71,12 +71,12 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 targetDevice = self.usbDevicesBox.currentText()
                 swFileName = self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()) 
                 if self.swFileManager.doesFileExist(targetDevice, swFileName): # ve dosya USB cihazda da mevcutsa
+                    self.swFileManager.swFileReady.emit(True)
                     if self.swFileManager.isExactFile(targetDevice + swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
                         self.infoMessages.appendPlainText("Güncel SW paketi USB cihazda mevcut!")
                         return  # işleme gerek yok
                     else: # USB'de dosya var ama cachedekiyle aynı değilse
                         self.infoMessages.appendPlainText("USB'deki SW paketi doğru değil, yenilenmesi gerekiyor!")
-                        self.swFileManager.swFileReady.emit(True)
 
             else: # önbellekte var ama güncel değilse, SW paketini önbelleğe al
                 self.infoMessages.appendPlainText("Önbellekteki SW paketi güncel değil!")
@@ -128,12 +128,12 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             if self.dortluPaketCheckBox.isChecked():
                 if self.swFileManager.getOemFilePath():
                     filesToCopy.append((self.swFileManager.getOemFilePath(), "OEM paketi"))
-                if self.swFileManager.getPidFilePath():
-                    filesToCopy.append((self.swFileManager.getPidFilePath(), "Project ID paketi"))
                 if self.customerRadioButton.isChecked() and self.swFileManager.getCustomerCusdataFilePath():
                     filesToCopy.append((self.swFileManager.getCustomerCusdataFilePath(), "Customer CUSDATA paketi"))
                 if not self.customerRadioButton.isChecked() and self.swFileManager.getFactoryCusdataFilePath():
                     filesToCopy.append((self.swFileManager.getFactoryCusdataFilePath(), "Factory CUSDATA paketi"))
+                if self.swFileManager.getPidFilePath():
+                    filesToCopy.append((self.swFileManager.getPidFilePath(), "Project ID paketi"))
             
             for sourcePath, fileName in filesToCopy:
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
