@@ -61,7 +61,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__brand = brandSelection
 
     def __getBrands(self):
-        self.__brands = self.getListOfFolders(self.__rootDirectory + self.__osSeperator + self.__seriFolderName + self.__osSeperator + "OEM_YUKLEME" + self.__osSeperator)
+        self.__brands = self.getListOfFolders(self._FileBrowser__rootDirectory + self._FileBrowser__osSeperator + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator)
 
     def prepareSwFile(self):
         self.cachedSwFilePath = self.cache(self.__swFilePath, self.yazilimYuklemeSelection) # checks if the file is cached and up to date

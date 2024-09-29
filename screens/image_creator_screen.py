@@ -38,13 +38,12 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         self.refreshButton.clicked.connect(self.onRefreshButtonClicked)
         self.dortluPaketCheckBox.clicked.connect(self.onCheckBoxClicked)
         self.projectsComboBox.currentIndexChanged.connect(self.onProjectNameChanged)
+        self.brandsComboBox.currentIndexChanged.connect(self.onBrandChanged)
         self.clearInfoMessagesButton.clicked.connect(self.onClearInfoMessagesButtonClicked)
         self.backButton.clicked.connect(self.onBackButtonClicked)
         self.clearCacheButton.clicked.connect(self.onClearCacheButtonClicked)
 
     def onFindButtonClicked(self):
-        self.swFileManager.setProject(self.projectsComboBox.currentText())
-
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
             self.swFileManager.findPidFile(self.projectIdLineEdit.text())
@@ -172,6 +171,15 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         if self.projectsComboBox.currentIndex() == -1:
             self.findButton.setEnabled(False)
         else:
+            self.swFileManager.setProject(self.projectsComboBox.currentText())
+            self.brandsComboBox.addItems(self.swFileManager.getBrands())
+
+    def onBrandChanged(self):
+        self.prepareButton.setEnabled(False)
+        if self.brandsComboBox.currentIndex() == -1:
+            self.findButton.setEnabled(False)
+        else:
+            self.swFileManager.setBrand(self.brandsComboBox.currentText())
             self.findButton.setEnabled(True)
 
     @Slot(bool)
