@@ -61,7 +61,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__brand = brandSelection
 
     def __getBrands(self):
-        self.__brands = self.getListOfFolders("\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\")
+        self.__brands = self.getListOfFolders(self.__rootDirectory + self.__osSeperator + self.__seriFolderName + self.__osSeperator + "OEM_YUKLEME" + self.__osSeperator)
 
     def prepareSwFile(self):
         self.cachedSwFilePath = self.cache(self.__swFilePath, self.yazilimYuklemeSelection) # checks if the file is cached and up to date
@@ -130,23 +130,23 @@ class SwFileManager(FileBrowser, FileCacher):
         #               factoryCusdataFileServerPath,
         #               customerCusdataFileServerPath,
         #               pidFileServerPath]
-        "GO CHARLIE": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_no_tvcertificate.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_oem.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID_YUKLEME\\"+ self.projectName +"_upgrade_image_project_id_"+ self.__pidNumber +".pkg"],
+        "GO CHARLIE": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
         
-        "GO DELTA2": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_no_tvcertificate.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+self.projectName + "_upgrade_image_oem.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\"+ self.projectName +"_upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID_YUKLEME\\"+ self.projectName +"_upgrade_image_project_id_"+ self.__pidNumber +".pkg"],
+        "GO DELTA2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
 
-        "GY": ["\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\upgrade_image_no_tvcertificate.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\upgrade_image_oem.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\YAZILIM_YUKLEME\\"+ self.__tdaFolderName +"\\USBDEN_YUKLEME\\BIRINCI_USB\\upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\OEM_YUKLEME\\"+ self.__brand +"\\upgrade_image_cusdata.pkg",
-                    "\\\\arcei34v\\SOFTWARE\\SERI\\"+ self.__seriFolderName +"\\PROJECT_ID\\upgrade_image_project_id_"+ self.__pidNumber +".pkg"]
+        "GY": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"]
         }
         
         self.__swFileServerPath = fileServerPaths[self.__projectSelection][0]
