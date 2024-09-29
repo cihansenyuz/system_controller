@@ -28,3 +28,6 @@ class FileBrowser(QObject):
     
     def doesPathExist(self, path):
         return os.path.exists(path)
+
+    def getDirOfPath(self, filePath):
+        return os.path.dirname(filePath)

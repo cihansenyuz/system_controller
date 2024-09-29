@@ -46,7 +46,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     def onFindButtonClicked(self):
         if self.dortluPaketCheckBox.isChecked():
             self.swFileManager.findOemFile()
-            self.swFileManager.findPidFile(self.projectIdLineEdit.text())
+            self.swFileManager.setPID(self.projectIdLineEdit.text())
+            self.swFileManager.findPidFile()
             if self.customerRadioButton.isChecked():    
                 self.swFileManager.findCustomerCusdataFile()
             else:
