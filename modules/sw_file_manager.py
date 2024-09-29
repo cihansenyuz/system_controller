@@ -20,10 +20,25 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__pidNumber = ""
 
         self.__projectMainDirs = {
-        # projectName:  [seriFolderName,      tdaFolderName]
-        "GO CHARLIE":   ["GO",                  "GO"],
-        "GO DELTA2":    ["GO_DELTA_2",          "GO_DELTA2"],
-        "GY":           ["GY",                  "GY_GB_GT_GZ"],
+        # projectName:      [seriFolderName,        tdaFolderName]
+        "GO CHARLIE 3":     ["GO",                  "GO"],
+        "GO DELTA 2":       ["GO_DELTA_2",          "GO_DELTA2"],
+        "GO DELTA SE":      ["GO_DELTA_SE",         "GO_DELTA_SE"],
+        "GO DELTA SE 2A":   ["GO_DELTASE2A",        "GO_DELTASE2A"],
+        "GO ECHO 2":        ["GO_ECHO2",            "GO_ECHO2"],
+        "GY":               ["GY",                  "GY_GB_GT_GZ"],
+        "GT":               ["GT",                  "GY_GB_GT_GZ"],
+        "GB":               ["GB",                  "GY_GB_GT_GZ"],
+        "GZ":               ["GZ",                  "GY_GB_GT_GZ"],
+        "GX CHARLIE 2":     ["GX",                  "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
+        "GX BETA 2":        ["GX_BETA2",            "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
+        "GX HOTEL":         ["GX_HOTEL_TV",         "GX_HOTEL_TV"],
+        "GX OPTIMUS":       ["GX_OPTIMUS",          "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
+        "GX OLED":          ["GX_OLED",             "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
+        "AN BETA 2":        ["AN_BETA2",            "AN_BETA2"],
+        "AN CHARLIE":       ["AN_CHARLIE",          "AN-OPTIMUS-CHARLIE-CHARM"],
+        "AN CHARM":         ["AN_CHARM",            "AN-OPTIMUS-CHARLIE-CHARM"],
+        "AN OPTIMUS":       ["AN_OPTIMUS",          "AN-OPTIMUS-CHARLIE-CHARM"],
         }
 
         self.__projects = list(self.__projectMainDirs.keys())
@@ -67,7 +82,28 @@ class SwFileManager(FileBrowser, FileCacher):
         self.createFileServerPaths()
 
     def __getBrands(self):
-        self.__brands = self.getListOfFolders(self._FileBrowser__rootDirectory + self._FileBrowser__osSeperator + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator)
+        brandPaths = {
+            "GO CHARLIE 3": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GO DELTA 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GO DELTA SE": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GO DELTA SE 2A": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GO ECHO 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GY": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GT": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GB": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GZ": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GX CHARLIE 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GX BETA 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GX HOTEL": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GX OPTIMUS": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "GX OLED": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
+            "AN BETA 2": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
+            "AN CHARLIE": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
+            "AN CHARM": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
+            "AN OPTIMUS": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME"
+        }
+        brandPath = brandPaths[self.__projectSelection]
+        self.__brands = self.getListOfFolders(brandPath)
 
     def prepareSwFile(self):
         self.cachedSwFilePath = self.cache(self.__swFileServerPath, self.__projectSelection) # checks if the file is cached and up to date
@@ -82,24 +118,28 @@ class SwFileManager(FileBrowser, FileCacher):
         if self.doesPathExist(self.__oemFileServerPath):
             self.oemFileFound.emit(True)
         else:
+            self.__oemFileServerPath = None
             self.oemFileFound.emit(False)
 
     def findFactoryCusdataFile(self):
         if self.doesPathExist(self.__factoryCusdataFileServerPath):
             self.factoryCusdataFileFound.emit(True)
         else:
+            self.__factoryCusdataFileServerPath = None
             self.factoryCusdataFileFound.emit(False)
 
     def findCustomerCusdataFile(self):
         if self.doesPathExist(self.__customerCusdataFileServerPath):
             self.customerCusdataFileFound.emit(True)
         else:
+            self.__customerCusdataFileServerPath = None
             self.customerCusdataFileFound.emit(False)
 
     def findPidFile(self):
         if self.doesPathExist(self.__pidFileServerPath):
             self.pidFileFound.emit(True)
         else:
+            self.__pidFileServerPath = None
             self.pidFileFound.emit(False)
 
     def getProjectNameComboBox(self):
@@ -113,13 +153,31 @@ class SwFileManager(FileBrowser, FileCacher):
         #               factoryCusdataFileServerPath,
         #               customerCusdataFileServerPath,
         #               pidFileServerPath]
-        "GO CHARLIE": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+        "GO CHARLIE 3": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
                     self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
         
-        "GO DELTA2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+        "GO DELTA 2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GO DELTA SE": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GO DELTA SE 2A": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GO ECHO 2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_no_tvcertificate.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_oem.pkg",
                     self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + self.projectName + "_upgrade_image_cusdata.pkg",
@@ -129,7 +187,79 @@ class SwFileManager(FileBrowser, FileCacher):
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
                     self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
                     self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
-                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"]
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GT": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GB": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GZ": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+        
+        "GX CHARLIE 2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GX BETA 2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GX HOTEL": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GX OPTIMUS": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "GX OLED": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_no_tvcertificate.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_oem.pkg",
+                    self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + "BIRINCI_USB" + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "upgrade_image_cusdata.pkg",
+                    self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "PROJECT_ID_YUKLEME" + self._FileBrowser__osSeperator + "upgrade_image_project_id_" + self.__pidNumber + ".pkg"],
+
+        "AN BETA 2": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "KEYLERI_SILMEYEN_FACTORY" + self._FileBrowser__osSeperator + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                      "",
+                      "",
+                      "",
+                      ""],
+
+        "AN CHARLIE": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "KEYLERI_SILMEYEN_FACTORY" + self._FileBrowser__osSeperator + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                      "",
+                      "",
+                      "",
+                      ""],
+
+        "AN CHARM": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "KEYLERI_SILMEYEN_FACTORY" + self._FileBrowser__osSeperator + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                      "",
+                      "",
+                      "",
+                      ""],
+
+        "AN OPTIMUS": [self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME" + self._FileBrowser__osSeperator + self.__brand + self._FileBrowser__osSeperator + "KEYLERI_SILMEYEN_FACTORY" + self._FileBrowser__osSeperator + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                      "",
+                      "",
+                      "",
+                      ""],
         }
         
         self.__swFileServerPath = fileServerPaths[self.__projectSelection][0]

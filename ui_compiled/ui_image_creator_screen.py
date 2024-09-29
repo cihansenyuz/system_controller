@@ -148,6 +148,7 @@ class Ui_imageCreatorWindow(object):
         self.verticalLayout.addWidget(self.findButton)
 
         self.verticalLayout.setStretch(0, 1)
+        self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(2, 1)
         self.verticalLayout.setStretch(4, 1)
 

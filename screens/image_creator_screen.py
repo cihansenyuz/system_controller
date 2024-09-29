@@ -118,6 +118,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onPrepareButtonClicked(self):
         self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")
+        self.prepareButton.setEnabled(False)
         self.usbDevicesBox.setEnabled(False)
         targetDevice = self.usbDevicesBox.currentText()
 
@@ -125,14 +126,14 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             filesToCopy = [(self.swFileManager.getSwFilePath(), "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
-                filesToCopy.extend([
-                    (self.swFileManager.getOemPath(), "OEM paketi"),
-                    (self.swFileManager.getPidPath(), "Project ID paketi")
-                ])
-                if self.customerRadioButton.isChecked():
-                    filesToCopy.append((self.swFileManager.getCustomerCusdataPath(), "Customer CUSDATA paketi"))
-                else:
-                    filesToCopy.append((self.swFileManager.getFactoryCusdataPath(), "Factory CUSDATA paketi"))
+                if self.swFileManager.getOemFilePath():
+                    filesToCopy.append((self.swFileManager.getOemFilePath(), "OEM paketi"))
+                if self.swFileManager.getPidFilePath():
+                    filesToCopy.append((self.swFileManager.getPidFilePath(), "Project ID paketi"))
+                if self.customerRadioButton.isChecked() and self.swFileManager.getCustomerCusdataFilePath():
+                    filesToCopy.append((self.swFileManager.getCustomerCusdataFilePath(), "Customer CUSDATA paketi"))
+                if not self.customerRadioButton.isChecked() and self.swFileManager.getFactoryCusdataFilePath():
+                    filesToCopy.append((self.swFileManager.getFactoryCusdataFilePath(), "Factory CUSDATA paketi"))
             
             for sourcePath, fileName in filesToCopy:
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
