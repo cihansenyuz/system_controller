@@ -54,7 +54,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.swFileManager.findFactoryCusdataFile()
         
         def prepareFilesThread():
-            self.infoMessages.appendPlainText("SW paketini önbelleğe alınıyor...")
+            self.infoMessages.appendPlainText("SW paketi önbelleğe alınıyor...")
             result = self.swFileManager.prepareSwFile()
             if result:
                 self.infoMessages.appendPlainText("SW paketi önbellekte hazır!")
@@ -63,13 +63,15 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
         prepareThread = threading.Thread(target=prepareFilesThread)
 
-        cachedFilePath = self.swFileManager.isCached(self.swFileManager.swFileName, self.swFileManager.yazilimYuklemeSelection)
+        cachedFilePath = self.swFileManager.isCached(self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()),
+                                                     self.swFileManager.getProjectSelection())
         if cachedFilePath: # dosya önbellekte mevcutsa
             if self.swFileManager.isUpdated(cachedFilePath, self.swFileManager.getSwFilePath()): # ve dosya güncel ise
                 self.infoMessages.appendPlainText("Güncel SW paketi önbellekte mevcut!")
                 targetDevice = self.usbDevicesBox.currentText()
-                if self.swFileManager.doesFileExist(targetDevice, self.swFileManager.swFileName): # ve dosya USB cihazda da mevcutsa
-                    if self.swFileManager.isExactFile(targetDevice + self.swFileManager.swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
+                swFileName = self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()) 
+                if self.swFileManager.doesFileExist(targetDevice, swFileName): # ve dosya USB cihazda da mevcutsa
+                    if self.swFileManager.isExactFile(targetDevice + swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
                         self.infoMessages.appendPlainText("Güncel SW paketi USB cihazda mevcut!")
                         return  # işleme gerek yok
                     else: # USB'de dosya var ama cachedekiyle aynı değilse

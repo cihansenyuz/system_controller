@@ -43,6 +43,9 @@ class SwFileManager(FileBrowser, FileCacher):
     def getPidFilePath(self):
         return self.__pidFileServerPath
     
+    def getProjectSelection(self):
+        return self.__projectSelection
+    
     def getProjects(self):
         return self.__projects
     
@@ -67,7 +70,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__brands = self.getListOfFolders(self._FileBrowser__rootDirectory + self._FileBrowser__osSeperator + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator)
 
     def prepareSwFile(self):
-        self.cachedSwFilePath = self.cache(self.__swFilePath, self.yazilimYuklemeSelection) # checks if the file is cached and up to date
+        self.cachedSwFilePath = self.cache(self.__swFileServerPath, self.__projectSelection) # checks if the file is cached and up to date
         if self.cachedSwFilePath:
             self.swFileReady.emit(True)
             return True
