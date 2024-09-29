@@ -17,6 +17,8 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__customerCusdataFileServerPath = None
         self.__pidFileServerPath = None
 
+        self.__pidNumber = ""
+
         self.__projectMainDirs = {
         # projectName:  [seriFolderName,      tdaFolderName]
         "GO CHARLIE":   ["GO",                  "GO"],
@@ -59,6 +61,7 @@ class SwFileManager(FileBrowser, FileCacher):
 
     def setBrand(self, brandSelection):
         self.__brand = brandSelection
+        self.createFileServerPaths()
 
     def __getBrands(self):
         self.__brands = self.getListOfFolders(self._FileBrowser__rootDirectory + self._FileBrowser__osSeperator + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator)

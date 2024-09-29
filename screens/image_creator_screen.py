@@ -172,6 +172,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             self.findButton.setEnabled(False)
         else:
             self.swFileManager.setProject(self.projectsComboBox.currentText())
+            self.brandsComboBox.clear()
             self.brandsComboBox.addItems(self.swFileManager.getBrands())
 
     def onBrandChanged(self):
