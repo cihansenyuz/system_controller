@@ -136,7 +136,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                     filesToCopy.append((self.swFileManager.getPidFilePath(), "Project ID paketi"))
             
             for sourcePath, fileName in filesToCopy:
-                self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
+                self.infoMessages.appendPlainText(fileName + " kopyalanıyor... Lütfen bekleyin.")
                 result = self.usbManager.copySwFileToUsb(sourcePath, targetDevice)
                 if not result:
                     self.fileCopyResult.emit(False)

@@ -50,3 +50,120 @@ class BrandPaths():
             "AN CHARM":         ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME",
             "AN OPTIMUS":       ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME"
         }
+
+class FilePaths():
+    def __init__(self, OS_SEP, ROOT_DIR, SERI_FOLDER, TDA_FOLDER, PROJECT_NAME, BRAND, PID_NO):
+        self.fileServerPaths = {
+        # projectName:      [swFileServerPath,
+        #                   oemFileServerPath,
+        #                   factoryCusdataFileServerPath,
+        #                   customerCusdataFileServerPath,
+        #                   pidFileServerPath]
+        "GO CHARLIE 3":     [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + PROJECT_NAME + "_upgrade_image_project_id_" + PID_NO + ".pkg"],
+        
+        "GO DELTA 2":       [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + PROJECT_NAME + "_upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GO DELTA SE":      [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + PROJECT_NAME + "_upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GO DELTA SE 2A":   [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + PROJECT_NAME + "_upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GO ECHO 2":        [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + PROJECT_NAME + "_upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GY":               [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GT":               [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GB":               [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GZ":               [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+        
+        "GX CHARLIE 2":     [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GX BETA 2":        [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GX HOTEL":         [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GX OPTIMUS":       [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "GX OLED":          [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_no_tvcertificate.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_oem.pkg",
+                            ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + "upgrade_image_cusdata.pkg",
+                            ROOT_DIR + SERI_FOLDER + OS_SEP + "PROJECT_ID_YUKLEME" + OS_SEP + "upgrade_image_project_id_" + PID_NO + ".pkg"],
+
+        "AN BETA 2":        [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + BRAND + OS_SEP + "KEYLERI_SILMEYEN_FACTORY" + OS_SEP + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                            "",
+                            "",
+                            "",
+                            ""],
+
+        "AN CHARLIE":       [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + BRAND + OS_SEP + "KEYLERI_SILMEYEN_FACTORY" + OS_SEP + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                            "",
+                            "",
+                            "",
+                            ""],
+
+        "AN CHARM":         [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + BRAND + OS_SEP + "KEYLERI_SILMEYEN_FACTORY" + OS_SEP + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                            "",
+                            "",
+                            "",
+                            ""],
+
+        "AN OPTIMUS":       [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + BRAND + OS_SEP + "KEYLERI_SILMEYEN_FACTORY" + OS_SEP + "upgrade_no_tvcertificate_CO3Plus_11568364_user.pkg",
+                            "",
+                            "",
+                            "",
+                            ""],
+        }
