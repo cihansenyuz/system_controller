@@ -1,10 +1,18 @@
+########################### BU DOSYA HAKKINDA ######################################
+# Bu dosya USB cihaza yazılım paketlerini hazırlama özelliğinin referans aldığı
+# sunucu klasör ve dosya adreslerini içerir. Sunucuda değişiklik olduğu durumalarda
+# bu dosyanın da bakımı yapılmalıdır.
+#                                           son güncelleme: 30.09.2024 Cihan Şenyüz
+####################################################################################
 
 '''
 TDA klasörü ile Seri klasöründeki isimlendirmeler tutmadığından aşağıdaki dictionary oluşturulmuştur.
 Yeni proje geldikçe ve eski projeler öldükçe aşağıdan düzeltmeler yapılmalıdır
 '''
 projectMainDirs = {
-    # projectName:      [seriFolderName,        tdaFolderName]
+    ############################################################
+    # projectName:      [seriFolderName,        tdaFolderName] #
+    ############################################################
     "GO CHARLIE 3":     ["GO",                  "GO"],
     "GO DELTA 2":       ["GO_DELTA_2",          "GO_DELTA2"],
     "GO DELTA SE":      ["GO_DELTA_SE",         "GO_DELTA_SE"],
@@ -31,6 +39,9 @@ marka klasörlerinin bulunduğu adres aşağıdaki class'a ait dictonary'de tan�
 class BrandPaths():
     def __init__(self, OS_SEP, ROOT_DIR, SERI_FOLDER, TDA_FOLDER) -> None:
         self.brandPaths = {
+            #####################################################
+            # projectName:      [dir where brand folders exits] #
+            #####################################################
             "GO CHARLIE 3":     ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP,
             "GO DELTA 2":       ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP,
             "GO DELTA SE":      ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP,
@@ -54,11 +65,13 @@ class BrandPaths():
 class FilePaths():
     def __init__(self, OS_SEP, ROOT_DIR, SERI_FOLDER, TDA_FOLDER, PROJECT_NAME, BRAND, PID_NO):
         self.fileServerPaths = {
-        # projectName:      [swFileServerPath,
-        #                   oemFileServerPath,
-        #                   factoryCusdataFileServerPath,
-        #                   customerCusdataFileServerPath,
-        #                   pidFileServerPath]
+        ####################################################
+        # projectName:      [swFileServerPath,             #
+        #                   oemFileServerPath,             #
+        #                   factoryCusdataFileServerPath,  #
+        #                   customerCusdataFileServerPath, #
+        #                   pidFileServerPath]             #
+        ####################################################
         "GO CHARLIE 3":     [ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_no_tvcertificate.pkg",
                             ROOT_DIR + SERI_FOLDER + OS_SEP + "OEM_YUKLEME" + OS_SEP + BRAND + OS_SEP + PROJECT_NAME + "_upgrade_image_oem.pkg",
                             ROOT_DIR + "YAZILIM_YUKLEME" + OS_SEP + TDA_FOLDER + OS_SEP + "USBDEN_YUKLEME" + OS_SEP + "BIRINCI_USB" + OS_SEP + PROJECT_NAME + "_upgrade_image_cusdata.pkg",
