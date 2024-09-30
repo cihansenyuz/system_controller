@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import Signal, Slot
+from PySide6.QtCore import Signal, Slot, Qt
 from ui_compiled.ui_image_creator_screen import Ui_imageCreatorWindow
 from modules.sw_file_manager import SwFileManager
 from modules.usb_manager import UsbManager
@@ -203,6 +203,8 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
     def onBackButtonClicked(self):
         self.parent().setCurrentIndex(0)
+        if self.cacheCheckBox.checkState() == Qt.Unchecked:
+            self.onClearCacheButtonClicked()
 
     def onClearCacheButtonClicked(self):
         result = self.swFileManager.deleteCachedFiles()

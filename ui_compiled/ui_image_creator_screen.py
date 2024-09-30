@@ -290,7 +290,7 @@ class Ui_imageCreatorWindow(object):
         self.factoryRadioButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Fabrika Modu", None))
         self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Paketleri Bul", None))
         self.cacheCheckBox.setText(QCoreApplication.translate("imageCreatorWindow", u"Yaz\u0131l\u0131m paketini\n"
-"\u00f6nbellekte kaydet", None))
+"\u00f6nbellekte tut", None))
         self.groupBox.setTitle(QCoreApplication.translate("imageCreatorWindow", u"USB Se\u00e7imi", None))
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))
         self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB'yi\n"

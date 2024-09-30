@@ -262,7 +262,7 @@
             </property>
             <property name="text">
              <string>Yazılım paketini
-önbellekte kaydet</string>
+önbellekte tut</string>
             </property>
             <property name="checked">
              <bool>true</bool>
