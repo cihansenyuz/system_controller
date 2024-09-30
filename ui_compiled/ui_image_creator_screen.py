@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox,
     QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
-    QPushButton, QRadioButton, QSizePolicy, QVBoxLayout,
-    QWidget)
+    QPushButton, QRadioButton, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 
 class Ui_imageCreatorWindow(object):
     def setupUi(self, imageCreatorWindow):
@@ -54,6 +54,10 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_2.addWidget(self.projectsComboBox)
 
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
         self.dortluPaketCheckBox = QCheckBox(self.groupBox_3)
         self.dortluPaketCheckBox.setObjectName(u"dortluPaketCheckBox")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -66,6 +70,9 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_2.addWidget(self.dortluPaketCheckBox)
 
+        self.horizontalLayout_2.setStretch(0, 1)
+        self.horizontalLayout_2.setStretch(1, 2)
+        self.horizontalLayout_2.setStretch(3, 1)
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
@@ -83,6 +90,13 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_6.addWidget(self.brandsComboBox)
 
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer)
+
+        self.horizontalLayout_6.setStretch(0, 1)
+        self.horizontalLayout_6.setStretch(1, 2)
+        self.horizontalLayout_6.setStretch(2, 1)
 
         self.verticalLayout.addLayout(self.horizontalLayout_6)
 
@@ -105,6 +119,13 @@ class Ui_imageCreatorWindow(object):
 
         self.horizontalLayout_3.addWidget(self.projectIdLineEdit)
 
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+        self.horizontalLayout_3.setStretch(0, 1)
+        self.horizontalLayout_3.setStretch(1, 2)
+        self.horizontalLayout_3.setStretch(2, 1)
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
@@ -138,6 +159,8 @@ class Ui_imageCreatorWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.findButton = QPushButton(self.groupBox_3)
         self.findButton.setObjectName(u"findButton")
         self.findButton.setEnabled(False)
@@ -145,12 +168,25 @@ class Ui_imageCreatorWindow(object):
         self.findButton.setSizePolicy(sizePolicy1)
         self.findButton.setFont(font)
 
-        self.verticalLayout.addWidget(self.findButton)
+        self.horizontalLayout_7.addWidget(self.findButton)
+
+        self.cacheCheckBox = QCheckBox(self.groupBox_3)
+        self.cacheCheckBox.setObjectName(u"cacheCheckBox")
+        sizePolicy1.setHeightForWidth(self.cacheCheckBox.sizePolicy().hasHeightForWidth())
+        self.cacheCheckBox.setSizePolicy(sizePolicy1)
+        self.cacheCheckBox.setLayoutDirection(Qt.LeftToRight)
+        self.cacheCheckBox.setChecked(True)
+
+        self.horizontalLayout_7.addWidget(self.cacheCheckBox)
+
+        self.horizontalLayout_7.setStretch(0, 2)
+        self.horizontalLayout_7.setStretch(1, 1)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_7)
 
         self.verticalLayout.setStretch(0, 1)
         self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(2, 1)
-        self.verticalLayout.setStretch(4, 1)
 
         self.horizontalLayout.addWidget(self.groupBox_3)
 
@@ -253,6 +289,8 @@ class Ui_imageCreatorWindow(object):
         self.customerRadioButton.setText(QCoreApplication.translate("imageCreatorWindow", u"M\u00fc\u015fteri Modu", None))
         self.factoryRadioButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Fabrika Modu", None))
         self.findButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Paketleri Bul", None))
+        self.cacheCheckBox.setText(QCoreApplication.translate("imageCreatorWindow", u"Yaz\u0131l\u0131m paketini\n"
+"\u00f6nbellekte kaydet", None))
         self.groupBox.setTitle(QCoreApplication.translate("imageCreatorWindow", u"USB Se\u00e7imi", None))
         self.refreshButton.setText(QCoreApplication.translate("imageCreatorWindow", u"Yenile", None))
         self.prepareButton.setText(QCoreApplication.translate("imageCreatorWindow", u"USB'yi\n"

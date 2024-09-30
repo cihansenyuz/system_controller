@@ -70,7 +70,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
             if self.swFileManager.isUpdated(cachedFilePath, self.swFileManager.getSwFilePath()): # ve dosya güncel ise
                 self.infoMessages.appendPlainText("Güncel SW paketi önbellekte mevcut!")
                 targetDevice = self.usbDevicesBox.currentText()
-                swFileName = self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()) 
+                swFileName = self.swFileManager.getNameOfFile(cachedFilePath)
                 self.swFileManager.swFileReady.emit(True)
                 if self.swFileManager.doesFileExist(targetDevice, swFileName): # ve dosya USB cihazda da mevcutsa
                     if self.swFileManager.isExactFile(targetDevice + swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
