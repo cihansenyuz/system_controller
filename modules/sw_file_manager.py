@@ -21,6 +21,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__pidNumber = ""
         self.__projectMainDirs = projectMainDirs
         self.__projects = list(self.__projectMainDirs.keys())
+        self.__cachedSwFilePath = None
         
     def getSwFilePath(self):
         return self.__swFileServerPath
@@ -45,6 +46,9 @@ class SwFileManager(FileBrowser, FileCacher):
     
     def getBrands(self):
         return self.__brands
+    
+    def getCachedSwFilePath(self):
+        return self.__cachedSwFilePath
 
     def setProject(self, projectSelection):
         self.projectName = projectSelection[:2]
@@ -77,8 +81,8 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__brands = self.getListOfFolders(brandPath)
 
     def prepareSwFile(self):
-        self.cachedSwFilePath = self.cache(self.__swFileServerPath, self.__projectSelection) # checks if the file is cached and up to date
-        if self.cachedSwFilePath:
+        self.__cachedSwFilePath = self.cache(self.__swFileServerPath, self.__projectSelection, self.__brand) # checks if the file is cached and up to date
+        if self.__cachedSwFilePath:
             self.swFileReady.emit(True)
             return True
         else:

@@ -64,14 +64,15 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         prepareThread = threading.Thread(target=prepareFilesThread)
 
         cachedFilePath = self.swFileManager.isCached(self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()),
-                                                     self.swFileManager.getProjectSelection())
+                                                     self.swFileManager.getProjectSelection(),
+                                                     self.brandsComboBox.currentText())
         if cachedFilePath: # dosya önbellekte mevcutsa
             if self.swFileManager.isUpdated(cachedFilePath, self.swFileManager.getSwFilePath()): # ve dosya güncel ise
                 self.infoMessages.appendPlainText("Güncel SW paketi önbellekte mevcut!")
                 targetDevice = self.usbDevicesBox.currentText()
                 swFileName = self.swFileManager.getNameOfFile(self.swFileManager.getSwFilePath()) 
+                self.swFileManager.swFileReady.emit(True)
                 if self.swFileManager.doesFileExist(targetDevice, swFileName): # ve dosya USB cihazda da mevcutsa
-                    self.swFileManager.swFileReady.emit(True)
                     if self.swFileManager.isExactFile(targetDevice + swFileName, cachedFilePath): # ve dosya cachedekiyle aynı ise
                         self.infoMessages.appendPlainText("Güncel SW paketi USB cihazda mevcut!")
                         return  # işleme gerek yok
@@ -80,11 +81,11 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
 
             else: # önbellekte var ama güncel değilse, SW paketini önbelleğe al
                 self.infoMessages.appendPlainText("Önbellekteki SW paketi güncel değil!")
-                prepareThread.start()
 
         else: # dosya önbellekte yoksa SW paketini önbelleğe al
             self.infoMessages.appendPlainText("SW paketi önbellekte yok!")
-            prepareThread.start()
+            
+        prepareThread.start()
 
     def onSwFileReady(self, result):
         if result:
@@ -123,7 +124,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         targetDevice = self.usbDevicesBox.currentText()
 
         def copyFilesThread():
-            filesToCopy = [(self.swFileManager.getSwFilePath(), "SW paketi")]
+            filesToCopy = [(self.swFileManager.getCachedSwFilePath(), "SW paketi")]
             
             if self.dortluPaketCheckBox.isChecked():
                 if self.swFileManager.getOemFilePath():
