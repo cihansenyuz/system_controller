@@ -139,12 +139,9 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.infoMessages.appendPlainText(fileName + " kopyalanıyor...")
                 result = self.usbManager.copySwFileToUsb(sourcePath, targetDevice)
                 if not result:
-                    self.infoMessages.appendPlainText("Başarısız!")
                     self.fileCopyResult.emit(False)
                     return
-                self.infoMessages.appendPlainText("Tamamlandı!")
             
-            self.infoMessages.appendPlainText("Tüm dosyalar kopyalandı!")
             self.fileCopyResult.emit(True)
 
         copyThread = threading.Thread(target=copyFilesThread)
@@ -190,10 +187,11 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
     @Slot(bool)
     def onFileCopyResult(self, result):
         if result:
-            if platform.system() == "Windows":
+            '''if platform.system() == "Windows":
                 pass#self.usbManager.unmountDeviceOnWin(self.usbDevicesBox.currentText())
             else:
                 self.usbManager.unmountDeviceOnLinux(self.usbDevicesBox.currentText())
+            '''
             self.infoMessages.appendPlainText("USB cihazı hazır. USB cihazını çıkarmadan önce 'güvenli kaldır' yapmayı unutmayın!")
             self.usbDevicesBox.setEnabled(True)
         else:
