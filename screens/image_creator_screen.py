@@ -54,7 +54,7 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
                 self.swFileManager.findFactoryCusdataFile()
         
         def prepareFilesThread():
-            self.infoMessages.appendPlainText("SW paketi önbelleğe alınıyor...")
+            self.infoMessages.appendPlainText("### SW paketi önbelleğe alınıyor... ###")
             result = self.swFileManager.prepareSwFile()
             if result:
                 self.infoMessages.appendPlainText("SW paketi önbellekte hazır!")
@@ -96,28 +96,28 @@ class ImageCreatorWindow(QWidget, Ui_imageCreatorWindow):
         if result:
             self.infoMessages.appendPlainText("Sunucuda OEM paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Sunucuda OEM paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda OEM paketi BULUNAMADI!")
 
     def onPidFileFound(self, result):
         if result:
             self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Sunucuda Project ID paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Project ID paketi BULUNAMADI!")
             
     def onFactoryCusdataFileFound(self, result):
         if result:
             self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Factory CUSDATA paketi BULUNAMADI!")
 
     def onCustomerCusdataFileFound(self, result):
         if result:
             self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulundu!")
         else:
-            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi bulunamadı!")
+            self.infoMessages.appendPlainText("Sunucuda Customer CUSDATA paketi BULUNAMADI!")
 
     def onPrepareButtonClicked(self):
-        self.infoMessages.appendPlainText("USB cihaza dosya kopyalama başlıyor...")
+        self.infoMessages.appendPlainText("### USB cihaza dosya kopyalama başlıyor... ###")
         self.prepareButton.setEnabled(False)
         self.usbDevicesBox.setEnabled(False)
         targetDevice = self.usbDevicesBox.currentText()

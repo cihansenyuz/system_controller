@@ -1,5 +1,6 @@
 from modules.file_browser import FileBrowser
 from modules.file_cacher import FileCacher
+from resources.file_paths import projectMainDirs, BrandPaths
 from PySide6.QtCore import Signal
 
 class SwFileManager(FileBrowser, FileCacher):
@@ -18,29 +19,7 @@ class SwFileManager(FileBrowser, FileCacher):
         self.__pidFileServerPath = None
 
         self.__pidNumber = ""
-
-        self.__projectMainDirs = {
-        # projectName:      [seriFolderName,        tdaFolderName]
-        "GO CHARLIE 3":     ["GO",                  "GO"],
-        "GO DELTA 2":       ["GO_DELTA_2",          "GO_DELTA2"],
-        "GO DELTA SE":      ["GO_DELTA_SE",         "GO_DELTA_SE"],
-        "GO DELTA SE 2A":   ["GO_DELTASE2A",        "GO_DELTASE2A"],
-        "GO ECHO 2":        ["GO_ECHO2",            "GO_ECHO2"],
-        "GY":               ["GY",                  "GY_GB_GT_GZ"],
-        "GT":               ["GT",                  "GY_GB_GT_GZ"],
-        "GB":               ["GB",                  "GY_GB_GT_GZ"],
-        "GZ":               ["GZ",                  "GY_GB_GT_GZ"],
-        "GX CHARLIE 2":     ["GX",                  "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
-        "GX BETA 2":        ["GX_BETA2",            "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
-        "GX HOTEL":         ["GX_HOTEL_TV",         "GX_HOTEL_TV"],
-        "GX OPTIMUS":       ["GX_OPTIMUS",          "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
-        "GX OLED":          ["GX_OLED",             "GX_BETA2_OPTIMUS_CHARLIE_OLED"],
-        "AN BETA 2":        ["AN_BETA2",            "AN_BETA2"],
-        "AN CHARLIE":       ["AN_CHARLIE",          "AN-OPTIMUS-CHARLIE-CHARM"],
-        "AN CHARM":         ["AN_CHARM",            "AN-OPTIMUS-CHARLIE-CHARM"],
-        "AN OPTIMUS":       ["AN_OPTIMUS",          "AN-OPTIMUS-CHARLIE-CHARM"],
-        }
-
+        self.__projectMainDirs = projectMainDirs
         self.__projects = list(self.__projectMainDirs.keys())
         
     def getSwFilePath(self):
@@ -82,27 +61,11 @@ class SwFileManager(FileBrowser, FileCacher):
         self.createFileServerPaths()
 
     def __getBrands(self):
-        brandPaths = {
-            "GO CHARLIE 3": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GO DELTA 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GO DELTA SE": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GO DELTA SE 2A": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GO ECHO 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GY": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GT": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GB": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GZ": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GX CHARLIE 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GX BETA 2": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GX HOTEL": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GX OPTIMUS": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "GX OLED": self._FileBrowser__rootDirectory + self.__seriFolderName + self._FileBrowser__osSeperator + "OEM_YUKLEME" + self._FileBrowser__osSeperator,
-            "AN BETA 2": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
-            "AN CHARLIE": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
-            "AN CHARM": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME",
-            "AN OPTIMUS": self._FileBrowser__rootDirectory + "YAZILIM_YUKLEME" + self._FileBrowser__osSeperator + self.__tdaFolderName + self._FileBrowser__osSeperator + "USBDEN_YUKLEME"
-        }
-        brandPath = brandPaths[self.__projectSelection]
+        brandPathCreator = BrandPaths(self._FileBrowser__osSeperator,
+                               self._FileBrowser__rootDirectory,
+                               self.__seriFolderName,
+                               self.__tdaFolderName)
+        brandPath = brandPathCreator.brandPaths[self.__projectSelection]
         self.__brands = self.getListOfFolders(brandPath)
 
     def prepareSwFile(self):
