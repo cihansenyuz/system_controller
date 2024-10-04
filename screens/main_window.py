@@ -31,4 +31,3 @@ class MainWindow(QMainWindow):
         # place stacked widget on the window
         self.mainLayout = QVBoxLayout(self.mainCentralWidget)
         self.mainLayout.addWidget(self.stackedWidget)
-        

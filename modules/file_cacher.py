@@ -8,10 +8,10 @@ class FileCacher(QObject):
         self.__cacheDirectory = os.path.join(os.path.expanduser("~"), "system_controller_cache")
         print(f"FileCacher: Initialized with cache directory: {self.__cacheDirectory}")
 
-    def cache(self, filePath, projectName):
+    def cache(self, filePath, projectName, brand):
         print(f"FileCacher: Entering cache function with filePath: {filePath}")
         try:
-            cachedFilePath = os.path.join(self.__cacheDirectory, projectName, os.path.basename(filePath))
+            cachedFilePath = os.path.join(self.__cacheDirectory, projectName, brand, os.path.basename(filePath))
             os.makedirs(os.path.dirname(cachedFilePath), exist_ok=True)
             
             if os.path.exists(cachedFilePath):
@@ -24,15 +24,16 @@ class FileCacher(QObject):
             return cachedFilePath
         except IOError as e:
             print(f"FileCacher: IOError occurred: {e}")
-            print(f"FileCacher: Unable to copy file from {filePath} to {cachedFilePath}")
+            print(f"FileCacher: Unable to copy file from {filePath} to {os.path.join(cachedFilePath, os.path.basename(filePath))}")
             return None
         except Exception as e:
             print(f"FileCacher: Unexpected error occurred: {e}")
             return None
 
-    def isCached(self, fileName, projectName):
+    def isCached(self, fileName, projectName, brand):
         print(f"FileCacher: Entering isCached function with fileName: {fileName}")
-        cached_file_path = os.path.join(self.__cacheDirectory, projectName, fileName)
+        brand_directory = os.path.join(self.__cacheDirectory, projectName, brand)
+        cached_file_path = os.path.join(brand_directory, fileName)
         
         if os.path.exists(cached_file_path):
             print(f"FileCacher: Exiting isCached function, returning: {cached_file_path}")
@@ -42,6 +43,8 @@ class FileCacher(QObject):
             return None
 
     def isUpdated(self, localFilePath, remoteFilePath):
+        if not os.path.exists(localFilePath):
+            return False
         local_last_modified_timestamp = os.path.getmtime(localFilePath)
         remote_last_modified_timestamp = os.path.getmtime(remoteFilePath)
         print(f"FileCacher: local_last_modified_timestamp: {local_last_modified_timestamp},"

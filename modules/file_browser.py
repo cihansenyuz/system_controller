@@ -21,8 +21,21 @@ class FileBrowser(QObject):
         return os.listdir(directory)
     
     def isExactFile(self, filePath1, filePath2):
+        print(f"FileBrowser: filePath1: {filePath1}")
+        print(f"FileBrowser: filePath2: {filePath2}")
         if not os.path.exists(filePath1) or not os.path.exists(filePath2):
+            print("FileBrowser: One or both files do not exist")
             return False
         
-        return os.path.getmtime(filePath1) == os.path.getmtime(filePath2)
+        print(f"FileCacher: path1: {os.path.getmtime(filePath1)},"
+                f"path2: {os.path.getmtime(filePath2)}")
+            
+        result = os.path.getmtime(filePath1) == os.path.getmtime(filePath2)
+        print(f"FileBrowser: Result of comparison: {result}")
+        return result
     
+    def doesPathExist(self, path):
+        return os.path.exists(path)
+
+    def getDirOfPath(self, filePath):
+        return os.path.dirname(filePath)
